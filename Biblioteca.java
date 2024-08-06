@@ -3,7 +3,8 @@
 //PARA CAMBIOS EN EL CODIGO
 //1. GIT ADD <REPOSITORIO>
 //2. GIT COMMIT CON LOS CAMBIOS
-//3. GIT PUSH
+//3. GIT PUSH origin master
+//Secuencia total: git add <Biblioteca.java o Libro.java> ; git commit -m <especificar cambio> ; git push origin master.
 
 import java.util.Scanner; // importar Scanner para ingreso de datos
 
