@@ -1,5 +1,10 @@
 
 
+//PARA CAMBIOS EN EL CODIGO
+//1. GIT ADD <REPOSITORIO>
+//2. GIT COMMIT CON LOS CAMBIOS
+//3. GIT PUSH
+
 import java.util.Scanner; // importar Scanner para ingreso de datos
 
 public class Biblioteca { // Clase principal con el metodo main
