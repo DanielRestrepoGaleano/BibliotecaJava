@@ -127,7 +127,7 @@ public class Biblioteca { // Clase principal con el método main
                     int fechaPublicacionNueva = scanner.nextInt();
                     scanner.nextLine(); // Consumir el salto de línea
 
-                    if (fechaPublicacionNueva <= 2024) {
+                    if (fechaPublicacionNueva <= 2025) {
                         libroAEditar.setfechaPublicacion(fechaPublicacionNueva);
                     } else {
                         System.out.println("Error! Año incorrecto.");
