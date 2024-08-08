@@ -1,6 +1,6 @@
-public class Libro{
+import java.util.Scanner;
 
-
+public class Libro {
     private String titulo;
     private String autor;
     private int fechaPublicacion;
@@ -9,9 +9,7 @@ public class Libro{
     private String isbn;
     private String descripcion;
     
-    //Constructor
-    
-    
+    // Constructor
     public Libro(String titulo, String autor, int fechaPublicacion, int numPaginas, boolean disponible, String isbn, String descripcion) {
         this.titulo = titulo;
         this.autor = autor;
@@ -20,9 +18,9 @@ public class Libro{
         this.disponible = disponible;
         this.isbn = isbn;
         this.descripcion = descripcion;
-    
-    
-    } //Métodos getter y setter.
+    }
+
+    // Métodos getter y setter
     public String getTitulo() {
         return titulo;
     }
@@ -65,12 +63,61 @@ public class Libro{
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    // Método para editar el libro
+    public void editarLibro(Scanner scanner) {
+        System.out.println("Información actual del libro:");
+        System.out.println(this.toString());
+
+        System.out.println("Ingrese el nuevo título del libro:");
+        String nuevoTitulo = scanner.nextLine();
+        this.setTitulo(nuevoTitulo);
+
+        System.out.println("Ingrese el nuevo autor del libro:");
+        String nuevoAutor = scanner.nextLine();
+        this.setAutor(nuevoAutor);
+
+        System.out.println("Ingrese el nuevo año de publicación:");
+        int nuevaFechaPublicacion = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+        this.setfechaPublicacion(nuevaFechaPublicacion);
+
+        System.out.println("Ingrese el nuevo número de páginas:");
+        int nuevasPaginas = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+        this.setNumPaginas(nuevasPaginas);
+
+        System.out.println("Actualizar estado del libro (true/false):");
+        boolean libroDisponible = scanner.nextBoolean();
+        scanner.nextLine(); // Consumir el salto de línea
+        this.setDisponible(libroDisponible);
+
+        System.out.println("Ingrese el nuevo ISBN del libro:");
+        String nuevoIsbn = scanner.nextLine();
+        this.setIsbn(nuevoIsbn);
+
+        System.out.println("Ingrese una nueva descripción del libro:");
+        String nuevaDescripcion = scanner.nextLine();
+        this.setDescripcion(nuevaDescripcion);
+
+        System.out.println("El libro ha sido editado exitosamente.");
+    }
+
+    // Método para ocultar/mostrar el libro
+    public void cambiarDisponibilidad() {
+        if (this.disponible) {
+            this.setDisponible(false);
+            System.out.println("Libro ocultado exitosamente.");
+        } else {
+            this.setDisponible(true);
+            System.out.println("Libro mostrado exitosamente.");
+        }
+    }
+
     @Override
     public String toString() {
-        return "Libro [titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion=" + fechaPublicacion + ", numPaginas="
-                + numPaginas + ", disponible=" + disponible + ", isbn=" + isbn + " descripcion:"  +  descripcion  + "]";
+        return "Libro [titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion=" + fechaPublicacion + 
+               ", numPaginas=" + numPaginas + ", disponible=" + disponible + ", isbn=" + isbn + 
+               ", descripcion=" + descripcion + "]";
     }
-    
-    }
-    
-    
+}
