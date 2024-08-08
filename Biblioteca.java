@@ -41,6 +41,9 @@ public class Biblioteca {
                     int posicion = l + 1;
                     System.out.print("[" + posicion + "] ");
                     System.out.println(biblioteca[l].getTitulo());
+                if(biblioteca[l].isDisponible() == false ){
+                    System.out.println("(EL LIBRO " + biblioteca[l].getTitulo() + " SE ENCUENTRA OCULTO)");
+                }
                 } else {
                     System.out.println("No hay libros disponibles");
                 }
