@@ -8,7 +8,7 @@
 
 import java.util.Scanner; // importar Scanner para ingreso de datos
 
-public class Biblioteca { // Clase principal con el método main
+public class Biblioteca {
 
     private static void mostrarLibros(Libro[] biblioteca, int contadorLibros) {
         System.out.println("--- LIBROS EN LA BIBLIOTECA ---");
@@ -48,113 +48,107 @@ public class Biblioteca { // Clase principal con el método main
         }
     }
 
-    private static int borrarLibroDefinitivo(Libro[] biblioteca, int contadorLibros) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            if (contadorLibros <= 0) {
-                System.out.println("No hay libros disponibles");
-                return contadorLibros;
-            } else {
-                System.out.println("Seleccione la posición del libro a eliminar:");
-                int posicionEliminar = scanner.nextInt();
-                scanner.nextLine(); // Consumir el salto de línea
+    private static int borrarLibroDefinitivo(Libro[] biblioteca, int contadorLibros, Scanner scanner) {
+        if (contadorLibros <= 0) {
+            System.out.println("No hay libros disponibles");
+            return contadorLibros;
+        } else {
+            System.out.println("Seleccione la posición del libro a eliminar:");
+            int posicionEliminar = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
 
-                if (posicionEliminar > 0 && posicionEliminar <= contadorLibros) {
-                    for (int i = posicionEliminar - 1; i < contadorLibros - 1; i++) {
-                        biblioteca[i] = biblioteca[i + 1];
-                    }
-                    biblioteca[contadorLibros - 1] = null;
-                    contadorLibros--;
-                } else {
-                    System.out.println("Posición inválida, intente nuevamente.");
+            if (posicionEliminar > 0 && posicionEliminar <= contadorLibros) {
+                for (int i = posicionEliminar - 1; i < contadorLibros - 1; i++) {
+                    biblioteca[i] = biblioteca[i + 1];
                 }
-                return contadorLibros;
+                biblioteca[contadorLibros - 1] = null;
+                contadorLibros--;
+            } else {
+                System.out.println("Posición inválida, intente nuevamente.");
             }
+            return contadorLibros;
         }
     }
 
-    private static int eliminarLibro(Libro[] biblioteca, int contadorLibros) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            if (contadorLibros <= 0) {
-                System.out.println("No hay libros disponibles");
-            } else {
-                System.out.println("Seleccione la posición del libro:");
-                int posicion = scanner.nextInt();
-                scanner.nextLine(); // Consumir el salto de línea
+    private static int eliminarLibro(Libro[] biblioteca, int contadorLibros, Scanner scanner) {
+        if (contadorLibros <= 0) {
+            System.out.println("No hay libros disponibles");
+        } else {
+            System.out.println("Seleccione la posición del libro:");
+            int posicion = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
 
-                if (posicion > 0 && posicion <= contadorLibros) {
-                    if (biblioteca[posicion - 1] != null) {
-                        if (biblioteca[posicion - 1].isDisponible()) {
-                            biblioteca[posicion - 1].setDisponible(false);
-                            System.out.println("Libro ocultado exitosamente.");
-                        } else {
-                            biblioteca[posicion - 1].setDisponible(true);
-                            System.out.println("Libro mostrado exitosamente.");
-                        }
+            if (posicion > 0 && posicion <= contadorLibros) {
+                if (biblioteca[posicion - 1] != null) {
+                    if (biblioteca[posicion - 1].isDisponible()) {
+                        biblioteca[posicion - 1].setDisponible(false);
+                        System.out.println("Libro ocultado exitosamente.");
+                    } else {
+                        biblioteca[posicion - 1].setDisponible(true);
+                        System.out.println("Libro mostrado exitosamente.");
                     }
-                } else {
-                    System.out.println("Posición inválida, intente nuevamente.");
                 }
+            } else {
+                System.out.println("Posición inválida, intente nuevamente.");
             }
         }
         return contadorLibros;
     }
 
-    private static int editarLibro(Libro[] biblioteca, int contadorLibros) {
+    private static int editarLibro(Libro[] biblioteca, int contadorLibros, Scanner scanner) {
         if (contadorLibros <= 0) {
             System.out.println("No hay libros disponibles");
             return contadorLibros;
         } else {
-            try (Scanner scanner = new Scanner(System.in)) {
-                System.out.println("Ingrese la posición en la que se encuentra el libro:");
-                int posicionEditar = scanner.nextInt();
+            System.out.println("Ingrese la posición en la que se encuentra el libro:");
+            int posicionEditar = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            if (posicionEditar > 0 && posicionEditar <= contadorLibros) {
+                Libro libroAEditar = biblioteca[posicionEditar - 1];
+
+                System.out.println("Información actual del libro:");
+                System.out.println(libroAEditar.toString());
+
+                System.out.println("Ingrese el nuevo título del libro:");
+                String nuevoTitulo = scanner.nextLine();
+                libroAEditar.setTitulo(nuevoTitulo);
+
+                System.out.println("Ingrese el nuevo autor del libro:");
+                String nuevoAutor = scanner.nextLine();
+                libroAEditar.setAutor(nuevoAutor);
+
+                System.out.println("Ingrese el nuevo año de publicación:");
+                int fechaPublicacionNueva = scanner.nextInt();
                 scanner.nextLine(); // Consumir el salto de línea
 
-                if (posicionEditar > 0 && posicionEditar <= contadorLibros) {
-                    Libro libroAEditar = biblioteca[posicionEditar - 1];
-
-                    System.out.println("Información actual del libro:");
-                    System.out.println(libroAEditar.toString());
-
-                    System.out.println("Ingrese el nuevo título del libro:");
-                    String nuevoTitulo = scanner.nextLine();
-                    libroAEditar.setTitulo(nuevoTitulo);
-
-                    System.out.println("Ingrese el nuevo autor del libro:");
-                    String nuevoAutor = scanner.nextLine();
-                    libroAEditar.setAutor(nuevoAutor);
-
-                    System.out.println("Ingrese el nuevo año de publicación:");
-                    int fechaPublicacionNueva = scanner.nextInt();
-                    scanner.nextLine(); // Consumir el salto de línea
-
-                    if (fechaPublicacionNueva <= 2025) {
-                        libroAEditar.setfechaPublicacion(fechaPublicacionNueva);
-                    } else {
-                        System.out.println("Error! Año incorrecto.");
-                    }
-
-                    System.out.println("Ingrese el nuevo número de páginas:");
-                    int paginasNuevas = scanner.nextInt();
-                    scanner.nextLine(); // Consumir el salto de línea
-                    libroAEditar.setNumPaginas(paginasNuevas);
-
-                    System.out.println("Actualizar estado del libro:");
-                    boolean libroDisponible = scanner.nextBoolean();
-                    scanner.nextLine(); // Consumir el salto de línea
-                    libroAEditar.setDisponible(libroDisponible);
-
-                    System.out.println("Ingrese el nuevo ISBN del libro:");
-                    String isbnNuevo = scanner.nextLine();
-                    libroAEditar.setIsbn(isbnNuevo);
-
-                    System.out.println("Ingrese una nueva descripción del libro:");
-                    String descripcionNueva = scanner.nextLine();
-                    libroAEditar.setDescripcion(descripcionNueva);
-
-                    System.out.println("El libro ha sido editado exitosamente.");
+                if (fechaPublicacionNueva <= 2025) {
+                    libroAEditar.setfechaPublicacion(fechaPublicacionNueva);
                 } else {
-                    System.out.println("Posición inválida, intentelo nuevamente.");
+                    System.out.println("Error! Año incorrecto.");
                 }
+
+                System.out.println("Ingrese el nuevo número de páginas:");
+                int paginasNuevas = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de línea
+                libroAEditar.setNumPaginas(paginasNuevas);
+
+                System.out.println("Actualizar estado del libro:");
+                boolean libroDisponible = scanner.nextBoolean();
+                scanner.nextLine(); // Consumir el salto de línea
+                libroAEditar.setDisponible(libroDisponible);
+
+                System.out.println("Ingrese el nuevo ISBN del libro:");
+                String isbnNuevo = scanner.nextLine();
+                libroAEditar.setIsbn(isbnNuevo);
+
+                System.out.println("Ingrese una nueva descripción del libro:");
+                String descripcionNueva = scanner.nextLine();
+                libroAEditar.setDescripcion(descripcionNueva);
+
+                System.out.println("El libro ha sido editado exitosamente.");
+            } else {
+                System.out.println("Posición inválida, intentelo nuevamente.");
             }
         }
         return contadorLibros;
@@ -234,28 +228,25 @@ public class Biblioteca { // Clase principal con el método main
                             posicionLibro(biblioteca, contadorLibros);
                             break;
                         case 4:
-                            eliminarLibro(biblioteca, contadorLibros);
+                            eliminarLibro(biblioteca, contadorLibros, teclado);
                             break;
                         case 5:
-                            editarLibro(biblioteca, contadorLibros);
+                            editarLibro(biblioteca, contadorLibros, teclado);
                             break;
                         case 6:
-                            contadorLibros = borrarLibroDefinitivo(biblioteca, contadorLibros);
+                            contadorLibros = borrarLibroDefinitivo(biblioteca, contadorLibros, teclado);
                             break;
                         default:
-                            System.out.println("");
-                            System.out.println("Opción no válida, vuelva a intentarlo con una opción del menú.");
-                            System.out.println("");
+                            System.out.println("Número no válido");
                             break;
                     }
-                } else {
-                    System.out.println("Saliendo del sistema");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Ha ingresado un dato diferente de un número");
+                System.out.println("Error! Ingrese un número válido.");
             }
         } while (x != 0);
 
-        teclado.close();
+        System.out.println("¡Gracias!");
+        teclado.close(); // Cerrar el scanner solo cuando terminas con el programa
     }
 }
