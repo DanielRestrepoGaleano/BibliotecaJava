@@ -9,7 +9,7 @@
 import java.util.Scanner; // importar Scanner para ingreso de datos
 
 public class Biblioteca {
-
+//FUNCIÓN PARA MOSTRAR LIBROS DISPONIBLES EN LA BIBLIOTECA
     private static void mostrarLibros(Libro[] biblioteca, int contadorLibros) {
         System.out.println("--- LIBROS EN LA BIBLIOTECA ---");
         boolean hayLibrosDisponibles = false;
@@ -31,7 +31,7 @@ public class Biblioteca {
             }
         }
     }
-
+//CONTAR LA POSICIÓN DE CADA LIBRO EN LA BIBLIOTECA (8_08_2024 INCLUSO LIBROS OCULTADOS)
     private static void posicionLibro(Libro[] biblioteca, int contadorLibros) {
         if (contadorLibros <= 0) {
             System.out.println("La biblioteca no tiene ningún libro.");
@@ -47,7 +47,7 @@ public class Biblioteca {
             }
         }
     }
-
+//FUNCIÓN PARA BORRAR UN LIBRO DE FORMA DEFINITIVA DE LA BIBLIOTECA
     private static int borrarLibroDefinitivo(Libro[] biblioteca, int contadorLibros, Scanner scanner) {
         if (contadorLibros <= 0) {
             System.out.println("No hay libros disponibles");
@@ -69,7 +69,7 @@ public class Biblioteca {
             return contadorLibros;
         }
     }
-
+//FUNCIÓN PARA OCULTAR UN LIBRO DE LA BIBLIOTECA (SIN ELIMINAR)
     private static int eliminarLibro(Libro[] biblioteca, int contadorLibros, Scanner scanner) {
         if (contadorLibros <= 0) {
             System.out.println("No hay libros disponibles");
@@ -94,7 +94,7 @@ public class Biblioteca {
         }
         return contadorLibros;
     }
-
+//FUNCIÓN PARA EDITAR UN LIBRO SEGÚN SU POSICIÓN
     private static int editarLibro(Libro[] biblioteca, int contadorLibros, Scanner scanner) {
         if (contadorLibros <= 0) {
             System.out.println("No hay libros disponibles");
@@ -157,10 +157,10 @@ public class Biblioteca {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         int contadorLibros = 0;
-        Libro[] biblioteca = new Libro[100];
+        Libro[] biblioteca = new Libro[100]; //HASTA 100 POSICIONES PARA LIBROS (SE PLANEA CAMBIAR A UNA LISTA PARA HACERLO DINAMICO)
 
         int x = 1;
-
+//MENÚ PRINCIPAL DEL PROGRAMA PARA LAS OPCIONES
         do {
             System.out.println("Por favor presione 1 para ingresar un nuevo libro");
             System.out.println("Por favor presione 2 para ver la lista de libros");
@@ -245,8 +245,8 @@ public class Biblioteca {
                 System.out.println("Error! Ingrese un número válido.");
             }
         } while (x != 0);
-
-        System.out.println("¡Gracias!");
-        teclado.close(); // Cerrar el scanner solo cuando terminas con el programa
+        
+       //EN ESTA ZONA SE PLANEA IMPLEMENTAR UN THREAD PARA QUE SE VEA MÁS ORGANIZADO
+        teclado.close(); // Cerrar el scanner para evitar ingreso accidental de datos cuando se cierra el programa.
     }
 }
