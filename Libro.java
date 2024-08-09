@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.io.Serializable;
+
 
 public class Libro {
     private String titulo;
@@ -64,6 +66,27 @@ public class Libro {
         this.descripcion = descripcion;
     }
 
+    //FUNCIÓN PARA CONVERTIR UN LIBRO EN UN TEXTO
+
+    public String aTexto(){
+        return titulo + "," + autor + "," + fechaPublicacion + "," + numPaginas + "," + disponible + "," + isbn + "," + descripcion;
+    }
+
+    
+
+    //FUNCIÓN PARA CREAR UN LIBRO A PARTIR DE UNA CADENA DE TEXTO
+    public static Libro aLibro(String texto){
+        String[] partes = texto.split(",");
+        return new Libro(partes[0], partes[1], Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Boolean.parseBoolean(partes[4]), partes[5], partes[6]
+        );
+    }
+
+
+
+
+
+
+
     // Método para editar el libro
     public void editarLibro(Scanner scanner) {
         System.out.println("Información actual del libro:");
@@ -113,7 +136,7 @@ public class Libro {
             System.out.println("Libro mostrado exitosamente.");
         }
     }
-
+    
     @Override
     public String toString() {
         return "Libro [titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion=" + fechaPublicacion + 
