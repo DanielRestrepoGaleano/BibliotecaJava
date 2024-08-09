@@ -156,6 +156,7 @@ public class Biblioteca {
                             break;
 
                         case 5:
+                        if(contadorLibros >= 1){
                             posicionLibro(biblioteca, contadorLibros);
                             System.out.println("Seleccione el número del libro para editar:");
                             int numEditar = teclado.nextInt();
@@ -165,6 +166,9 @@ public class Biblioteca {
                             } else {
                                 System.out.println("Número de libro inválido.");
                             }
+                        }else {
+                            System.out.println("No hay libros en la biblioteca.");
+                        }
                             break;
 
                         case 6:
