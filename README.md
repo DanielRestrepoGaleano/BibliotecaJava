@@ -1,5 +1,5 @@
 
-__**PLANEACIÓN**
+**PLANEACIÓN**
 - se piensa implementar una interfaz gráfica
 - se piensa implementar un sistema de autorización
 - se piensa implementar un sistema para el guardado de libros en una BD
@@ -7,7 +7,7 @@ __**PLANEACIÓN**
 ________________________________________________________________________________
 
 
-_**ESTATUS**
+**ESTATUS**
 Este repositorio cuenta con un pequeño software para el manejo de una biblioteca, actualmente se cuentra bajo algunas limitaciones, como falta de memoria dinamica (unicamente usa arrays). No se encuentra conectado a una base de datos y aun puede contener errores.
 Se ejecuta desde la terminal ya que no cuenta con interfaz gráfica.
 - Lo antes mencionado se piensa implementar poco a poco.
