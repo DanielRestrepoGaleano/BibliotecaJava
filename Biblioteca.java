@@ -10,8 +10,8 @@ import java.util.Scanner;
 import java.io.*;
 
 public class Biblioteca {
-    private static final String ARCHIVO_LIBROS = "libros.txt";
-
+    private static final String ARCHIVO_LIBROS = "libros.txt"; // CONSTANTE PARA GENERAR EL ARCHIVO .TXT
+// FUNCIÓN PARA MOSTRAR LOS LIBROS
     private static void mostrarLibros(Libro[] biblioteca, int contadorLibros) {
         System.out.println("--- LIBROS EN LA BIBLIOTECA ---");
         boolean hayLibrosDisponibles = false;
@@ -33,7 +33,7 @@ public class Biblioteca {
             }
         }
     }
-
+//FUNCION PARA LA POSICIÓN DE CADA LIBRO
     private static void posicionLibro(Libro[] biblioteca, int contadorLibros) {
         if (contadorLibros <= 0) {
             System.out.println("La biblioteca no tiene ningún libro.");
@@ -52,7 +52,7 @@ public class Biblioteca {
             }
         }
     }
-
+//FUNCIÓN PARA BORRAR UN LIBRO SEGÚN SU POSICIÓN DE FORMA DEFINITIVA
     private static void borrarLibroDefinitivo(Libro[] biblioteca, int[] contadorLibros, Scanner scanner) {
         if (contadorLibros[0] <= 0) {
             System.out.println("No hay libros disponibles");
@@ -156,7 +156,7 @@ public class Biblioteca {
             }
         }
     }
-
+//FUNCIÓN PARA CAMBIAR LA DISPONIBILIDAD DEL LIBRO SEGÚN SU POSICIÓN
     private static void cambiarEstado(Libro[] biblioteca, int contadorLibros, Scanner teclado) {
         posicionLibro(biblioteca, contadorLibros);
         System.out.println("Seleccione el número del libro para cambiar su estado (ocultar/mostrar):");
