@@ -142,6 +142,7 @@ public class Biblioteca {
     }
 
     // FUNCIÓN PARA EDITAR LIBROS EN FUNCIÓN DE SU POSICIÓN
+    @SuppressWarnings("unused")
     private static void editarLibro(Libro[] biblioteca, int contadorLibros, Scanner teclado) {
         if (contadorLibros >= 1) {
             posicionLibro(biblioteca, contadorLibros);

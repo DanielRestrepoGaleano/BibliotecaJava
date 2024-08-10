@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.io.Serializable;
 
-
+@SuppressWarnings("unused")
 public class Libro {
     private String titulo;
     private String autor;
@@ -80,12 +80,6 @@ public class Libro {
         return new Libro(partes[0], partes[1], Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Boolean.parseBoolean(partes[4]), partes[5], partes[6]
         );
     }
-
-
-
-
-
-
 
     // Método para editar el libro
     public void editarLibro(Scanner scanner) {
