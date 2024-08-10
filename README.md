@@ -1,8 +1,8 @@
 
 **PLANEACIÓN**
-- se piensa implementar una interfaz gráfica
-- se piensa implementar un sistema de autorización
-- se piensa implementar un sistema para el guardado de los libros en una BD
+- Conectar el proyecto a SpringBoot
+- Conectar el proyecto a una base de datos
+- Crear un diagrama de clases
 
 ________________________________________________________________________________
 
