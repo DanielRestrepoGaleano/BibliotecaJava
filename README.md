@@ -14,7 +14,7 @@ Actualmente solo se puede ejecutar desde la terminal.
 _________________________________________________________________________________
 
 **ERRORES ANTERIORES SOLUCIONADOS**
-- Error con el Scanner (NoSuchElementException)
+- Error con el Scanner (NoSuchElementException) ----> ERROR ACTIVO 12/08/2024
 - Error con arrays (InputMismatchException)
 - Error en el guardado de libros
 - Error cuando se muestra un libro en la terminal
@@ -23,7 +23,8 @@ ________________________________________________________________________________
 
 **ERRORES CONOCIDOS**
 - Los libros editados se pueden observar en la terminal, pero no se realiza el cambio en el archivo .txt
-
+- Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad
+- Error NoSuchElementException "No line Found" cuando se presiona "ctrl + c" para cancelar ejecución del programa.
 __________________________________________________________________________________
 
 
