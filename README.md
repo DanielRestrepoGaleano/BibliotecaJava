@@ -24,12 +24,7 @@ ________________________________________________________________________________
 **ERRORES CONOCIDOS**
 - Los libros editados se pueden observar en la terminal, pero no se realiza el cambio en el archivo .txt
 
-
-
 __________________________________________________________________________________
-
-
-
 
 
  **CAMBIOS**
