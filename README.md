@@ -23,7 +23,7 @@ ________________________________________________________________________________
 
 **ERRORES CONOCIDOS**
 - Los libros editados se pueden observar en la terminal, pero no se realiza el cambio en el archivo .txt
-- Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad
+- Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad. (El error posiblemente se deba a editar la fecha del libro (FALTA VERIFICAR ESTO))
 - Error NoSuchElementException "No line Found" cuando se presiona "ctrl + c" para cancelar ejecución del programa.
 __________________________________________________________________________________
 
