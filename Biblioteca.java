@@ -151,10 +151,11 @@ public class Biblioteca {
             teclado.nextLine(); // Consumir el salto de línea
             if (posicion > 0 && posicion <= contadorLibros) {
                 biblioteca[posicion - 1].editarLibro(teclado);
-                guardarLbros(biblioteca, contadorLibros);
+                
             } else {
                 System.out.println("Posición no encontrada");
             }
+            guardarLbros(biblioteca, contadorLibros);
         }
     }
 //FUNCIÓN PARA CAMBIAR LA DISPONIBILIDAD DEL LIBRO SEGÚN SU POSICIÓN
