@@ -23,7 +23,8 @@ ________________________________________________________________________________
 
 **ERRORES CONOCIDOS**
 - Los libros editados se pueden observar en la terminal, pero no se realiza el cambio en el archivo .txt
-- Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad. (El error posiblemente se deba a editar la fecha del libro (FALTA VERIFICAR ESTO))
+- Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad.
+ - Error identificado: cuando se edita la fecha de publicación de un libro, se cierra el programa y seguidamente se vuelve a ejecutar como la fecha se cambia en la terminal pero no el txt, generando el siguiente error NumberFormatException.forInputString(NumberFormatException)
 - Error NoSuchElementException "No line Found" cuando se presiona "ctrl + c" para cancelar ejecución del programa.
 __________________________________________________________________________________
 
