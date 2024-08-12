@@ -3,6 +3,7 @@
 - Conectar el proyecto a SpringBoot
 - Conectar el proyecto a una base de datos
 - Crear un diagrama de clases
+- Cambiar los arrays por listas
 
 ________________________________________________________________________________
 
