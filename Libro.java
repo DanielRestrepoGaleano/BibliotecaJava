@@ -69,7 +69,7 @@ public class Libro {
     //FUNCIÓN PARA CONVERTIR UN LIBRO EN UN TEXTO
 
     public String aTexto(){
-        return "El titulo del libro es " + titulo + ", el autor es " + autor + ", la fecha de publicación es " + fechaPublicacion + ", el número de páginas es " + numPaginas + ", su estado de disponibilidad es " + disponible + ", su ISBN es " + isbn + " y la descripción del libro es " + descripcion + "\n";
+        return  titulo  + autor +  fechaPublicacion  + numPaginas +  disponible + isbn  + descripcion ;
     }
 
     
