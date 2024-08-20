@@ -75,10 +75,15 @@ public class Libro {
     
 
     //FUNCIÓN PARA CREAR UN LIBRO A PARTIR DE UNA CADENA DE TEXTO
-    public static Libro aLibro(String texto){
+    public static Libro aLibro(String texto) {
         String[] partes = texto.split(",");
-        return new Libro(partes[0], partes[1], Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Boolean.parseBoolean(partes[4]), partes[5], partes[6]
-        );
+        if (partes.length >= 7) {
+            return new Libro(partes[0], partes[1], Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Boolean.parseBoolean(partes[4]), partes[5], partes[6]);
+        } else {
+            // Handle the case where the input string is malformed
+            System.out.println("Ha ocurrido un error (INPUT STRING), por favor borre el archivo .txt y vuelva a intentar");
+            return null; 
+        }
     }
 
     // Método para editar el libro
