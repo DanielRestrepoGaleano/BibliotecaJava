@@ -30,7 +30,13 @@ ________________________________________________________________________________
       intenta cargar libros que no existen en la terminal 
 - Error NoSuchElementException "No line Found" cuando se presiona "ctrl + c" para cancelar ejecución del programa.
 __________________________________________________________________________________
+**PROGRESO ACUTAL CON LOS ERRORES**
+Actualmente el error con los archivos persiste aunque ya es menos grave.
+Se logró que el programa actualice los archivos en el .txt, pero surgió otro error
+los libros no se estan cargando de forma correcta lo que provoca una perdida de datos y un inicio en las posiciones de los libros que no es correcta.
 
+
+__________________________________________________________________________________
 
  **CAMBIOS**
 __________________________________________________________  
