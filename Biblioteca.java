@@ -178,7 +178,7 @@ public class Biblioteca {
         int[] contadorLibros = {0};
         Libro[] biblioteca = new Libro[100];
 
-        cargarLibros(biblioteca, contadorLibros);
+        //cargarLibros(biblioteca, contadorLibros);
 
         int x = 1;
 
@@ -222,6 +222,7 @@ public class Biblioteca {
                                 teclado.nextLine(); // Consumir el salto de línea
                                 if (numEditar > 0 && numEditar <= contadorLibros[0]) {
                                     biblioteca[numEditar - 1].editarLibro(teclado);
+                                    guardarLbros(biblioteca, contadorLibros[0]);
                                 } else {
                                     System.out.println("Número de libro inválido.");
                                 }
