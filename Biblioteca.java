@@ -1,22 +1,16 @@
-
-
-//PARA CAMBIOS EN EL CODIGO
-//1. GIT ADD <REPOSITORIO>
-//2. GIT COMMIT CON LOS CAMBIOS
-//3. GIT PUSH origin master
-//Secuencia total: git add <Biblioteca.java o Libro.java> ; git commit -m <especificar cambio> ; git push origin master.
-
 import java.util.Scanner;
 import java.io.*;
+import java.util.LinkedList;
 
 public class Biblioteca {
     private static final String ARCHIVO_LIBROS = "libros.txt"; // CONSTANTE PARA GENERAR EL ARCHIVO .TXT
-// FUNCIÓN PARA MOSTRAR LOS LIBROS
-    private static void mostrarLibros(Libro[] biblioteca, int contadorLibros) {
+
+    // FUNCIÓN PARA MOSTRAR LOS LIBROS
+    private static void mostrarLibros(LinkedList<Libro> biblioteca) {
         System.out.println("--- LIBROS EN LA BIBLIOTECA ---");
         boolean hayLibrosDisponibles = false;
-        for (int i = 0; i < contadorLibros; i++) {
-            if (biblioteca[i] != null && biblioteca[i].isDisponible()) {
+        for (Libro libro : biblioteca) {
+            if (libro.isDisponible()) {
                 hayLibrosDisponibles = true;
                 break;
             }
@@ -25,68 +19,61 @@ public class Biblioteca {
         if (!hayLibrosDisponibles) {
             System.out.println("No hay libros disponibles");
         } else {
-            for (int i = 0; i < contadorLibros; i++) {
-                if (biblioteca[i] != null && biblioteca[i].isDisponible()) {
+            for (Libro libro : biblioteca) {
+                if (libro.isDisponible()) {
                     System.out.println("");
-                    System.out.println(biblioteca[i].toString());
+                    System.out.println(libro.toString());
                 }
             }
         }
     }
-//FUNCION PARA LA POSICIÓN DE CADA LIBRO
-    private static void posicionLibro(Libro[] biblioteca, int contadorLibros) {
-        if (contadorLibros <= 0) {
+
+    //FUNCION PARA LA POSICIÓN DE CADA LIBRO
+    private static void posicionLibro(LinkedList<Libro> biblioteca) {
+        if (biblioteca.isEmpty()) {
             System.out.println("La biblioteca no tiene ningún libro.");
         } else {
-            for (int l = 0; l < contadorLibros; l++) {
-                if (biblioteca[l] != null) {
-                    int posicion = l + 1;
-                    System.out.print("[" + posicion + "] ");
-                    System.out.println(biblioteca[l].getTitulo());
-                    if (!biblioteca[l].isDisponible()) {
-                        System.out.println("(EL LIBRO " + biblioteca[l].getTitulo() + " SE ENCUENTRA OCULTO)");
-                    }
-                } else {
-                    System.out.println("No hay libros disponibles");
+            for (int l = 0; l < biblioteca.size(); l++) {
+                Libro libro = biblioteca.get(l);
+                int posicion = l + 1;
+                System.out.print("[" + posicion + "] ");
+                System.out.println(libro.getTitulo());
+                if (!libro.isDisponible()) {
+                    System.out.println("(EL LIBRO " + libro.getTitulo() + " SE ENCUENTRA OCULTO)");
                 }
             }
         }
     }
-//FUNCIÓN PARA BORRAR UN LIBRO SEGÚN SU POSICIÓN DE FORMA DEFINITIVA
-    private static void borrarLibroDefinitivo(Libro[] biblioteca, int[] contadorLibros, Scanner scanner) {
-        if (contadorLibros[0] <= 0) {
+
+    //FUNCIÓN PARA BORRAR UN LIBRO SEGÚN SU POSICIÓN DE FORMA DEFINITIVA
+    private static void borrarLibroDefinitivo(LinkedList<Libro> biblioteca, Scanner scanner) {
+        if (biblioteca.isEmpty()) {
             System.out.println("No hay libros disponibles");
         } else {
             System.out.println("Seleccione la posición del libro a eliminar:");
             int posicionEliminar = scanner.nextInt();
             scanner.nextLine(); // Consumir el salto de línea
 
-            if (posicionEliminar > 0 && posicionEliminar <= contadorLibros[0]) {
-                for (int i = posicionEliminar - 1; i < contadorLibros[0] - 1; i++) {
-                    biblioteca[i] = biblioteca[i + 1];
-                }
-                biblioteca[contadorLibros[0] - 1] = null;
-                contadorLibros[0]--;
+            if (posicionEliminar > 0 && posicionEliminar <= biblioteca.size()) {
+                biblioteca.remove(posicionEliminar - 1);
             } else {
                 System.out.println("Posición inválida, intente nuevamente.");
             }
-            guardarLibros(biblioteca, contadorLibros[0]);
+            guardarLibros(biblioteca);
         }
     }
 
     // FUNCION PARA GUARDAR LIBROS COMO .TXT
-    private static void guardarLibros(Libro[] biblioteca, int contadorLibros) {
+    private static void guardarLibros(LinkedList<Libro> biblioteca) {
         try (PrintWriter escritor = new PrintWriter(new FileWriter(ARCHIVO_LIBROS))) {
-            for (int i = 0; i < contadorLibros; i++) {
-                if (biblioteca[i] != null) {
-                    escritor.println(biblioteca[i].getTitulo() + "," +
-                                     biblioteca[i].getAutor() + "," +
-                                     biblioteca[i].getfechaPublicacion() + "," +
-                                     biblioteca[i].getNumPaginas() + "," +
-                                     biblioteca[i].isDisponible() + "," +
-                                     biblioteca[i].getIsbn() + "," +
-                                     biblioteca[i].getDescripcion());
-                }
+            for (Libro libro : biblioteca) {
+                escritor.println(libro.getTitulo() + "," +
+                                 libro.getAutor() + "," +
+                                 libro.getfechaPublicacion() + "," +
+                                 libro.getNumPaginas() + "," +
+                                 libro.isDisponible() + "," +
+                                 libro.getIsbn() + "," +
+                                 libro.getDescripcion());
             }
             System.out.println("Libros guardados exitosamente.");
         } catch (IOException e) {
@@ -94,11 +81,12 @@ public class Biblioteca {
             e.printStackTrace();
         }
     }
+
     // FUNCION PARA CARGAR LOS LIBROS CUANDO SE CIERRE EL IDE
-    private static void cargarLibros(Libro[] biblioteca, int[] contadorLibros) {
+    private static void cargarLibros(LinkedList<Libro> biblioteca) {
         try (BufferedReader lector = new BufferedReader(new FileReader(ARCHIVO_LIBROS))) {
             String linea;
-            while ((linea = lector.readLine()) != null && contadorLibros[0] < biblioteca.length) {
+            while ((linea = lector.readLine()) != null) {
                 String[] partes = linea.split(",");
                 if (partes.length == 7) {
                     try {
@@ -110,8 +98,7 @@ public class Biblioteca {
                         String isbn = partes[5];
                         String descripcion = partes[6];
     
-                        biblioteca[contadorLibros[0]] = new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
-                        contadorLibros[0]++;
+                        biblioteca.add(new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion));
                     } catch (NumberFormatException e) {
                         System.out.println("Error al parsear datos numéricos en la línea: " + linea);
                     }
@@ -119,14 +106,15 @@ public class Biblioteca {
                     System.out.println("Línea con formato incorrecto ignorada: " + linea);
                 }
             }
-            System.out.println("Libros cargados exitosamente. Total de libros: " + contadorLibros[0] + "\n" );
+            System.out.println("Libros cargados exitosamente. Total de libros: " + biblioteca.size() + "\n" );
         } catch (IOException e) {
             System.out.println("Error al cargar los libros: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
     // FUNCION PARA AGREGAR UN LIBRO NUEVO
-    private static void agregarLibro(Libro[] biblioteca, int[] contadorLibros, Scanner teclado) {
+    private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
         System.out.println("Ingresar un nuevo libro");
 
         System.out.println("Ingrese el título del libro:");
@@ -160,50 +148,48 @@ public class Biblioteca {
         String descripcion = teclado.nextLine();
 
         Libro nuevoLibro = new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
-        biblioteca[contadorLibros[0]] = nuevoLibro;
-        contadorLibros[0]++;
+        biblioteca.add(nuevoLibro);
 
-        guardarLibros(biblioteca, contadorLibros[0]);
+        guardarLibros(biblioteca);
     }
 
     // FUNCIÓN PARA EDITAR LIBROS EN FUNCIÓN DE SU POSICIÓN
-    @SuppressWarnings("unused")
-    private static void editarLibro(Libro[] biblioteca, int contadorLibros, Scanner teclado) {
-        if (contadorLibros >= 1) {
-            posicionLibro(biblioteca, contadorLibros);
+    private static void editarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
+        if (!biblioteca.isEmpty()) {
+            posicionLibro(biblioteca);
             System.out.println("Ingrese la posición del libro para editar");
             int posicion = teclado.nextInt();
             teclado.nextLine(); // Consumir el salto de línea
-            if (posicion > 0 && posicion <= contadorLibros) {
-                biblioteca[posicion - 1].editarLibro(teclado);
-                guardarLibros(biblioteca, contadorLibros);    
+            if (posicion > 0 && posicion <= biblioteca.size()) {
+                biblioteca.get(posicion - 1).editarLibro(teclado);
+                guardarLibros(biblioteca);    
             } else {
                 System.out.println("Posición no encontrada");
             }
-            
+        } else {
+            System.out.println("No hay libros en la biblioteca.");
         }
     }
-//FUNCIÓN PARA CAMBIAR LA DISPONIBILIDAD DEL LIBRO SEGÚN SU POSICIÓN
-    private static void cambiarEstado(Libro[] biblioteca, int contadorLibros, Scanner teclado) {
-        posicionLibro(biblioteca, contadorLibros);
+
+    //FUNCIÓN PARA CAMBIAR LA DISPONIBILIDAD DEL LIBRO SEGÚN SU POSICIÓN
+    private static void cambiarEstado(LinkedList<Libro> biblioteca, Scanner teclado) {
+        posicionLibro(biblioteca);
         System.out.println("Seleccione el número del libro para cambiar su estado (ocultar/mostrar):");
         int numLibro = teclado.nextInt();
         teclado.nextLine(); // Consumir el salto de línea
-        if (numLibro > 0 && numLibro <= contadorLibros) {
-            biblioteca[numLibro - 1].cambiarDisponibilidad();
+        if (numLibro > 0 && numLibro <= biblioteca.size()) {
+            biblioteca.get(numLibro - 1).cambiarDisponibilidad();
         } else {
             System.out.println("Número de libro inválido.");
         }
 
-        guardarLibros(biblioteca, contadorLibros);  // Guardar después de cambiar el estado
+        guardarLibros(biblioteca);  // Guardar después de cambiar el estado
     }
 
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
-        int[] contadorLibros = {0};
-        Libro[] biblioteca = new Libro[100];
-
-        cargarLibros(biblioteca, contadorLibros);
+        LinkedList<Libro> biblioteca = new LinkedList<>();
+        cargarLibros(biblioteca);
 
         int x = 1;
 
@@ -224,40 +210,27 @@ public class Biblioteca {
                 if (x != 0) {
                     switch (x) {
                         case 1:
-                            agregarLibro(biblioteca, contadorLibros, teclado);
+                            agregarLibro(biblioteca, teclado);
                             break;
 
                         case 2:
-                            mostrarLibros(biblioteca, contadorLibros[0]);
+                            mostrarLibros(biblioteca);
                             break;
 
                         case 3:
-                            posicionLibro(biblioteca, contadorLibros[0]);
+                            posicionLibro(biblioteca);
                             break;
 
                         case 4:
-                            cambiarEstado(biblioteca, contadorLibros[0], teclado);
+                            cambiarEstado(biblioteca, teclado);
                             break;
 
                         case 5:
-                            if (contadorLibros[0] >= 1) {
-                                posicionLibro(biblioteca, contadorLibros[0]);
-                                System.out.println("Seleccione el número del libro para editar:");
-                                int numEditar = teclado.nextInt();
-                                teclado.nextLine(); // Consumir el salto de línea
-                                if (numEditar > 0 && numEditar <= contadorLibros[0]) {
-                                    biblioteca[numEditar - 1].editarLibro(teclado);
-                                    guardarLibros(biblioteca, contadorLibros[0]);
-                                } else {
-                                    System.out.println("Número de libro inválido.");
-                                }
-                            } else {
-                                System.out.println("No hay libros en la biblioteca.");
-                            }
+                            editarLibro(biblioteca, teclado);
                             break;
 
                         case 6:
-                            borrarLibroDefinitivo(biblioteca, contadorLibros, teclado);
+                            borrarLibroDefinitivo(biblioteca, teclado);
                             break;
 
                         default:
@@ -268,5 +241,7 @@ public class Biblioteca {
                 System.out.println("Por favor, ingrese un número válido.");
             }
         } while (x != 0);
+
+        teclado.close();
     }
 }
