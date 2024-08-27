@@ -68,8 +68,8 @@ public class Libro {
 
     //FUNCIÓN PARA CONVERTIR UN LIBRO EN UN TEXTO
 
-    public String aTexto(){
-        return  titulo  + autor +  fechaPublicacion  + numPaginas +  disponible + isbn  + descripcion ;
+    public String aTexto() {
+        return titulo + "," + autor + "," + fechaPublicacion + "," + numPaginas + "," + disponible + "," + isbn + "," + descripcion;
     }
 
     
@@ -80,7 +80,7 @@ public class Libro {
         if (partes.length >= 7) {
             return new Libro(partes[0], partes[1], Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Boolean.parseBoolean(partes[4]), partes[5], partes[6]);
         } else {
-            // Handle the case where the input string is malformed
+            
             System.out.println("Ha ocurrido un error (INPUT STRING), por favor borre el archivo .txt y vuelva a intentar");
             return null; 
         }
