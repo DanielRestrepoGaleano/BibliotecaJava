@@ -70,3 +70,4 @@ ________________________________________________________________________________
 27/08/2024 ----> 1:33pm
 
 - Se realizaron cambios importantes en la estructura de las funciones (cargarLibros, guardarLibros y aTexto(de la clase Libro))
+- Cambio de arrays a listas ligadas para evitar tener límites de libros
