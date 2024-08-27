@@ -10,7 +10,9 @@ ________________________________________________________________________________
 
 **DESCRIPCIÓN ACTUAL**
 Este repositorio cuenta con un pequeño software para el manejo de una biblioteca, actualmente se cuentra bajo algunas limitaciones, como falta de memoria dinamica. No se encuentra conectado a una base de datos y aun puede contener errores.
-Actualmente solo se puede ejecutar desde la terminal.
+Actualmente solo se puede ejecutar desde la terminal. Por lo tanto no es necesario instalar nada
+Unicamente deberá copiar y pegar el código en su IDE, deberá generar 2 clases, una con el nombre
+"Biblioteca.java" y el otro con el nombre "Libro.java"
 
 _________________________________________________________________________________
 
@@ -19,6 +21,8 @@ ________________________________________________________________________________
 - Error con arrays (InputMismatchException)
 - Error en el guardado de libros
 - Error cuando se muestra un libro en la terminal
+- Error con la carga de los archivos .txt
+
 
 _________________________________________________________________________________
 
@@ -34,6 +38,8 @@ ________________________________________________________________________________
 Actualmente el error con los archivos persiste aunque ya es menos grave.
 Se logró que el programa actualice los archivos en el .txt, pero surgió otro error
 los libros no se estan cargando de forma correcta lo que provoca una perdida de datos y un inicio en las posiciones de los libros que no es correcta.
+(27/08/2024)
+Se logró mitigar el error al cargar los libros.
 
 
 __________________________________________________________________________________
@@ -58,3 +64,9 @@ ________________________________________________________________________________
 
 - Se realizaron cambios importantes en la estructura de las funciones
 - Se añadio el guardado de libros por medio de archivos .txt
+
+_____________________________________________________________________________________
+
+27/08/2024 ----> 1:33pm
+
+- Se realizaron cambios importantes en la estructura de las funciones (cargarLibros, guardarLibros y aTexto(de la clase Libro))
