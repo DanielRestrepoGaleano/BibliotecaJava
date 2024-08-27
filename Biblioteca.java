@@ -70,36 +70,61 @@ public class Biblioteca {
             } else {
                 System.out.println("Posición inválida, intente nuevamente.");
             }
-            guardarLbros(biblioteca, contadorLibros[0]);
+            guardarLibros(biblioteca, contadorLibros[0]);
         }
     }
 
     // FUNCION PARA GUARDAR LIBROS COMO .TXT
-    private static void guardarLbros(Libro[] biblioteca, int contadorLibros) {
-        try (PrintWriter escritor = new PrintWriter(ARCHIVO_LIBROS)) {
+    private static void guardarLibros(Libro[] biblioteca, int contadorLibros) {
+        try (PrintWriter escritor = new PrintWriter(new FileWriter(ARCHIVO_LIBROS))) {
             for (int i = 0; i < contadorLibros; i++) {
                 if (biblioteca[i] != null) {
-                    escritor.println(biblioteca[i].aTexto());
+                    escritor.println(biblioteca[i].getTitulo() + "," +
+                                     biblioteca[i].getAutor() + "," +
+                                     biblioteca[i].getfechaPublicacion() + "," +
+                                     biblioteca[i].getNumPaginas() + "," +
+                                     biblioteca[i].isDisponible() + "," +
+                                     biblioteca[i].getIsbn() + "," +
+                                     biblioteca[i].getDescripcion());
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Error al guardar los libros");
+            System.out.println("Libros guardados exitosamente.");
+        } catch (IOException e) {
+            System.out.println("Error al guardar los libros: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
     // FUNCION PARA CARGAR LOS LIBROS CUANDO SE CIERRE EL IDE
     private static void cargarLibros(Libro[] biblioteca, int[] contadorLibros) {
         try (BufferedReader lector = new BufferedReader(new FileReader(ARCHIVO_LIBROS))) {
             String linea;
-            while ((linea = lector.readLine()) != null) {
-                biblioteca[contadorLibros[0]] = Libro.aLibro(linea);
-                contadorLibros[0]++;
+            while ((linea = lector.readLine()) != null && contadorLibros[0] < biblioteca.length) {
+                String[] partes = linea.split(",");
+                if (partes.length == 7) {
+                    try {
+                        String titulo = partes[0];
+                        String autor = partes[1];
+                        int fechaPublicacion = Integer.parseInt(partes[2]);
+                        int numPaginas = Integer.parseInt(partes[3]);
+                        boolean disponible = Boolean.parseBoolean(partes[4]);
+                        String isbn = partes[5];
+                        String descripcion = partes[6];
+    
+                        biblioteca[contadorLibros[0]] = new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
+                        contadorLibros[0]++;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error al parsear datos numéricos en la línea: " + linea);
+                    }
+                } else {
+                    System.out.println("Línea con formato incorrecto ignorada: " + linea);
+                }
             }
+            System.out.println("Libros cargados exitosamente. Total de libros: " + contadorLibros[0] + "\n" );
         } catch (IOException e) {
-            System.out.println("Error al cargar los libros");
+            System.out.println("Error al cargar los libros: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
     // FUNCION PARA AGREGAR UN LIBRO NUEVO
     private static void agregarLibro(Libro[] biblioteca, int[] contadorLibros, Scanner teclado) {
         System.out.println("Ingresar un nuevo libro");
@@ -138,7 +163,7 @@ public class Biblioteca {
         biblioteca[contadorLibros[0]] = nuevoLibro;
         contadorLibros[0]++;
 
-        guardarLbros(biblioteca, contadorLibros[0]);
+        guardarLibros(biblioteca, contadorLibros[0]);
     }
 
     // FUNCIÓN PARA EDITAR LIBROS EN FUNCIÓN DE SU POSICIÓN
@@ -151,7 +176,7 @@ public class Biblioteca {
             teclado.nextLine(); // Consumir el salto de línea
             if (posicion > 0 && posicion <= contadorLibros) {
                 biblioteca[posicion - 1].editarLibro(teclado);
-                guardarLbros(biblioteca, contadorLibros);    
+                guardarLibros(biblioteca, contadorLibros);    
             } else {
                 System.out.println("Posición no encontrada");
             }
@@ -170,7 +195,7 @@ public class Biblioteca {
             System.out.println("Número de libro inválido.");
         }
 
-        guardarLbros(biblioteca, contadorLibros);  // Guardar después de cambiar el estado
+        guardarLibros(biblioteca, contadorLibros);  // Guardar después de cambiar el estado
     }
 
     public static void main(String[] args) {
@@ -189,7 +214,7 @@ public class Biblioteca {
             System.out.println("Por favor presione 4 para cambiar el estado del libro");
             System.out.println("Por favor presione 5 para editar un libro");
             System.out.println("Por favor presione 6 para borrar de forma definitiva un libro de la lista");
-            System.out.println("Por favor presione 0 para salir");
+            System.out.println("Por favor presione 0 para salir" + "\n");
             System.out.println("Ingrese su opción");
 
             String input = teclado.nextLine();
@@ -222,7 +247,7 @@ public class Biblioteca {
                                 teclado.nextLine(); // Consumir el salto de línea
                                 if (numEditar > 0 && numEditar <= contadorLibros[0]) {
                                     biblioteca[numEditar - 1].editarLibro(teclado);
-                                    guardarLbros(biblioteca, contadorLibros[0]);
+                                    guardarLibros(biblioteca, contadorLibros[0]);
                                 } else {
                                     System.out.println("Número de libro inválido.");
                                 }
