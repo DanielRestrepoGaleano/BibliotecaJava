@@ -1,13 +1,29 @@
 import java.util.Scanner;
 import java.io.*;
 import java.util.LinkedList;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Biblioteca {
+    private static final Logger LOGGER = Logger.getLogger(Biblioteca.class.getName());
+    static  {
+        // Configurar el logger para que escriba los mensajes en la consola
+        Handler consoleHandler = new ConsoleHandler();
+        Formatter formatter = new SimpleFormatter();
+        consoleHandler.setFormatter(formatter);
+        LOGGER.addHandler(consoleHandler);
+        LOGGER.setLevel(Level.ALL); // Establecer el nivel de logeo
+    }
     private static final String ARCHIVO_LIBROS = "libros.txt"; // CONSTANTE PARA GENERAR EL ARCHIVO .TXT
 
     // FUNCIÓN PARA MOSTRAR LOS LIBROS
     private static void mostrarLibros(LinkedList<Libro> biblioteca) {
-        System.out.println("--- LIBROS EN LA BIBLIOTECA ---");
+        LOGGER.info("--- LIBROS EN LA BIBLIOTECA ---");
+        //System.out.println("--- LIBROS EN LA BIBLIOTECA ---");
         boolean hayLibrosDisponibles = false;
         for (Libro libro : biblioteca) {
             if (libro.isDisponible()) {
