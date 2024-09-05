@@ -54,7 +54,7 @@ public class Biblioteca {
     }
 
     //FUNCION PARA LA POSICIÓN DE CADA LIBRO2
-    
+
     private static void posicionLibro(LinkedList<Libro> biblioteca) {
         if (biblioteca.isEmpty()) {
             LOGGER.warning("La biblioteca no tiene ningún libro.");
@@ -222,7 +222,8 @@ public class Biblioteca {
             return record.getMessage() + "\n";
         }
     }
-
+    
+  
     public static void main(String[] args) {
         
         Scanner teclado = new Scanner(System.in);
@@ -235,6 +236,7 @@ public class Biblioteca {
         ConsoleHandler handler = new ConsoleHandler();
         handler.setFormatter(formatter);
         LOGGER.addHandler(handler);
+        
         int x = 1;
 
         do {
