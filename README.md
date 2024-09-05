@@ -3,7 +3,7 @@
 - Conectar el proyecto a SpringBoot &cross;
 - Conectar el proyecto a una base de datos &cross; 
 - crear interfaz gráfica &cross; :warning:
-- Crear un diagrama de clases &cross;
+- Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;
 
@@ -87,9 +87,5 @@ ________________________________________________________________________________
 
 _____________________________________________________________________________________
 
-diagrama de clase
-
-
-![Descripción de la imagen](../Imágenes/diagramaCBiblioteca.JPG)
 
 
