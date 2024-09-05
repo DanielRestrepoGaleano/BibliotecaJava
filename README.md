@@ -86,3 +86,9 @@ ________________________________________________________________________________
 - se realizó un cambio en todos los `System.out`, fueron cambiados por `LOGGERS` para manter una mayor organización del código
 
 _____________________________________________________________________________________
+
+diagrama de clase
+
+
+![Descripción de la imagen](C:/Users/danie/OneDrive/Imágenes/diagramaCBiblioteca.JPG)
+
