@@ -17,7 +17,7 @@ ________________________________________________________________________________
 
  `Biblioteca.java`
  `Libro.java`
-## NOTA 
+### NOTA 
 - TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
 
 _________________________________________________________________________________
@@ -28,17 +28,18 @@ ________________________________________________________________________________
 - Error en el guardado de libros &check;
 - Error cuando se muestra un libro en la terminal &check;
 - Error con la carga de los archivos .txt  &check;
-
-
-_________________________________________________________________________________
-
-**ERRORES CONOCIDOS**
-- Los libros editados se pueden observar en la terminal, pero no se realiza el cambio en el archivo .txt &cross;
+- Los libros editados se pueden observar en la terminal, pero no se realiza el cambio en el archivo .txt &check;
 - Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad. &check;
 - Error identificado: cuando se edita la fecha de publicación de un libro, se cierra el programa y seguidamente se vuelve a ejecutar como la fecha se cambia en la terminal pero no el txt, generando el siguiente error `NumberFormatException.forInputString(NumberFormatException)` &check;
 - El método de guardado no funciona correctamente, ya que una vez se cierra el programa
       intenta cargar libros que no existen en la terminal &check;
 
+
+
+_________________________________________________________________________________
+
+**ERRORES CONOCIDOS**
+Hasta el momento no se han identificado más errores
 __________________________________________________________________________________
 **PROGRESO ACUTAL CON LOS ERRORES**
 Actualmente el error con los archivos persiste aunque ya es menos grave.
