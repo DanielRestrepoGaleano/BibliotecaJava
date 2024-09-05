@@ -7,23 +7,32 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.logging.LogRecord;
 
 public class Biblioteca {
     private static final Logger LOGGER = Logger.getLogger(Biblioteca.class.getName());
-    static  {
+    
+    static {
+        // Remover los manejadores por defecto
+        Logger rootLogger = Logger.getLogger("");
+        Handler[] handlers = rootLogger.getHandlers();
+        for (Handler handler : handlers) {
+            rootLogger.removeHandler(handler);
+        }
+
         // Configurar el logger para que escriba los mensajes en la consola
         Handler consoleHandler = new ConsoleHandler();
         Formatter formatter = new SimpleFormatter();
         consoleHandler.setFormatter(formatter);
         LOGGER.addHandler(consoleHandler);
-        LOGGER.setLevel(Level.ALL); // Establecer el nivel de logeo
+        LOGGER.setLevel(Level.ALL); // Establecer el nivel de logueo
     }
+    
     private static final String ARCHIVO_LIBROS = "libros.txt"; // CONSTANTE PARA GENERAR EL ARCHIVO .TXT
 
     // FUNCIÓN PARA MOSTRAR LOS LIBROS
     private static void mostrarLibros(LinkedList<Libro> biblioteca) {
         LOGGER.info("--- LIBROS EN LA BIBLIOTECA ---");
-        //System.out.println("--- LIBROS EN LA BIBLIOTECA ---");
         boolean hayLibrosDisponibles = false;
         for (Libro libro : biblioteca) {
             if (libro.isDisponible()) {
@@ -33,12 +42,12 @@ public class Biblioteca {
         }
 
         if (!hayLibrosDisponibles) {
-            System.out.println("No hay libros disponibles");
+            LOGGER.info("No hay libros disponibles");
         } else {
             for (Libro libro : biblioteca) {
                 if (libro.isDisponible()) {
-                    System.out.println("");
-                    System.out.println(libro.toString());
+                    LOGGER.info(" ");
+                    LOGGER.info(libro.toString());
                 }
             }
         }
@@ -47,15 +56,14 @@ public class Biblioteca {
     //FUNCION PARA LA POSICIÓN DE CADA LIBRO
     private static void posicionLibro(LinkedList<Libro> biblioteca) {
         if (biblioteca.isEmpty()) {
-            System.out.println("La biblioteca no tiene ningún libro.");
+            LOGGER.warning("La biblioteca no tiene ningún libro.");
         } else {
             for (int l = 0; l < biblioteca.size(); l++) {
                 Libro libro = biblioteca.get(l);
                 int posicion = l + 1;
-                System.out.print("[" + posicion + "] ");
-                System.out.println(libro.getTitulo());
+                LOGGER.info("[" + posicion + "] " + libro.getTitulo());
                 if (!libro.isDisponible()) {
-                    System.out.println("(EL LIBRO " + libro.getTitulo() + " SE ENCUENTRA OCULTO)");
+                    LOGGER.info("(EL LIBRO " + libro.getTitulo() + " SE ENCUENTRA OCULTO)");
                 }
             }
         }
@@ -64,16 +72,16 @@ public class Biblioteca {
     //FUNCIÓN PARA BORRAR UN LIBRO SEGÚN SU POSICIÓN DE FORMA DEFINITIVA
     private static void borrarLibroDefinitivo(LinkedList<Libro> biblioteca, Scanner scanner) {
         if (biblioteca.isEmpty()) {
-            System.out.println("No hay libros disponibles");
+            LOGGER.warning("No hay libros disponibles");
         } else {
-            System.out.println("Seleccione la posición del libro a eliminar:");
+            LOGGER.info("Seleccione la posición del libro a eliminar:");
             int posicionEliminar = scanner.nextInt();
             scanner.nextLine(); // Consumir el salto de línea
 
             if (posicionEliminar > 0 && posicionEliminar <= biblioteca.size()) {
                 biblioteca.remove(posicionEliminar - 1);
             } else {
-                System.out.println("Posición inválida, intente nuevamente.");
+                LOGGER.warning("Posición inválida, intente nuevamente.");
             }
             guardarLibros(biblioteca);
         }
@@ -91,10 +99,9 @@ public class Biblioteca {
                                  libro.getIsbn() + "," +
                                  libro.getDescripcion());
             }
-            System.out.println("Libros guardados exitosamente.");
+            LOGGER.info("Libros guardados exitosamente.");
         } catch (IOException e) {
-            System.out.println("Error al guardar los libros: " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error al guardar los libros: " + e.getMessage(), e);
         }
     }
 
@@ -113,54 +120,53 @@ public class Biblioteca {
                         boolean disponible = Boolean.parseBoolean(partes[4]);
                         String isbn = partes[5];
                         String descripcion = partes[6];
-    
+
                         biblioteca.add(new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion));
                     } catch (NumberFormatException e) {
-                        System.out.println("Error al parsear datos numéricos en la línea: " + linea);
+                        LOGGER.log(Level.WARNING, "Error al parsear datos numéricos en la línea: " + linea, e);
                     }
                 } else {
-                    System.out.println("Línea con formato incorrecto ignorada: " + linea);
+                    LOGGER.warning("Línea con formato incorrecto ignorada: " + linea);
                 }
             }
-            System.out.println("Libros cargados exitosamente. Total de libros: " + biblioteca.size() + "\n" );
+            LOGGER.info("Libros cargados exitosamente. Total de libros: " + biblioteca.size() + "\n");
         } catch (IOException e) {
-            System.out.println("Error al cargar los libros: " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error al cargar los libros: " + e.getMessage(), e);
         }
     }
 
     // FUNCION PARA AGREGAR UN LIBRO NUEVO
     private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
-        System.out.println("Ingresar un nuevo libro");
+        LOGGER.info("Ingresar un nuevo libro");
 
-        System.out.println("Ingrese el título del libro:");
-        String titulo = teclado.nextLine().toLowerCase();
+        LOGGER.info("Ingrese el título del libro:");
+        String titulo = teclado.nextLine();
 
-        System.out.println("Ingrese el autor del libro:");
-        String autor = teclado.nextLine().toLowerCase();
+        LOGGER.info("Ingrese el autor del libro:");
+        String autor = teclado.nextLine();
 
-        System.out.println("Ingrese el año de publicación:");
+        LOGGER.info("Ingrese el año de publicación:");
         int fechaPublicacion = teclado.nextInt();
         teclado.nextLine(); // Consumir el salto de línea
 
         while (fechaPublicacion > 2024) {
-            System.out.println("La fecha " + fechaPublicacion + " es superior al año actual, vuelva a intentarlo.");
+            LOGGER.warning("La fecha " + fechaPublicacion + " es superior al año actual, vuelva a intentarlo.");
             fechaPublicacion = teclado.nextInt();
             teclado.nextLine(); // Consumir el salto de línea
         }
 
-        System.out.println("Ingrese el número de páginas:");
+        LOGGER.info("Ingrese el número de páginas:");
         int numPaginas = teclado.nextInt();
         teclado.nextLine(); // Consumir el salto de línea
 
-        System.out.println("¿El libro está disponible? (true/false):");
+        LOGGER.info("¿El libro está disponible? (true/false):");
         boolean disponible = teclado.nextBoolean();
         teclado.nextLine(); // Consumir el salto de línea
 
-        System.out.println("Ingrese el ISBN del libro:");
+        LOGGER.info("Ingrese el ISBN del libro:");
         String isbn = teclado.nextLine();
 
-        System.out.println("Agregue una descripción del libro:");
+        LOGGER.info("Agregue una descripción del libro:");
         String descripcion = teclado.nextLine();
 
         Libro nuevoLibro = new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
@@ -173,51 +179,72 @@ public class Biblioteca {
     private static void editarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
         if (!biblioteca.isEmpty()) {
             posicionLibro(biblioteca);
-            System.out.println("Ingrese la posición del libro para editar");
+            LOGGER.info("Ingrese la posición del libro para editar");
             int posicion = teclado.nextInt();
             teclado.nextLine(); // Consumir el salto de línea
             if (posicion > 0 && posicion <= biblioteca.size()) {
                 biblioteca.get(posicion - 1).editarLibro(teclado);
-                guardarLibros(biblioteca);    
+                guardarLibros(biblioteca);
             } else {
-                System.out.println("Posición no encontrada");
+                LOGGER.warning("Posición no encontrada");
             }
         } else {
-            System.out.println("No hay libros en la biblioteca.");
+            LOGGER.warning("No hay libros en la biblioteca.");
         }
     }
 
     //FUNCIÓN PARA CAMBIAR LA DISPONIBILIDAD DEL LIBRO SEGÚN SU POSICIÓN
     private static void cambiarEstado(LinkedList<Libro> biblioteca, Scanner teclado) {
         posicionLibro(biblioteca);
-        System.out.println("Seleccione el número del libro para cambiar su estado (ocultar/mostrar):");
+        LOGGER.info("Seleccione el número del libro para cambiar su estado (ocultar/mostrar):");
         int numLibro = teclado.nextInt();
         teclado.nextLine(); // Consumir el salto de línea
         if (numLibro > 0 && numLibro <= biblioteca.size()) {
             biblioteca.get(numLibro - 1).cambiarDisponibilidad();
         } else {
-            System.out.println("Número de libro inválido.");
+            LOGGER.warning("Número de libro inválido.");
         }
 
         guardarLibros(biblioteca);  // Guardar después de cambiar el estado
     }
+    private static void removeDefaultHandlers(Logger logger) {
+        Handler[] handlers = logger.getHandlers();
+        for (Handler handler : handlers) {
+            logger.removeHandler(handler);
+        }
+    }
+
+    // Clase que define un formateador personalizado
+    static class CustomFormatter extends SimpleFormatter {
+        @Override
+        public String format(LogRecord record) {
+            return record.getMessage() + "\n";
+        }
+    }
 
     public static void main(String[] args) {
+        
         Scanner teclado = new Scanner(System.in);
         LinkedList<Libro> biblioteca = new LinkedList<>();
         cargarLibros(biblioteca);
+        removeDefaultHandlers(LOGGER);
+        LOGGER.setUseParentHandlers(false);
+        CustomFormatter formatter = new CustomFormatter();
 
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(formatter);
+        LOGGER.addHandler(handler);
         int x = 1;
 
         do {
-            System.out.println("Por favor presione 1 para ingresar un nuevo libro");
-            System.out.println("Por favor presione 2 para ver la lista de libros");
-            System.out.println("Por favor presione 3 para ver la posición de los libros");
-            System.out.println("Por favor presione 4 para cambiar el estado del libro");
-            System.out.println("Por favor presione 5 para editar un libro");
-            System.out.println("Por favor presione 6 para borrar de forma definitiva un libro de la lista");
-            System.out.println("Por favor presione 0 para salir" + "\n");
-            System.out.println("Ingrese su opción");
+            LOGGER.info("Por favor presione 1 para ingresar un nuevo libro");
+            LOGGER.info("Por favor presione 2 para ver la lista de libros");
+            LOGGER.info("Por favor presione 3 para ver la posición de los libros");
+            LOGGER.info("Por favor presione 4 para cambiar el estado del libro");
+            LOGGER.info("Por favor presione 5 para editar un libro");
+            LOGGER.info("Por favor presione 6 para borrar de forma definitiva un libro de la lista");
+            LOGGER.info("Por favor presione 0 para salir\n");
+            LOGGER.info("Ingrese su opción");
 
             String input = teclado.nextLine();
 
@@ -228,34 +255,29 @@ public class Biblioteca {
                         case 1:
                             agregarLibro(biblioteca, teclado);
                             break;
-
                         case 2:
                             mostrarLibros(biblioteca);
                             break;
-
                         case 3:
                             posicionLibro(biblioteca);
                             break;
-
                         case 4:
                             cambiarEstado(biblioteca, teclado);
                             break;
-
                         case 5:
                             editarLibro(biblioteca, teclado);
                             break;
-
                         case 6:
                             borrarLibroDefinitivo(biblioteca, teclado);
                             break;
-
                         default:
-                            System.out.println("Opción inválida, intente nuevamente.");
+                            LOGGER.warning("Opción inválida. Intente nuevamente.");
                     }
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Por favor, ingrese un número válido.");
+                LOGGER.warning("Entrada inválida. Por favor ingrese un número.");
             }
+
         } while (x != 0);
 
         teclado.close();
