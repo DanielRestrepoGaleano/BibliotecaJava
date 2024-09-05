@@ -90,5 +90,6 @@ ________________________________________________________________________________
 diagrama de clase
 
 
-![Descripción de la imagen](C:/Users/danie/OneDrive/Imágenes/diagramaCBiblioteca.JPG)
+![Descripción de la imagen](../Imágenes/diagramaCBiblioteca.JPG)
+
 
