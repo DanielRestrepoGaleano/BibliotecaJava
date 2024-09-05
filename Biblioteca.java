@@ -53,7 +53,8 @@ public class Biblioteca {
         }
     }
 
-    //FUNCION PARA LA POSICIÓN DE CADA LIBRO
+    //FUNCION PARA LA POSICIÓN DE CADA LIBRO2
+    
     private static void posicionLibro(LinkedList<Libro> biblioteca) {
         if (biblioteca.isEmpty()) {
             LOGGER.warning("La biblioteca no tiene ningún libro.");
