@@ -1,7 +1,8 @@
 
 **PLANEACIÓN**
 - Conectar el proyecto a SpringBoot &cross;
-- Conectar el proyecto a una base de datos y crear interfaz gráfica &cross;
+- Conectar el proyecto a una base de datos &cross; 
+- crear interfaz gráfica &cross; :warning:
 - Crear un diagrama de clases &cross;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;
