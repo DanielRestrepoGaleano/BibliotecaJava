@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.LogRecord;
 
+
+
 public class Biblioteca {
     private static final Logger LOGGER = Logger.getLogger(Biblioteca.class.getName());
     
@@ -137,44 +139,88 @@ public class Biblioteca {
     }
 
     // FUNCION PARA AGREGAR UN LIBRO NUEVO
-    private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
-        LOGGER.info("Ingresar un nuevo libro");
+    // Modificación en la función para agregar libros
+private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
+    LOGGER.info("Ingresar un nuevo libro");
 
-        LOGGER.info("Ingrese el título del libro:");
-        String titulo = teclado.nextLine();
+    LOGGER.info("Ingrese el título del libro:");
+    String titulo = teclado.nextLine();
 
-        LOGGER.info("Ingrese el autor del libro:");
-        String autor = teclado.nextLine();
+    LOGGER.info("Ingrese el autor del libro:");
+    String autor = teclado.nextLine();
 
-        LOGGER.info("Ingrese el año de publicación:");
-        int fechaPublicacion = teclado.nextInt();
+    LOGGER.info("Ingrese el año de publicación:");
+    int fechaPublicacion = teclado.nextInt();
+    teclado.nextLine(); // Consumir el salto de línea
+
+    while (fechaPublicacion > 2024) {
+        LOGGER.warning("La fecha " + fechaPublicacion + " es superior al año actual, vuelva a intentarlo.");
+        fechaPublicacion = teclado.nextInt();
         teclado.nextLine(); // Consumir el salto de línea
+    }
 
-        while (fechaPublicacion > 2024) {
-            LOGGER.warning("La fecha " + fechaPublicacion + " es superior al año actual, vuelva a intentarlo.");
-            fechaPublicacion = teclado.nextInt();
-            teclado.nextLine(); // Consumir el salto de línea
-        }
+    LOGGER.info("Ingrese el número de páginas:");
+    int numPaginas = teclado.nextInt();
+    teclado.nextLine(); // Consumir el salto de línea
 
-        LOGGER.info("Ingrese el número de páginas:");
-        int numPaginas = teclado.nextInt();
-        teclado.nextLine(); // Consumir el salto de línea
+    LOGGER.info("¿El libro está disponible? (true/false):");
+    boolean disponible = teclado.nextBoolean();
+    teclado.nextLine(); // Consumir el salto de línea
 
-        LOGGER.info("¿El libro está disponible? (true/false):");
-        boolean disponible = teclado.nextBoolean();
-        teclado.nextLine(); // Consumir el salto de línea
+    LOGGER.info("Ingrese el ISBN del libro:");
+    String isbn = teclado.nextLine();
 
-        LOGGER.info("Ingrese el ISBN del libro:");
-        String isbn = teclado.nextLine();
+    LOGGER.info("Agregue una descripción del libro:");
+    String descripcion = teclado.nextLine();
 
-        LOGGER.info("Agregue una descripción del libro:");
-        String descripcion = teclado.nextLine();
+    LOGGER.info("Ingrese la cantidad de libros que desea agregar:");
+    int cantidad = teclado.nextInt();
+    teclado.nextLine(); // Consumir el salto de línea
 
+    for (int i = 0; i < cantidad; i++) {
         Libro nuevoLibro = new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
         biblioteca.add(nuevoLibro);
-
-        guardarLibros(biblioteca);
     }
+
+    guardarLibros(biblioteca);
+}
+
+// Nueva función para editar libros por ISBN y cantidad
+private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner teclado) {
+    LOGGER.info("Ingrese el ISBN de los libros a editar:");
+    String isbnBuscado = teclado.nextLine();
+
+    LinkedList<Libro> librosEncontrados = new LinkedList<>();
+    for (Libro libro : biblioteca) {
+        if (libro.getIsbn().equals(isbnBuscado)) {
+            librosEncontrados.add(libro);
+        }
+    }
+
+    if (librosEncontrados.isEmpty()) {
+        LOGGER.warning("No se encontraron libros con el ISBN " + isbnBuscado);
+        return;
+    }
+
+    LOGGER.info("Se encontraron " + librosEncontrados.size() + " libros con el ISBN " + isbnBuscado);
+    LOGGER.info("¿Cuántos libros desea editar?");
+    int cantidadAEditar = teclado.nextInt();
+    teclado.nextLine(); // Consumir el salto de línea
+
+    if (cantidadAEditar > librosEncontrados.size()) {
+        LOGGER.warning("No hay suficientes libros para editar la cantidad solicitada.");
+        return;
+    }
+
+    for (int i = 0; i < cantidadAEditar; i++) {
+        LOGGER.info("Editando el libro #" + (i + 1) + " de " + cantidadAEditar);
+        librosEncontrados.get(i).editarLibro(teclado);
+    }
+
+    guardarLibros(biblioteca);
+}
+
+
 
     // FUNCIÓN PARA EDITAR LIBROS EN FUNCIÓN DE SU POSICIÓN
     private static void editarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
@@ -246,6 +292,7 @@ public class Biblioteca {
             LOGGER.info("Por favor presione 4 para cambiar el estado del libro");
             LOGGER.info("Por favor presione 5 para editar un libro");
             LOGGER.info("Por favor presione 6 para borrar de forma definitiva un libro de la lista");
+            LOGGER.info("Por favor presione 7 para editar libros por ISBN y cantidad");
             LOGGER.info("Por favor presione 0 para salir\n");
             LOGGER.info("Ingrese su opción");
 
@@ -273,6 +320,10 @@ public class Biblioteca {
                         case 6:
                             borrarLibroDefinitivo(biblioteca, teclado);
                             break;
+                            case 7:
+                            editarLibrosPorISBN(biblioteca, teclado);
+                            break;
+                        
                         default:
                             LOGGER.warning("Opción inválida. Intente nuevamente.");
                     }
