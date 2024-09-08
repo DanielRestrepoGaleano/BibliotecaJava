@@ -14,7 +14,7 @@ public class ConectarPHP {
         conn.setRequestMethod("POST");  // Asegurando que el método es POST
         conn.setDoOutput(true);         // Habilitar el envío de datos
 
-        // Asegúrate de establecer el tipo de contenido
+        
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
         // Parámetros codificados
