@@ -12,7 +12,9 @@ ________________________________________________________________________________
 
 
 **DESCRIPCIÓN ACTUAL**
- Este repositorio contiene un pequeño software para el manejo de una biblioteca. Actualmente, presenta algunas limitaciones, como la falta de memoria dinámica. aún puede contener errores.
+En este repositorio va a encontrar un software para el manejo de libros, cuenta con memoria dinamica y una conexión "prematura" a una base de datos, tambien le puede hacer seguimiento desde la termina ya que cuenta con una BD simulada en un archivo .txt
+Es un proyecto personal para aprender a usar estas tecnologias, sientase libre de modificarlo y usarlo como crea conveniente.
+- Daniel Restrepo Galeano
 
 ________________________________________________________________________________
 
@@ -25,10 +27,10 @@ Si no funciona el programa asegurse de tener la carpeta guardada en la ruta:
 *C:// --> xampp/ --> htdocs*, ahí deberá subir la carpeta completa con todos archivos adentro
 Una vez realiazado esto no deberá tener problemas con la ejecución de la biblioteca.
 El programa aun realiza el archivo .txt con los libros 
-:pushpin: Aun cuenta con limitaciones
-:pushpin: Ante cualquier duda puede notificar por cualquier medio
-:pushpin: se dejarán imagenes guía por si las necesita en la carpeta "GUIA DE IMAGENES"
-:pushpin: Si necesita más imagenes de igual forma puede hacerme llegar la notificación y añadiré pasos más detallados
+- Aun cuenta con limitaciones
+- Ante cualquier duda puede notificar por cualquier medio
+- se dejarán imagenes guía por si las necesita en la carpeta "GUIA DE IMAGENES"
+- Si necesita más imagenes de igual forma puede hacerme llegar la notificación y añadiré pasos más detallados
 
 ### NOTA 
 - TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
