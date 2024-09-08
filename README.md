@@ -1,8 +1,8 @@
 
 **PLANEACIÓN**
 - Conectar el proyecto a SpringBoot &cross;
-- Conectar el proyecto a una base de datos &cross; 
-- crear interfaz gráfica &cross; :warning:
+- Conectar el proyecto a una base de datos &check; :warning: 
+- crear interfaz gráfica &cross;
 - Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;
@@ -12,11 +12,24 @@ ________________________________________________________________________________
 
 
 **DESCRIPCIÓN ACTUAL**
- Este repositorio contiene un pequeño software para el manejo de una biblioteca. Actualmente, presenta algunas limitaciones, como la falta de memoria dinámica. No está conectado a una base de datos y aún puede contener errores.
- Por ahora, solo se puede ejecutar desde la terminal, por lo que no es necesario instalar nada. Solo deberá copiar y pegar el código en su IDE, generar dos clases:
+ Este repositorio contiene un pequeño software para el manejo de una biblioteca. Actualmente, presenta algunas limitaciones, como la falta de memoria dinámica. aún puede contener errores.
 
- `Biblioteca.java`
- `Libro.java`
+________________________________________________________________________________
+
+**MODO DE USO**
+
+En su IDE deberá generar 3 clases `Biblioteca.java`, `ConectarPHP` y `Libro.java` además de un archivo (API) en `PHP` llamado `Libros.php`.
+También hará uso de *XAMPP* deberá activar *Apache* y *MySql*.
+Una vez hecho esto (por ahora) deberá crear una base de datos con el nombre biblioteca y su tabla libros.
+Si no funciona el programa asegurse de tener la carpeta guardada en la ruta:
+*C:// --> xampp/ --> htdocs*, ahí deberá subir la carpeta completa con todos archivos adentro
+Una vez realiazado esto no deberá tener problemas con la ejecución de la biblioteca.
+El programa aun realiza el archivo .txt con los libros 
+:pushpin: Aun cuenta con limitaciones
+:pushpin: Ante cualquier duda puede notificar por cualquier medio
+:pushpin: se dejarán imagenes guía por si las necesita en la carpeta "GUIA DE IMAGENES"
+:pushpin: Si necesita más imagenes de igual forma puede hacerme llegar la notificación y añadiré pasos más detallados
+
 ### NOTA 
 - TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
 
@@ -88,5 +101,8 @@ ________________________________________________________________________________
 
 _____________________________________________________________________________________
 
+7/09/2024 ----> 10:30pm
+- se han añadido 1 clase nueva y una API en php para la conexión a la base de datos local en phpMyAdmin, con los nombres `ConectarPHP` y `Libros`
+- Actualmente solo funciona el metodo de agregar en la base de datos
 
 
