@@ -140,7 +140,7 @@ public class Biblioteca {
 
     // FUNCION PARA AGREGAR UN LIBRO NUEVO
     // Modificación en la función para agregar libros
-private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
+private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) throws Exception {
     LOGGER.info("Ingresar un nuevo libro");
 
     LOGGER.info("Ingrese el título del libro:");
@@ -180,9 +180,11 @@ private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) 
     for (int i = 0; i < cantidad; i++) {
         Libro nuevoLibro = new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
         biblioteca.add(nuevoLibro);
+        ConectarPHP.enviarLibro(nuevoLibro);
     }
 
     guardarLibros(biblioteca);
+   
 }
 
 // Nueva función para editar libros por ISBN y cantidad
@@ -270,7 +272,7 @@ private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner te
     }
     
   
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         
         Scanner teclado = new Scanner(System.in);
         LinkedList<Libro> biblioteca = new LinkedList<>();
@@ -285,6 +287,9 @@ private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner te
         
         int x = 1;
 
+        //Libro libro = new Libro("Título del libro", "Autor del libro", 2022, 300, true, "ISBN123456", "Descripción del libro");
+        //ConectarPHP.enviarLibro(libro);
+        
         do {
             LOGGER.info("Por favor presione 1 para ingresar un nuevo libro");
             LOGGER.info("Por favor presione 2 para ver la lista de libros");
