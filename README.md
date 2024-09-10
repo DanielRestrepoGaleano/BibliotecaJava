@@ -12,9 +12,10 @@ ________________________________________________________________________________
 
 
 **DESCRIPCIÓN ACTUAL**
-En este repositorio va a encontrar un software para el manejo de libros, cuenta con memoria dinamica y una conexión "prematura" a una base de datos, tambien le puede hacer seguimiento desde la termina ya que cuenta con una BD simulada en un archivo .txt
-Es un proyecto personal para aprender a usar estas tecnologias, sientase libre de modificarlo y usarlo como crea conveniente.
-- Daniel Restrepo Galeano
+Este repositorio contiene un software de gestión de biblioteca que se conecta a una base de datos MySQL a través de JDBC y gestiona las operaciones de CRUD (Crear, Leer, Actualizar, Eliminar) para los libros. También cuenta con una persistencia en archivos .txt como respaldo.
+
+El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyAdmin**, y el conector JDBC para interactuar con la base de datos desde Java.
+
 
 ________________________________________________________________________________
 
@@ -41,28 +42,28 @@ Para ejecutar este proyecto, es necesario:
 En su IDE, deberá crear las siguientes clases:
 
 - `Biblioteca.java`: Clase principal del proyecto que gestiona las operaciones de la biblioteca.
-- `ConectarDB.java`: Clase responsable de la conexión con la base de datos MySQL y la ejecución de las consultas.
+- `ConexionDB.java`: Clase responsable de la conexión con la base de datos MySQL y la ejecución de las consultas.
 - `Libro.java`: Clase que representa los objetos de tipo libro en el sistema.
 
-### ConectarDB.java
+### ConexionDB.java
 
 Esta clase maneja toda la lógica de conexión con la base de datos. Sus métodos son llamados desde `Biblioteca.java` para realizar las operaciones necesarias en la base de datos, como agregar, editar y eliminar libros.
 
 ### Biblioteca.java
 
-Es el punto de entrada del programa y coordina las interacciones entre la interfaz de usuario y la base de datos. Utiliza los métodos de `ConectarDB.java` para realizar las distintas operaciones sobre la tabla `libros`.
+Es el punto de entrada del programa y coordina las interacciones entre la interfaz de usuario y la base de datos. Utiliza los métodos de `ConexionDB.java` para realizar las distintas operaciones sobre la tabla `libros`.
 
 ## Instalación
 
 1. **Instalar MySQL y XAMPP**:
-   - Si aún no lo tiene, instale XAMPP y asegúrese de activar **MySQL**.
+   - Si aún no lo tiene, instale XAMPP y asegúrese de activar **MySQL** y **Apache**.
    
 2. **Configurar la base de datos**:
    - Cree la base de datos con el nombre `biblioteca` y la tabla `libros` que contiene la información de los libros gestionados por el sistema.
 
 3. **Configuración del proyecto**:
    - Asegúrese de que el conector JDBC esté correctamente configurado en su IDE.
-   - La clase `ConectarDB.java` será la encargada de manejar la conexión a la base de datos.
+   - La clase `ConexionDB.java` será la encargada de manejar la conexión a la base de datos.
 
 ## Funcionalidades del programa
 
