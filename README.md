@@ -1,7 +1,7 @@
 
 **PLANEACIÓN**
 - Conectar el proyecto a SpringBoot &cross;
-- Conectar el proyecto a una base de datos &check; :warning: 
+- Conectar el proyecto a una base de datos &check; 
 - crear interfaz gráfica &cross;
 - Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
@@ -20,17 +20,79 @@ ________________________________________________________________________________
 
 **MODO DE USO**
 
-En su IDE deberá generar 3 clases `Biblioteca.java`, `ConectarPHP` y `Libro.java` además de un archivo (API) en `PHP` llamado `Libros.php`.
-También hará uso de *XAMPP* deberá activar *Apache* y *MySql*.
-Una vez hecho esto (por ahora) deberá crear una base de datos con el nombre biblioteca y su tabla libros.
-Si no funciona el programa asegurse de tener la carpeta guardada en la ruta:
-*C:// --> xampp/ --> htdocs*, ahí deberá subir la carpeta completa con todos archivos adentro
-Una vez realiazado esto no deberá tener problemas con la ejecución de la biblioteca.
-El programa aun realiza el archivo .txt con los libros 
-- Aun cuenta con limitaciones
-- Ante cualquier duda puede notificar por cualquier medio
-- se dejarán imagenes guía por si las necesita en la carpeta "GUIA DE IMAGENES"
-- Si necesita más imagenes de igual forma puede hacerme llegar la notificación y añadiré pasos más detallados
+## Requisitos
+
+Para ejecutar este proyecto, es necesario:
+
+1. **Conector JDBC**: 
+   Descargue e instale el conector JDBC desde la página oficial de MySQL:  
+   [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/)
+
+2. **Base de datos MySQL**:
+   - Deberá crear una base de datos con el nombre `biblioteca`.
+   - Dentro de esta base de datos, cree una tabla `libros`.
+
+3. **Entorno de desarrollo**:
+   - Un IDE que soporte Java (Eclipse, IntelliJ IDEA, NetBeans, etc.).
+   - Asegúrese de tener el archivo JAR del conector JDBC incluido en su proyecto para que las conexiones a la base de datos funcionen correctamente.
+
+## Modo de uso
+
+En su IDE, deberá crear las siguientes clases:
+
+- `Biblioteca.java`: Clase principal del proyecto que gestiona las operaciones de la biblioteca.
+- `ConectarDB.java`: Clase responsable de la conexión con la base de datos MySQL y la ejecución de las consultas.
+- `Libro.java`: Clase que representa los objetos de tipo libro en el sistema.
+
+### ConectarDB.java
+
+Esta clase maneja toda la lógica de conexión con la base de datos. Sus métodos son llamados desde `Biblioteca.java` para realizar las operaciones necesarias en la base de datos, como agregar, editar y eliminar libros.
+
+### Biblioteca.java
+
+Es el punto de entrada del programa y coordina las interacciones entre la interfaz de usuario y la base de datos. Utiliza los métodos de `ConectarDB.java` para realizar las distintas operaciones sobre la tabla `libros`.
+
+## Instalación
+
+1. **Instalar MySQL y XAMPP**:
+   - Si aún no lo tiene, instale XAMPP y asegúrese de activar **MySQL**.
+   
+2. **Configurar la base de datos**:
+   - Cree la base de datos con el nombre `biblioteca` y la tabla `libros` que contiene la información de los libros gestionados por el sistema.
+
+3. **Configuración del proyecto**:
+   - Asegúrese de que el conector JDBC esté correctamente configurado en su IDE.
+   - La clase `ConectarDB.java` será la encargada de manejar la conexión a la base de datos.
+
+## Funcionalidades del programa
+
+- **Gestión de libros**: Agregar, editar y eliminar libros en la base de datos.
+- **Persistencia**: Aunque el proyecto ya no utiliza PHP ni archivos externos para el manejo de libros, el programa sigue generando un archivo `.txt` con los libros registrados.
+- **Conexión a base de datos**: Se realiza mediante el uso de JDBC, reemplazando la versión anterior que utilizaba un API en PHP.
+
+## Limitaciones
+
+- El programa aún presenta algunas limitaciones en cuanto a la funcionalidad completa del sistema.
+- Se pueden agregar más funcionalidades en futuras versiones.
+
+## Soporte
+
+- Ante cualquier duda o problema, puede ponerse en contacto por cualquier medio disponible.
+- En la carpeta "GUIA DE IMAGENES" se incluyen imágenes que pueden servir de ayuda para la instalación y configuración del sistema.
+
+Si necesita imágenes adicionales o pasos más detallados, no dude en hacer llegar una notificación y se actualizará la documentación con más información.
+
+### ANEXO CODIGO PARA CREAR LA TABLA EN LA BASE DE DATOS BIBLIOTECA EN PHPMYADMIN
+CREATE TABLE libros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100),
+    autor VARCHAR(50),
+    fechaPublicacion INT,
+    numPaginas INT,
+    disponible TINYINT(1),
+    isbn CHAR(13), -- Ajusta la longitud según el formato ISBN que uses
+    descripcion TEXT
+);
 
 ### NOTA 
 - TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
@@ -107,4 +169,11 @@ ________________________________________________________________________________
 - se han añadido 1 clase nueva y una API en php para la conexión a la base de datos local en phpMyAdmin, con los nombres `ConectarPHP` y `Libros`
 - Actualmente solo funciona el metodo de agregar en la base de datos
 
+_____________________________________________________________________________________
+
+10/09/2024 ---> 10:37AM
+- Se han implementado los métodos básicos del CRUD a la base de datos
+- Se ha eliminado `PHP` debido a dificultades con su conexión a la base de datos
+- La clase `ConexionDB.java` ahora realiza toda la conexión
+- se han instalado dependencias `Referenced Libraries` de *https://dev.mysql.com/downloads/connector/j/*
 
