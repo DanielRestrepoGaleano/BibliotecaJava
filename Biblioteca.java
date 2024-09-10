@@ -1,13 +1,7 @@
 import java.util.Scanner;
 import java.io.*;
 import java.util.LinkedList;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Formatter;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.LogRecord;
+import java.util.logging.*;
 
 
 
@@ -73,22 +67,27 @@ public class Biblioteca {
     }
 
     //FUNCIÓN PARA BORRAR UN LIBRO SEGÚN SU POSICIÓN DE FORMA DEFINITIVA
-    private static void borrarLibroDefinitivo(LinkedList<Libro> biblioteca, Scanner scanner) {
-        if (biblioteca.isEmpty()) {
-            LOGGER.warning("No hay libros disponibles");
-        } else {
-            LOGGER.info("Seleccione la posición del libro a eliminar:");
-            int posicionEliminar = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
-
-            if (posicionEliminar > 0 && posicionEliminar <= biblioteca.size()) {
-                biblioteca.remove(posicionEliminar - 1);
+    private static void eliminarLibro(LinkedList<Libro> biblioteca, Scanner teclado ) throws Exception {
+        if (!biblioteca.isEmpty()) {
+            posicionLibro(biblioteca);
+            LOGGER.info("Ingrese la posición del libro para eliminar" );
+            int posicion = teclado.nextInt();
+            teclado.nextLine(); // Consumir el salto de línea
+            if (posicion > 0 && posicion <= biblioteca.size()) {
+                
+                Libro libroAEliminar = biblioteca.remove(posicion - 1);
+                ConexionBD.eliminarLibro(libroAEliminar.getIsbn());
+                LOGGER.info("Libro eliminado exitosamente de la base de datos.");
+                guardarLibros(biblioteca);
+                LOGGER.info("Libro eliminado exitosamente de la base de datos.");
             } else {
-                LOGGER.warning("Posición inválida, intente nuevamente.");
+                LOGGER.warning("Posición no encontrada");
             }
-            guardarLibros(biblioteca);
+        } else {
+            LOGGER.warning("No hay libros en la biblioteca.");
         }
     }
+
 
     // FUNCION PARA GUARDAR LIBROS COMO .TXT
     private static void guardarLibros(LinkedList<Libro> biblioteca) {
@@ -180,7 +179,8 @@ private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) 
     for (int i = 0; i < cantidad; i++) {
         Libro nuevoLibro = new Libro(titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
         biblioteca.add(nuevoLibro);
-        ConectarPHP.enviarLibro(nuevoLibro);
+        ConexionBD.crearLibro(nuevoLibro);
+        LOGGER.info("Libro agregado exitosamente a la base de datos.");
     }
 
     guardarLibros(biblioteca);
@@ -188,7 +188,7 @@ private static void agregarLibro(LinkedList<Libro> biblioteca, Scanner teclado) 
 }
 
 // Nueva función para editar libros por ISBN y cantidad
-private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner teclado) {
+private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner teclado) throws Exception {
     LOGGER.info("Ingrese el ISBN de los libros a editar:");
     String isbnBuscado = teclado.nextLine();
 
@@ -196,6 +196,7 @@ private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner te
     for (Libro libro : biblioteca) {
         if (libro.getIsbn().equals(isbnBuscado)) {
             librosEncontrados.add(libro);
+           
         }
     }
 
@@ -225,15 +226,17 @@ private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner te
 
 
     // FUNCIÓN PARA EDITAR LIBROS EN FUNCIÓN DE SU POSICIÓN
-    private static void editarLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
+    private static void editarLibro(LinkedList<Libro> biblioteca, Scanner teclado) throws Exception {
         if (!biblioteca.isEmpty()) {
             posicionLibro(biblioteca);
             LOGGER.info("Ingrese la posición del libro para editar");
             int posicion = teclado.nextInt();
             teclado.nextLine(); // Consumir el salto de línea
             if (posicion > 0 && posicion <= biblioteca.size()) {
-                biblioteca.get(posicion - 1).editarLibro(teclado);
-                guardarLibros(biblioteca);
+                Libro libroAEditar = biblioteca.get(posicion - 1);
+            libroAEditar.editarLibro(teclado);
+            ConexionBD.actualizarLibro(libroAEditar.getIsbn(), libroAEditar);
+            LOGGER.info("Libro actualizado exitosamente en la base de datos.");
             } else {
                 LOGGER.warning("Posición no encontrada");
             }
@@ -287,8 +290,7 @@ private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner te
         
         int x = 1;
 
-        //Libro libro = new Libro("Título del libro", "Autor del libro", 2022, 300, true, "ISBN123456", "Descripción del libro");
-        //ConectarPHP.enviarLibro(libro);
+    
         
         do {
             LOGGER.info("Por favor presione 1 para ingresar un nuevo libro");
@@ -323,7 +325,7 @@ private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner te
                             editarLibro(biblioteca, teclado);
                             break;
                         case 6:
-                            borrarLibroDefinitivo(biblioteca, teclado);
+                            eliminarLibro(biblioteca, teclado);
                             break;
                             case 7:
                             editarLibrosPorISBN(biblioteca, teclado);
@@ -341,4 +343,6 @@ private static void editarLibrosPorISBN(LinkedList<Libro> biblioteca, Scanner te
 
         teclado.close();
     }
+
+   
 }
