@@ -10,6 +10,7 @@ import java.util.logging.LogRecord;
 
 @SuppressWarnings("unused")
 public class Libro {
+    private int id;
     private String titulo;
     private String autor;
     private int fechaPublicacion;
@@ -19,7 +20,8 @@ public class Libro {
     private String descripcion;
     
     // Constructor
-    public Libro(String titulo, String autor, int fechaPublicacion, int numPaginas, boolean disponible, String isbn, String descripcion) {
+    public Libro(int id, String titulo, String autor, int fechaPublicacion, int numPaginas, boolean disponible, String isbn, String descripcion) {
+        this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.fechaPublicacion = fechaPublicacion;
@@ -118,11 +120,18 @@ public class Libro {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
     //FUNCIÓN PARA CONVERTIR UN LIBRO EN UN TEXTO
 
     public String aTexto() {
-        return titulo + "," + autor + "," + fechaPublicacion + "," + numPaginas + "," + disponible + "," + isbn + "," + descripcion;
+        return id + "," + titulo + "," + autor + "," + fechaPublicacion + "," + numPaginas + "," + disponible + "," + isbn + "," + descripcion;
     }
 
     
@@ -130,10 +139,10 @@ public class Libro {
     //FUNCIÓN PARA CREAR UN LIBRO A PARTIR DE UNA CADENA DE TEXTO
     public static Libro aLibro(String texto) {
         String[] partes = texto.split(",");
-        if (partes.length >= 7) {
-            return new Libro(partes[0], partes[1], Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Boolean.parseBoolean(partes[4]), partes[5], partes[6]);
+        if (partes.length >= 8) {
+            return new Libro(Integer.parseInt(partes[0]), partes[1], partes[2], Integer.parseInt(partes[3]), 
+                             Integer.parseInt(partes[4]), Boolean.parseBoolean(partes[5]), partes[6], partes[7]);
         } else {
-            
             LOGGER.info("Ha ocurrido un error (INPUT STRING), por favor borre el archivo .txt y vuelva a intentar");
             return null; 
         }
@@ -191,7 +200,7 @@ public class Libro {
     
     @Override
     public String toString() {
-        return "Libro [titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion=" + fechaPublicacion + 
+        return "Libro [id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion=" + fechaPublicacion + 
                ", numPaginas=" + numPaginas + ", disponible=" + disponible + ", isbn=" + isbn + 
                ", descripcion=" + descripcion + "]";
     }
