@@ -11,3 +11,7 @@ Se muestra como debe quedar la tabla que se insertó por medio del comando SQL (
 XamppControlPanel.PNG:
 
 Se muestra el panel de control de xampp, deberá iniciar (start) los modulos de Apache y MySQL, despues presionar Admin lo que lo llevará a la página de phpMyAdmin, página donde se aloja la Base de datos
+
+SetID_1.PGN:
+
+Se muestra un comando SQL para en caso de eliminar todos los libros reiniciar sus ID en 1.
