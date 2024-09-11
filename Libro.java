@@ -139,13 +139,27 @@ public class Libro {
     //FUNCIÓN PARA CREAR UN LIBRO A PARTIR DE UNA CADENA DE TEXTO
     public static Libro aLibro(String texto) {
         String[] partes = texto.split(",");
-        if (partes.length >= 8) {
-            return new Libro(Integer.parseInt(partes[0]), partes[1], partes[2], Integer.parseInt(partes[3]), 
-                             Integer.parseInt(partes[4]), Boolean.parseBoolean(partes[5]), partes[6], partes[7]);
+        if (partes.length == 7) {
+            try {
+                String titulo = partes[0];
+                String autor = partes[1];
+                int fechaPublicacion = Integer.parseInt(partes[2]);
+                int numPaginas = Integer.parseInt(partes[3]);
+                boolean disponible = Boolean.parseBoolean(partes[4]);
+                String isbn = partes[5];
+                String descripcion = partes[6];
+                
+                // Nota: El ID se generará automáticamente en la base de datos
+                return new Libro(0, titulo, autor, fechaPublicacion, numPaginas, disponible, isbn, descripcion);
+            } catch (NumberFormatException e) {
+                LOGGER.warning("Error al convertir datos numéricos en la línea: " + texto);
+                LOGGER.warning("Mensaje de error: " + e.getMessage());
+            }
         } else {
-            LOGGER.info("Ha ocurrido un error (INPUT STRING), por favor borre el archivo .txt y vuelva a intentar");
-            return null; 
+            LOGGER.warning("Formato incorrecto en la línea: " + texto);
+            LOGGER.warning("Número de campos encontrados: " + partes.length + ", se esperaban 7");
         }
+        return null;
     }
 
     // Método para editar el libro

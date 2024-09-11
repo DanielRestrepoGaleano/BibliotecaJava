@@ -98,7 +98,8 @@ public class Biblioteca {
     private static void guardarLibros(LinkedList<Libro> biblioteca) {
         try (PrintWriter escritor = new PrintWriter(new FileWriter(ARCHIVO_LIBROS))) {
             for (Libro libro : biblioteca) {
-                escritor.println(libro.getTitulo() + "," +
+                escritor.println(libro.getId() + "," +
+                                 libro.getTitulo() + "," +
                                  libro.getAutor() + "," +
                                  libro.getfechaPublicacion() + "," +
                                  libro.getNumPaginas() + "," +
@@ -116,13 +117,17 @@ public class Biblioteca {
     private static void cargarLibros(LinkedList<Libro> biblioteca) {
         try (BufferedReader lector = new BufferedReader(new FileReader(ARCHIVO_LIBROS))) {
             String linea;
+            int lineaNumero = 0;
             while ((linea = lector.readLine()) != null) {
+                lineaNumero++;
                 Libro libro = Libro.aLibro(linea);
                 if (libro != null) {
                     biblioteca.add(libro);
+                } else {
+                    LOGGER.warning("No se pudo crear un libro a partir de la línea " + lineaNumero + ": " + linea);
                 }
             }
-            LOGGER.info("Libros cargados exitosamente. Total de libros: " + biblioteca.size() + "\n");
+            LOGGER.info("Libros cargados exitosamente. Total de libros válidos: " + biblioteca.size());
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error al cargar los libros: " + e.getMessage(), e);
         }
