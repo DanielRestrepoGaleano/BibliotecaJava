@@ -1,0 +1,13 @@
+CrearTablaLibros.PNG:
+Se muestra el ejemplo de como insertar usando SQL la tabla ´libros´ (asegurese de estar en el apartado resaltado)
+
+EjemploBD.PNG:
+Se muestra cómo debe quedar la base de datos
+
+EstructuraTablaLibros.PNG:
+
+Se muestra como debe quedar la tabla que se insertó por medio del comando SQL (Longitud de ISBN puede variar)
+
+XamppControlPanel.PNG:
+
+Se muestra el panel de control de xampp, deberá iniciar (start) los modulos de Apache y MySQL, despues presionar Admin lo que lo llevará a la página de phpMyAdmin, página donde se aloja la Base de datos
