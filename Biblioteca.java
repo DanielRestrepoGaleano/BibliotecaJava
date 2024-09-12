@@ -2,11 +2,16 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.logging.*;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class Biblioteca {
     private static final Logger LOGGER = Logger.getLogger(Biblioteca.class.getName());
+    private static Connection conexion;
+    private static GestorUsuarios gestorUsuarios;
+    private static Usuario usuarioActual;
     
     static {
         // Remover los manejadores por defecto
@@ -261,76 +266,144 @@ private static void editarLibroPorId(LinkedList<Libro> biblioteca, Scanner tecla
             return record.getMessage() + "\n";
         }
     }
+
+    //Menú de inicio
+    private static void mostrarMenuInicial(Scanner teclado) {
+        LOGGER.info("1. Iniciar sesión");
+        LOGGER.info("2. Registrarse");
+        LOGGER.info("3. Salir");
+        LOGGER.info("Seleccione una opción:");
     
+        int opcion = teclado.nextInt();
+        teclado.nextLine(); // Consumir el salto de línea
+    
+        switch (opcion) {
+            case 1:
+                iniciarSesion(teclado);
+                break;
+            case 2:
+                registrarUsuario(teclado);
+                break;
+            case 3:
+                LOGGER.info("Gracias por usar la biblioteca. ¡Hasta pronto!");
+                System.exit(0);
+            default:
+                LOGGER.warning("Opción no válida. Por favor, intente de nuevo.");
+        }
+    }
+    
+    //INICIAR SESIÓN
+    private static void iniciarSesion(Scanner teclado) {
+        LOGGER.info("Ingrese su nombre de usuario:");
+        String nombreUsuario = teclado.nextLine();
+        LOGGER.info("Ingrese su contraseña:");
+        String contrasena = teclado.nextLine();
+    
+        usuarioActual = gestorUsuarios.autenticarUsuario(nombreUsuario, contrasena);
+        if (usuarioActual != null) {
+            LOGGER.info("Inicio de sesión exitoso. Bienvenido, " + usuarioActual.getNombreUsuario());
+        } else {
+            LOGGER.warning("Nombre de usuario o contraseña incorrectos. Por favor, intente de nuevo.");
+        }
+    }
+//REGISTRAR USUARIO
+    private static void registrarUsuario(Scanner teclado) {
+        LOGGER.info("Ingrese un nombre de usuario:");
+        String nombreUsuario = teclado.nextLine();
+        LOGGER.info("Ingrese una contraseña:");
+        String contrasena = teclado.nextLine();
+        LOGGER.info("Ingrese su email:");
+        String email = teclado.nextLine();
+    
+        Usuario nuevoUsuario = new Usuario(0, nombreUsuario, contrasena, email, false);
+        if (gestorUsuarios.registrarUsuario(nuevoUsuario)) {
+            LOGGER.info("Usuario registrado exitosamente. Por favor, inicie sesión.");
+        } else {
+            LOGGER.warning("Error al registrar el usuario. Por favor, intente de nuevo.");
+        }
+    }
+
+    private static void mostrarMenuPrincipal(Scanner teclado, LinkedList<Libro> biblioteca) {
+        LOGGER.info("1. Mostrar libros");
+        LOGGER.info("2. Agregar libro");
+        LOGGER.info("3. Eliminar libro");
+        LOGGER.info("4. Editar libro");
+        LOGGER.info("5. Cambiar estado de libro");
+        LOGGER.info("6. Cerrar sesión");
+        LOGGER.info("Seleccione una opción:");
+    
+        int opcion = teclado.nextInt();
+        teclado.nextLine(); // Consumir el salto de línea
+    
+        switch (opcion) {
+            case 1:
+                mostrarLibros(biblioteca);
+                break;
+            case 2:
+                try {
+                    agregarLibro(biblioteca, teclado);
+                } catch (Exception e) {
+                    LOGGER.log(Level.SEVERE, "Error al agregar libro", e);
+                }
+                break;
+            case 3:
+                try {
+                    eliminarLibro(biblioteca, teclado);
+                } catch (Exception e) {
+                    LOGGER.log(Level.SEVERE, "Error al eliminar libro", e);
+                }
+                break;
+            case 4:
+                try {
+                    editarLibro(biblioteca, teclado);
+                } catch (Exception e) {
+                    LOGGER.log(Level.SEVERE, "Error al editar libro", e);
+                }
+                break;
+            case 5:
+                cambiarEstado(biblioteca, teclado);
+                break;
+            case 6:
+                usuarioActual = null;
+                LOGGER.info("Sesión cerrada.");
+                break;
+            default:
+                LOGGER.warning("Opción no válida. Por favor, intente de nuevo.");
+        }
+    }
+
+
   
     public static void main(String[] args) throws Exception {
         
-        Scanner teclado = new Scanner(System.in);
-        LinkedList<Libro> biblioteca = new LinkedList<>();
-        cargarLibros(biblioteca);
-        removeDefaultHandlers(LOGGER);
-        LOGGER.setUseParentHandlers(false);
-        CustomFormatter formatter = new CustomFormatter();
-
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setFormatter(formatter);
-        LOGGER.addHandler(handler);
-        
-        int x = 1;
-
+        try {
+            // Establecer conexión con la base de datos
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
+            gestorUsuarios = new GestorUsuarios(conexion);
     
-        
-        do {
-            LOGGER.info("Por favor presione 1 para ingresar un nuevo libro");
-            LOGGER.info("Por favor presione 2 para ver la lista de libros");
-            LOGGER.info("Por favor presione 3 para ver la posición de los libros");
-            LOGGER.info("Por favor presione 4 para cambiar el estado del libro");
-            LOGGER.info("Por favor presione 5 para editar un libro");
-            LOGGER.info("Por favor presione 6 para borrar de forma definitiva un libro de la lista");
-            LOGGER.info("Por favor presione 7 para editar libros por ID");
-            LOGGER.info("Por favor presione 0 para salir\n");
-            LOGGER.info("Ingrese su opción");
-
-            String input = teclado.nextLine();
-
-            try {
-                x = Integer.parseInt(input);
-                if (x != 0) {
-                    switch (x) {
-                        case 1:
-                            agregarLibro(biblioteca, teclado);
-                            break;
-                        case 2:
-                            mostrarLibros(biblioteca);
-                            break;
-                        case 3:
-                            posicionLibro(biblioteca);
-                            break;
-                        case 4:
-                            cambiarEstado(biblioteca, teclado);
-                            break;
-                        case 5:
-                            editarLibro(biblioteca, teclado);
-                            break;
-                        case 6:
-                            eliminarLibro(biblioteca, teclado);
-                            break;
-                            case 7:
-                            editarLibroPorId(biblioteca, teclado);
-                            break;
-                        
-                        default:
-                            LOGGER.warning("Opción inválida. Intente nuevamente.");
-                    }
+            Scanner teclado = new Scanner(System.in);
+            LinkedList<Libro> biblioteca = new LinkedList<>();
+            cargarLibros(biblioteca);
+    
+            while (true) {
+                if (usuarioActual == null) {
+                    mostrarMenuInicial(teclado);  // Mostrar menú de login/registro
+                } else {
+                    mostrarMenuPrincipal(teclado, biblioteca);  // Mostrar menú principal solo si el usuario está autenticado
                 }
-            } catch (NumberFormatException e) {
-                LOGGER.warning("Entrada inválida. Por favor ingrese un número.");
             }
-
-        } while (x != 0);
-
-        teclado.close();
+    
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error al conectar con la base de datos", e);
+        } finally {
+            if (conexion != null) {
+                try {
+                    conexion.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error al cerrar la conexión", e);
+                }
+            }
+        }
     }
-
    
 }
