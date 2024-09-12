@@ -103,8 +103,7 @@ public class Biblioteca {
     private static void guardarLibros(LinkedList<Libro> biblioteca) {
         try (PrintWriter escritor = new PrintWriter(new FileWriter(ARCHIVO_LIBROS))) {
             for (Libro libro : biblioteca) {
-                escritor.println(libro.getId() + "," +
-                                 libro.getTitulo() + "," +
+                escritor.println(libro.getTitulo() + "," +
                                  libro.getAutor() + "," +
                                  libro.getfechaPublicacion() + "," +
                                  libro.getNumPaginas() + "," +

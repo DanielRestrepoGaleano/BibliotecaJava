@@ -6,6 +6,7 @@
 - Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;
+- Crear una clase para el prestamo de un libro a un usuario &cross; :warning:
 
 
 ________________________________________________________________________________
@@ -15,6 +16,7 @@ ________________________________________________________________________________
 Este repositorio contiene un software de gestión de biblioteca que se conecta a una base de datos MySQL a través de JDBC y gestiona las operaciones de CRUD (Crear, Leer, Actualizar, Eliminar) para los libros. También cuenta con una persistencia en archivos .txt como respaldo.
 
 El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyAdmin**, y el conector JDBC para interactuar con la base de datos desde Java.
+
 
 
 ________________________________________________________________________________
