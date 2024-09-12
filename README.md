@@ -1,5 +1,5 @@
 
-**PLANEACIÓN**
+# **PLANEACIÓN**
 - Conectar el proyecto a SpringBoot &cross;
 - Conectar el proyecto a una base de datos &check; 
 - crear interfaz gráfica &cross;
@@ -11,7 +11,7 @@
 ________________________________________________________________________________
 
 
-**DESCRIPCIÓN ACTUAL**
+# **DESCRIPCIÓN ACTUAL**
 Este repositorio contiene un software de gestión de biblioteca que se conecta a una base de datos MySQL a través de JDBC y gestiona las operaciones de CRUD (Crear, Leer, Actualizar, Eliminar) para los libros. También cuenta con una persistencia en archivos .txt como respaldo.
 
 El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyAdmin**, y el conector JDBC para interactuar con la base de datos desde Java.
@@ -19,7 +19,7 @@ El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyA
 
 ________________________________________________________________________________
 
-**MODO DE USO**
+# **MODO DE USO**
 
 ## Requisitos
 
@@ -37,7 +37,7 @@ Para ejecutar este proyecto, es necesario:
    - Un IDE que soporte Java (Eclipse, IntelliJ IDEA, NetBeans, etc.).
    - Asegúrese de tener el archivo JAR del conector JDBC incluido en su proyecto para que las conexiones a la base de datos funcionen correctamente.
 
-## Modo de uso
+### Modo de uso
 
 En su IDE, deberá crear las siguientes clases:
 
@@ -95,8 +95,9 @@ CREATE TABLE libros (
     descripcion TEXT
 );
 
-### NOTA 
+#### NOTAS 
 - TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
+- web utilizado para el diagrama de clases [mermaid](https://mermaid.live/)
 
 _________________________________________________________________________________
 
@@ -116,7 +117,7 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________
 
-**ERRORES CONOCIDOS**
+# **ERRORES CONOCIDOS**
 Hasta el momento no se han identificado más errores
 __________________________________________________________________________________
 **PROGRESO ACUTAL CON LOS ERRORES**
@@ -131,18 +132,16 @@ No hay errores con el guardado y cargado de libros actualmente
 
 __________________________________________________________________________________
 
- **CAMBIOS**
+ # **CAMBIOS**
 __________________________________________________________  
 08/08/2024----3:00pm
 
-Cambios en el programa: 
 - Se realizaron cambios en la estructura de las funciones
 - Se les dio nombres más claros y fueron enviadas a las clases correspondienes para cada función
 
 ____________________________________________________________ 
 08/08/2024--10:50pm
 
-Siguiente actualización planeada:
 - se realizará el guardado de libros a un archivo .txt a modo de BD temporal.
 
 _________________________________________________________________________________
@@ -162,19 +161,32 @@ ________________________________________________________________________________
 _____________________________________________________________________________________
 
 4/09/2024 ----> 5:30pm
+
 - se realizó un cambio en todos los `System.out`, fueron cambiados por `LOGGERS` para manter una mayor organización del código
 
 _____________________________________________________________________________________
 
 7/09/2024 ----> 10:30pm
+
 - se han añadido 1 clase nueva y una API en php para la conexión a la base de datos local en phpMyAdmin, con los nombres `ConectarPHP` y `Libros`
 - Actualmente solo funciona el metodo de agregar en la base de datos
 
 _____________________________________________________________________________________
 
-10/09/2024 ---> 10:37AM
+10/09/2024 ---> 10:37am
+
 - Se han implementado los métodos básicos del CRUD a la base de datos
 - Se ha eliminado `PHP` debido a dificultades con su conexión a la base de datos
 - La clase `ConexionDB.java` ahora realiza toda la conexión
-- se han instalado dependencias `Referenced Libraries` de *https://dev.mysql.com/downloads/connector/j/*
+- se han instalado dependencias `Referenced Libraries` de *https://dev.mysql.com/downloads/connector/j/
+
+_____________________________________________________________________________________
+
+11/09/2024 --> 10:45am
+
+- Se ha arreglado el método para editar los libros en la BD
+
+---> 5:47pm
+
+- Se ha añadido el loggin de usuarios junto con su respectiva conexion a la BD
 
