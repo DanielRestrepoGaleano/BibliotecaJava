@@ -8,6 +8,8 @@
 - Crear base de datos simulada con archivo .txt &check;
 - Crear una clase para el prestamo de un libro a un usuario &cross; :warning:
 
+# NOTA TEMPORAL IMPORTANTE
+_**Actualmente se están realizando cambios significativos en el proyecto, incluyendo la implementación de la funcionalidad de préstamos, la corrección de errores menores en la persistencia de datos y conexiones. Se espera que estos cambios estén finalizados en un tiempo estimado de 5. Durante este período, es posible que se encuentren algunas inconsistencias o funcionalidades incompletas. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización a más tardar el martes 17/09/2024**_
 
 ________________________________________________________________________________
 
@@ -100,6 +102,8 @@ CREATE TABLE libros (
 #### NOTAS 
 - TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
 - web utilizado para el diagrama de clases [mermaid](https://mermaid.live/)
+-   No se usa (por el momento) SRP  [Single Responsibility Principle](https://www.baeldung.com/java-single-responsibility-principle) (Principio de responsabilidad unica)[https://trbl-services.eu/blog-solid-single-responsability/#:~:text=Este%20principio%20establece%20que%20cada,la%20finalidad%20de%20la%20clase.]
+
 
 _________________________________________________________________________________
 
