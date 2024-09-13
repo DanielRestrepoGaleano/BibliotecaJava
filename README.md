@@ -9,7 +9,7 @@
 - Crear una clase para el prestamo de un libro a un usuario &cross; :warning:
 
 # NOTA TEMPORAL IMPORTANTE
-_**Actualmente se están realizando cambios significativos en el proyecto, incluyendo la implementación de la funcionalidad de préstamos, la corrección de errores menores en la persistencia de datos y conexiones. Se espera que estos cambios estén finalizados en un tiempo estimado de 5. Durante este período, es posible que se encuentren algunas inconsistencias o funcionalidades incompletas. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización a más tardar el martes 17/09/2024**_
+_**Actualmente se están realizando cambios significativos en el proyecto, incluyendo la implementación de la funcionalidad de préstamos, la corrección de errores menores en la persistencia de datos y conexiones (Estos cambios no afectan la funcionalidad actual del proyecto). Se espera que estos cambios estén finalizados en un tiempo estimado de 5. Durante este período, es posible que se encuentren algunas inconsistencias o funcionalidades incompletas. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización a más tardar el martes 17/09/2024**_
 
 ________________________________________________________________________________
 
