@@ -435,49 +435,59 @@ public class Biblioteca {
  * la entrada del usuario durante el proceso de realizar un préstamo. La clase `Scanner` en Java se usa para obtener 
  * entrada de tipos primitivos como int, double, etc.
  */
-    private static void realizarPrestamo(Scanner teclado) throws SQLException {
-        if (usuarioActual == null || !usuarioActual.esAdministrador()) {
-            LOGGER.warning("Solo los administradores pueden realizar préstamos.");
-            return;
-        }
-
-        LOGGER.info("Ingrese el nombre del usuario:");
-        String nombreUsuario = teclado.nextLine();
-
-        LOGGER.info("Ingrese el documento del usuario:");
-        String documento = teclado.nextLine();
-
-        LOGGER.info("Ingrese el ID del libro a prestar:");
-        int idLibro = teclado.nextInt();
-        teclado.nextLine(); // Consumir el salto de línea
-
-        Libro libro = ConexionBD.leerLibro(idLibro);
-        if (libro == null) {
-            LOGGER.warning("No se encontró un libro con el ID proporcionado.");
-            return;
-        }
-
-        if (!libro.isDisponible()) {
-            LOGGER.warning("El libro seleccionado no está disponible para préstamo.");
-            return;
-        }
-
-        Prestamo prestamo = new Prestamo(
-                0, // El ID se generará automáticamente en la base de datos
-                nombreUsuario,
-                documento,
-                libro.getId(),
-                libro.getIsbn(),
-                libro.getTitulo(),
-                libro.getAutor(),
-                new Date(System.currentTimeMillis()) // Fecha actual
-        );
-
-        ConexionBD.crearPrestamo(prestamo);
-        ConexionBD.actualizarDisponibilidadLibro(libro.getId(), false);
-
-        LOGGER.info("Préstamo realizado con éxito. ID del préstamo: " + prestamo.getId());
+private static void realizarPrestamo(Scanner teclado, LinkedList<Libro> biblioteca) throws SQLException {
+    if (usuarioActual == null || !usuarioActual.esAdministrador()) {
+        LOGGER.warning("Solo los administradores pueden realizar préstamos.");
+        return;
     }
+
+    LOGGER.info("Ingrese el nombre del usuario:");
+    String nombreUsuario = teclado.nextLine();
+
+    LOGGER.info("Ingrese el documento del usuario:");
+    String documento = teclado.nextLine();
+
+    LOGGER.info("Ingrese el ID del libro a prestar:");
+    int idLibro = teclado.nextInt();
+    teclado.nextLine(); // Consumir el salto de línea
+
+    Libro libro = ConexionBD.leerLibro(idLibro);
+    if (libro == null) {
+        LOGGER.warning("No se encontró un libro con el ID proporcionado.");
+        return;
+    }
+
+    if (!libro.isDisponible()) {
+        LOGGER.warning("El libro seleccionado no está disponible para préstamo.");
+        return;
+    }
+
+    Prestamo prestamo = new Prestamo(
+            0, // El ID se generará automáticamente en la base de datos
+            nombreUsuario,
+            documento,
+            libro.getId(),
+            libro.getIsbn(),
+            libro.getTitulo(),
+            libro.getAutor(),
+            new Date(System.currentTimeMillis()) // Fecha actual
+    );
+
+    ConexionBD.crearPrestamo(prestamo);
+    ConexionBD.actualizarDisponibilidadLibro(libro.getId(), false);
+
+    // Actualizar la disponibilidad del libro en la lista y en el archivo
+    for (Libro l : biblioteca) {
+        if (l.getId() == libro.getId()) {
+            l.setDisponible(false);
+            break;
+        }
+    }
+    guardarLibros(biblioteca);
+
+    LOGGER.info("Préstamo realizado con éxito. ID del préstamo: " + prestamo.getId());
+    LOGGER.info("El libro ha sido marcado como no disponible en la base de datos y en el archivo.");
+}
 
    
 /**
@@ -543,7 +553,7 @@ public class Biblioteca {
             case 7:
                 if (usuarioActual.esAdministrador()) {
                     try {
-                        realizarPrestamo(teclado);
+                        realizarPrestamo(teclado, biblioteca);
                     } catch (SQLException e) {
                         LOGGER.log(Level.SEVERE, "Error al realizar el préstamo", e);
                     }
