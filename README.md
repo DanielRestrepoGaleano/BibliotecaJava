@@ -7,11 +7,11 @@
 - Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;
-- Crear una clase para el prestamo de un libro a un usuario &cross; :warning:
+- Crear una clase para el préstamo de un libro a un usuario &cross; :warning:
 
 # NOTA TEMPORAL IMPORTANTE
 
-_**Actualmente se están realizando cambios significativos en el proyecto, incluyendo la implementación de la funcionalidad de préstamos, la corrección de errores menores en la persistencia de datos y conexiones (Estos cambios no afectan la funcionalidad actual del proyecto). Se espera que estos cambios estén finalizados en un tiempo estimado de 5. Durante este período, es posible que se encuentren algunas inconsistencias o funcionalidades incompletas. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización a más tardar el martes 17/09/2024**_
+_**Este documento y el software asociado se encuentran actualmente en desarrollo. Se están realizando correcciones de errores lógicos, como la duplicación de usuarios con misma identificación en la base de datos, mejoras para el loggin y se está trabajando en una actualización completa de la documentación. Recomiendo esperar a la versión final para un uso óptimo, en todo caso esta versión funciona bien. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización completa a más tardar el martes 17/09/2024**_
 
 ---
 
@@ -87,20 +87,7 @@ Es el punto de entrada del programa y coordina las interacciones entre la interf
 
 Si necesita imágenes adicionales o pasos más detallados, no dude en hacer llegar una notificación y se actualizará la documentación con más información.
 
-### ANEXO CODIGO PARA CREAR LA TABLA EN LA BASE DE DATOS BIBLIOTECA EN PHPMYADMIN
-
-CREATE TABLE libros (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(100),
-    autor VARCHAR(50),
-    fechaPublicacion INT,
-    numPaginas INT,
-    disponible TINYINT(1),
-    isbn CHAR(13), -- Ajusta la longitud según el formato ISBN que uses
-    descripcion TEXT
-);
-
-#### NOTAS
+### NOTAS
 
 - TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
 - web utilizado para el diagrama de clases [mermaid](https://mermaid.live/)
@@ -199,3 +186,11 @@ No hay errores con el guardado y cargado de libros actualmente
 ---> 5:47pm
 
 - Se ha añadido el loggin de usuarios junto con su respectiva conexion a la BD
+
+---
+
+14/09/2024 --> 11:03pm
+
+- Se ha implementado el préstamo de libros
+- Nueva tabla `libros` en la base de datos
+- Se ha actualizado la documentación del código con javadoc
