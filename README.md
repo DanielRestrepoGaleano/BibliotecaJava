@@ -11,7 +11,7 @@
 
 # NOTA TEMPORAL IMPORTANTE
 
-_**Este documento y el software asociado se encuentran actualmente en desarrollo. Se están realizando correcciones de errores lógicos, como la duplicación de usuarios con misma identificación en la base de datos, mejoras para el loggin y se está trabajando en una actualización completa de la documentación. Recomiendo esperar a la versión final para un uso óptimo, en todo caso esta versión funciona bien. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización completa a más tardar el martes 17/09/2024**_
+_**Este documento y el software asociado se encuentran actualmente en desarrollo. Se están realizando los ultimos arreglos en la lógica de los prestamos, el programa funciona bien y puede ser utilizado si lo desea. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización completa a más tardar el martes 17/09/2024**_
 
 ---
 
@@ -83,6 +83,8 @@ Es el punto de entrada del programa y coordina las interacciones entre la interf
 ## Soporte
 
 - Ante cualquier duda o problema, puede ponerse en contacto por cualquier medio disponible.
+- [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues)
+- [PQRS](https://forms.gle/1n5mkZnrr2H9d5Q67)
 - En la carpeta "GUIA DE IMAGENES" se incluyen imágenes que pueden servir de ayuda para la instalación y configuración del sistema.
 
 Si necesita imágenes adicionales o pasos más detallados, no dude en hacer llegar una notificación y se actualizará la documentación con más información.
@@ -106,7 +108,7 @@ Si necesita imágenes adicionales o pasos más detallados, no dude en hacer lleg
 - Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad. &check;
 - Error identificado: cuando se edita la fecha de publicación de un libro, se cierra el programa y seguidamente se vuelve a ejecutar como la fecha se cambia en la terminal pero no el txt, generando el siguiente error `NumberFormatException.forInputString(NumberFormatException)` &check;
 - El método de guardado no funciona correctamente, ya que una vez se cierra el programa
-      intenta cargar libros que no existen en la terminal &check;
+  intenta cargar libros que no existen en la terminal &check;
 
 ---
 
@@ -191,6 +193,18 @@ No hay errores con el guardado y cargado de libros actualmente
 
 14/09/2024 --> 11:03pm
 
-- Se ha implementado el préstamo de libros
-- Nueva tabla `libros` en la base de datos
-- Se ha actualizado la documentación del código con javadoc
+- Se ha implementado el préstamo de libros.
+- Nueva tabla `libros` en la base de datos.
+- Se ha actualizado la documentación del código con javadoc.
+
+14/09/2024 --> 5:34pm
+
+- Se ha actualizado la documentación.
+- Se ha mejorado la guia de las imagenes.
+
+15/09/2024 --> 9:21pm
+
+- Se ha implementado un sistema de prestamos beta
+- Se ha actualizado toda la documetación
+- Se ha mejorado el loggin de los usarios
+- Se ha agregado un sistema de busqueda de libros
