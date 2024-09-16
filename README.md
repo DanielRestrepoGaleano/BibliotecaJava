@@ -84,7 +84,7 @@ Es el punto de entrada del programa y coordina las interacciones entre la interf
 
 - Ante cualquier duda o problema, puede ponerse en contacto por cualquier medio disponible.
 - [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues)
-- [PQRS](https://forms.gle/1n5mkZnrr2H9d5Q67)
+- [PQRS](https://docs.google.com/forms/d/1OxRtiVPGTAUtvkKE_opcWedZ7b5dZMVU5F3T7YdZRw0)
 - En la carpeta "GUIA DE IMAGENES" se incluyen imágenes que pueden servir de ayuda para la instalación y configuración del sistema.
 
 Si necesita imágenes adicionales o pasos más detallados, no dude en hacer llegar una notificación y se actualizará la documentación con más información.
