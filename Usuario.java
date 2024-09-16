@@ -9,19 +9,26 @@ public class Usuario {
     private String nombreUsuario;
     private String contrasena;
     private String email;
+    private String documento;
     private boolean esAdministrador;
-    
-    // Este parte del código es el constructor de la clase `Prestamo` en Java. Es un método especial que
-    // se llama cuando se crea una nueva instancia de la clase.
-    public Usuario(int id, String nombreUsuario, String contrasena, String email, boolean esAdministrador) {
+
+    public Usuario(int id, String nombreUsuario, String contrasena, String email, String documento, boolean esAdministrador) {
         this.id = id;
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
         this.email = email;
+        this.documento = documento;
         this.esAdministrador = esAdministrador;
     }
 
     // Getters y setters
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
     public int getId() {
         return id;
     }

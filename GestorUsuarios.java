@@ -72,7 +72,7 @@ public class GestorUsuarios {
                             rs.getString("nombre_usuario"),
                             rs.getString("contrasena"),
                             rs.getString("email"),
-                            rs.getBoolean("es_administrador"));
+                            sql, rs.getBoolean("es_administrador"));
                 }
             }
         } catch (SQLException e) {
