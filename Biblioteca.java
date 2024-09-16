@@ -3,6 +3,7 @@ package ORIENTADOAOBJETOS;
 import java.util.Scanner;
 import java.io.*;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.*;
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
  * prestamos
  * 
  * @autor Daniel Restrepo Galeano
- * @version 1.0
+ * @version 1.0A
  */
 public class Biblioteca {
     // Logger para la clase
@@ -268,16 +269,19 @@ public class Biblioteca {
 
     }
 
-
-/**
- * La función `editarLibro` permite editar un libro actualizando su 
- * información en la base de datos despues de seleccionar la posición.
- * 
- * @param biblioteca biblioteca es una LinkedList que contiene objetos de tipo libro.
- * @param teclado el párametro `teclado` en el método `editarLibro` es tipo `Scanner`. este
- * párametro es usado para leer el input del usuario, como la posicion del libro a editar. la
- * clase `Scanner` en Java se usa para obtener datos primitivos por consola,
- */
+    /**
+     * La función `editarLibro` permite editar un libro actualizando su
+     * información en la base de datos despues de seleccionar la posición.
+     * 
+     * @param biblioteca biblioteca es una LinkedList que contiene objetos de tipo
+     *                   libro.
+     * @param teclado    el párametro `teclado` en el método `editarLibro` es tipo
+     *                   `Scanner`. este
+     *                   párametro es usado para leer el input del usuario, como la
+     *                   posicion del libro a editar. la
+     *                   clase `Scanner` en Java se usa para obtener datos
+     *                   primitivos por consola,
+     */
     private static void editarLibro(LinkedList<Libro> biblioteca, Scanner teclado) throws Exception {
         if (!biblioteca.isEmpty()) {
             posicionLibro(biblioteca);
@@ -298,15 +302,18 @@ public class Biblioteca {
         }
     }
 
-  /**
-   * esta función cambia la disponibilidad de un libro basado en el
-   * input.
-   * 
-   * @param biblioteca `biblioteca` es una LinkedList que contiene objetos de tipo Libro.
-   * @param teclado el párametro `teclado` en el método `cambiarEstado` es de tipo `Scanner`. es
-   * usadp para leer el input, seleccionando el número del libro para
-   * (ocultar/mostrar).
-   */
+    /**
+     * esta función cambia la disponibilidad de un libro basado en el
+     * input.
+     * 
+     * @param biblioteca `biblioteca` es una LinkedList que contiene objetos de tipo
+     *                   Libro.
+     * @param teclado    el párametro `teclado` en el método `cambiarEstado` es de
+     *                   tipo `Scanner`. es
+     *                   usadp para leer el input, seleccionando el número del libro
+     *                   para
+     *                   (ocultar/mostrar).
+     */
     private static void cambiarEstado(LinkedList<Libro> biblioteca, Scanner teclado) {
         posicionLibro(biblioteca);
         LOGGER.info("Seleccione el número del libro para cambiar su estado (ocultar/mostrar):");
@@ -321,11 +328,12 @@ public class Biblioteca {
         guardarLibros(biblioteca); // Guardar después de cambiar el estado
     }
 
-  /**
-   * la función `removeDefaultHandlers` revueme todos los manejadores del Logger dado como instancia
-   * 
-   * @param logger el párametro `logger` es una instancia de la clase `Logger`.
-   */
+    /**
+     * la función `removeDefaultHandlers` revueme todos los manejadores del Logger
+     * dado como instancia
+     * 
+     * @param logger el párametro `logger` es una instancia de la clase `Logger`.
+     */
     private static void removeDefaultHandlers(Logger logger) {
         Handler[] handlers = logger.getHandlers();
         for (Handler handler : handlers) {
@@ -333,10 +341,11 @@ public class Biblioteca {
         }
     }
 
-/**
- * la clase CustomFormatter extiende a SimpleFormatter y sobreescribe el formato del método y devuelve el log
- * record.
- */
+    /**
+     * la clase CustomFormatter extiende a SimpleFormatter y sobreescribe el formato
+     * del método y devuelve el log
+     * record.
+     */
     static class CustomFormatter extends SimpleFormatter {
         @Override
         public String format(LogRecord record) {
@@ -379,14 +388,14 @@ public class Biblioteca {
         }
     }
 
- /**
-  * la función `iniciarSesion` pide usuario y contraseña, intentando
-  * autenticar al usuario.
-  * 
-  * @param teclado `teclado` es un objeto de `Scanner` usado para leer el input
-  * en el método `iniciarSesion`,es usado para leer el usuario y
-  * contraseña durante el proceso de inicio.
-  */
+    /**
+     * la función `iniciarSesion` pide usuario y contraseña, intentando
+     * autenticar al usuario.
+     * 
+     * @param teclado `teclado` es un objeto de `Scanner` usado para leer el input
+     *                en el método `iniciarSesion`,es usado para leer el usuario y
+     *                contraseña durante el proceso de inicio.
+     */
     private static void iniciarSesion(Scanner teclado) {
         LOGGER.info("Ingrese su nombre de usuario:");
         String nombreUsuario = teclado.nextLine();
@@ -401,15 +410,21 @@ public class Biblioteca {
         }
     }
 
-/**
- * La función `registrarUsuario` solicita al usuario que ingrese un nombre de usuario, una contraseña y un correo electrónico, 
- * crea un nuevo objeto `Usuario` con la información proporcionada e intenta registrar al usuario utilizando un 
- * objeto `gestorUsuarios`, registrando mensajes de éxito o fallo según corresponda.
- * 
- * @param teclado `teclado` es un objeto `Scanner` que se utiliza para leer la entrada del usuario en el método 
- * `registrarUsuario`. Generalmente se usa para leer la entrada del usuario desde la consola u otra fuente de entrada.
- * En este método, `teclado` se utiliza para leer la entrada del usuario.
- */
+    /**
+     * La función `registrarUsuario` solicita al usuario que ingrese un nombre de
+     * usuario, una contraseña y un correo electrónico,
+     * crea un nuevo objeto `Usuario` con la información proporcionada e intenta
+     * registrar al usuario utilizando un
+     * objeto `gestorUsuarios`, registrando mensajes de éxito o fallo según
+     * corresponda.
+     * 
+     * @param teclado `teclado` es un objeto `Scanner` que se utiliza para leer la
+     *                entrada del usuario en el método
+     *                `registrarUsuario`. Generalmente se usa para leer la entrada
+     *                del usuario desde la consola u otra fuente de entrada.
+     *                En este método, `teclado` se utiliza para leer la entrada del
+     *                usuario.
+     */
     private static void registrarUsuario(Scanner teclado) {
         LOGGER.info("Ingrese un nombre de usuario:");
         String nombreUsuario = teclado.nextLine();
@@ -418,7 +433,7 @@ public class Biblioteca {
         LOGGER.info("Ingrese su email:");
         String email = teclado.nextLine();
 
-        Usuario nuevoUsuario = new Usuario(0, nombreUsuario, contrasena, email, false);
+        Usuario nuevoUsuario = new Usuario(0, nombreUsuario, contrasena, email, email, false);
         if (gestorUsuarios.registrarUsuario(nuevoUsuario)) {
             LOGGER.info("Usuario registrado exitosamente. Por favor, inicie sesión.");
         } else {
@@ -426,83 +441,155 @@ public class Biblioteca {
         }
     }
 
-   
- /**
- * La función `realizarPrestamo` permite a un administrador crear un préstamo ingresando la información 
- * del usuario y del libro, verificando la disponibilidad y actualizando la base de datos en consecuencia.
- * 
- * @param teclado El parámetro `teclado` en el método `realizarPrestamo` es de tipo `Scanner`. Se utiliza para leer 
- * la entrada del usuario durante el proceso de realizar un préstamo. La clase `Scanner` en Java se usa para obtener 
- * entrada de tipos primitivos como int, double, etc.
- */
-private static void realizarPrestamo(Scanner teclado, LinkedList<Libro> biblioteca) throws SQLException {
-    if (usuarioActual == null || !usuarioActual.esAdministrador()) {
-        LOGGER.warning("Solo los administradores pueden realizar préstamos.");
-        return;
+    /**
+     * La función `realizarPrestamo` en Java permite a un administrador crear un
+     * nuevo préstamo de un libro a un usuario,
+     * manejando la información del usuario y del libro, creando un registro de
+     * préstamo, actualizando la disponibilidad del libro y
+     * registrando la transacción.
+     * 
+     * @param teclado    `teclado` es un objeto `Scanner` utilizado para leer la
+     *                   entrada del usuario.
+     * @param biblioteca El método `realizarPrestamo` toma dos parámetros:
+     */
+    private static void realizarPrestamo(Scanner teclado, LinkedList<Libro> biblioteca) throws SQLException {
+        if (usuarioActual == null || !usuarioActual.esAdministrador()) {
+            LOGGER.warning("Solo los administradores pueden realizar préstamos.");
+            return;
+        }
+
+        LOGGER.info("Ingrese el documento del usuario:");
+        String documento = teclado.nextLine();
+
+        Usuario usuario = ConexionBD.buscarUsuarioPorDocumento(documento);
+        if (usuario == null) {
+            LOGGER.info("Usuario no encontrado. Por favor, registre al nuevo usuario.");
+            LOGGER.info("Ingrese el nombre del usuario:");
+            String nombreUsuario = teclado.nextLine();
+            LOGGER.info("Ingrese el email del usuario:");
+            String email = teclado.nextLine();
+
+            usuario = new Usuario(0, nombreUsuario, "", email, documento, false);
+            if (!ConexionBD.crearUsuario(usuario)) {
+                LOGGER.warning("No se pudo crear el usuario. Abortando el préstamo.");
+                return;
+            }
+            LOGGER.info("Nuevo usuario registrado exitosamente.");
+        } else {
+            LOGGER.info("Usuario encontrado: " + usuario.getNombreUsuario());
+        }
+
+        LOGGER.info("Ingrese el ID del libro a prestar:");
+        int idLibro = teclado.nextInt();
+        teclado.nextLine(); // Consumir el salto de línea
+
+        Libro libro = ConexionBD.leerLibro(idLibro);
+        if (libro == null) {
+            LOGGER.warning("No se encontró un libro con el ID proporcionado.");
+            return;
+        }
+
+        if (!libro.isDisponible()) {
+            LOGGER.warning("El libro seleccionado no está disponible para préstamo.");
+            return;
+        }
+
+        Prestamo prestamo = new Prestamo(
+                0, // El ID se generará automáticamente en la base de datos
+                usuario.getNombreUsuario(),
+                usuario.getDocumento(),
+                libro.getId(),
+                libro.getIsbn(),
+                libro.getTitulo(),
+                libro.getAutor(),
+                new Date(System.currentTimeMillis()) // Fecha actual
+        );
+
+        ConexionBD.crearPrestamo(prestamo);
+        ConexionBD.actualizarDisponibilidadLibro(libro.getId(), false);
+
+        // Actualizar la disponibilidad del libro en la lista y en el archivo
+        for (Libro l : biblioteca) {
+            if (l.getId() == libro.getId()) {
+                l.setDisponible(false);
+                break;
+            }
+        }
+        guardarLibros(biblioteca);
+
+        LOGGER.info("Préstamo realizado con éxito. ID del préstamo: " + prestamo.getId());
+        LOGGER.info("El libro ha sido marcado como no disponible en la base de datos y en el archivo.");
     }
 
-    LOGGER.info("Ingrese el nombre del usuario:");
-    String nombreUsuario = teclado.nextLine();
+    /**
+     * Esta función Java `devolverLibro` maneja el proceso de devolución de un
+     * libro, incluyendo la validación de entrada,
+     * búsqueda de un préstamo activo, registro de la devolución y actualización de
+     * la disponibilidad del libro en un sistema de biblioteca.
+     * 
+     * @param biblioteca LinkedList<Libro> biblioteca: Una lista enlazada que
+     *                   contiene objetos de la clase Libro, que probablemente
+     *                   representa la colección de libros de una biblioteca.
+     * @param teclado    El parámetro `teclado` en el método `devolverLibro` es un
+     *                   objeto `Scanner` utilizado para leer la entrada del
+     *                   usuario. Se pasa como argumento al método para permitir que
+     *                   el usuario ingrese la información necesaria, como el nombre
+     *                   del usuario, documento e ID del libro.
+     */
+    private static void devolverLibro(LinkedList<Libro> biblioteca, Scanner teclado) {
+        try {
+            LOGGER.info("Ingrese el nombre del usuario:");
+            String nombreUsuario = teclado.nextLine();
 
-    LOGGER.info("Ingrese el documento del usuario:");
-    String documento = teclado.nextLine();
+            LOGGER.info("Ingrese el documento del usuario:");
+            String documento = teclado.nextLine();
 
-    LOGGER.info("Ingrese el ID del libro a prestar:");
-    int idLibro = teclado.nextInt();
-    teclado.nextLine(); // Consumir el salto de línea
+            LOGGER.info("Ingrese el ID del libro a devolver:");
+            int idLibro = teclado.nextInt();
+            teclado.nextLine(); // Consumir el salto de línea
 
-    Libro libro = ConexionBD.leerLibro(idLibro);
-    if (libro == null) {
-        LOGGER.warning("No se encontró un libro con el ID proporcionado.");
-        return;
-    }
+            // Buscar el préstamo correspondiente
+            Prestamo prestamo = ConexionBD.buscarPrestamoActivo(nombreUsuario, documento, idLibro);
 
-    if (!libro.isDisponible()) {
-        LOGGER.warning("El libro seleccionado no está disponible para préstamo.");
-        return;
-    }
+            if (prestamo != null) {
+                // Registrar la devolución
+                ConexionBD.registrarDevolucion(prestamo.getId());
 
-    Prestamo prestamo = new Prestamo(
-            0, // El ID se generará automáticamente en la base de datos
-            nombreUsuario,
-            documento,
-            libro.getId(),
-            libro.getIsbn(),
-            libro.getTitulo(),
-            libro.getAutor(),
-            new Date(System.currentTimeMillis()) // Fecha actual
-    );
-
-    ConexionBD.crearPrestamo(prestamo);
-    ConexionBD.actualizarDisponibilidadLibro(libro.getId(), false);
-
-    // Actualizar la disponibilidad del libro en la lista y en el archivo
-    for (Libro l : biblioteca) {
-        if (l.getId() == libro.getId()) {
-            l.setDisponible(false);
-            break;
+                // Actualizar la disponibilidad del libro
+                ConexionBD.actualizarDisponibilidadLibro(idLibro, true);
+                guardarLibros(biblioteca);
+                LOGGER.info("Libro devuelto exitosamente.");
+            } else {
+                LOGGER.warning("No se encontró un préstamo activo para el libro especificado.");
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error al procesar la devolución del libro", e);
         }
     }
-    guardarLibros(biblioteca);
 
-    LOGGER.info("Préstamo realizado con éxito. ID del préstamo: " + prestamo.getId());
-    LOGGER.info("El libro ha sido marcado como no disponible en la base de datos y en el archivo.");
-}
-
-   
-/**
- * La función `mostrarMenuPrincipal` muestra un menú con opciones relacionadas con la gestión de un sistema de 
- * biblioteca, como mostrar, agregar, editar y eliminar libros, cambiar el estado de un libro y realizar préstamos 
- * si el usuario es un administrador.
- * 
- * @param teclado El parámetro `teclado` en el método `mostrarMenuPrincipal` es de tipo `Scanner`. Este parámetro 
- * se utiliza para leer la entrada del usuario en la consola. Se usa para capturar la elección del usuario para 
- * las opciones del menú mostradas y pasarla a la declaración switch para un procesamiento posterior.
- * @param biblioteca El parámetro `biblioteca` en el método `mostrarMenuPrincipal` parece ser una 
- * `LinkedList` de objetos `Libro`. En este contexto, probablemente representa una biblioteca o colección de libros. 
- * El método parece ser un menú para interactuar con esta colección, permitiendo opciones como mostrar libros.
- */
-    private static void mostrarMenuPrincipal(Scanner teclado, LinkedList<Libro> biblioteca) {
+    /**
+     * La función `mostrarMenuPrincipal` muestra un menú con opciones relacionadas
+     * con la gestión de un sistema de
+     * biblioteca, como mostrar, agregar, editar y eliminar libros, cambiar el
+     * estado de un libro y realizar préstamos
+     * si el usuario es un administrador.
+     * 
+     * @param teclado    El parámetro `teclado` en el método `mostrarMenuPrincipal`
+     *                   es de tipo `Scanner`. Este parámetro
+     *                   se utiliza para leer la entrada del usuario en la consola.
+     *                   Se usa para capturar la elección del usuario para
+     *                   las opciones del menú mostradas y pasarla a la declaración
+     *                   switch para un procesamiento posterior.
+     * @param biblioteca El parámetro `biblioteca` en el método
+     *                   `mostrarMenuPrincipal` parece ser una
+     *                   `LinkedList` de objetos `Libro`. En este contexto,
+     *                   probablemente representa una biblioteca o colección de
+     *                   libros.
+     *                   El método parece ser un menú para interactuar con esta
+     *                   colección, permitiendo opciones como mostrar libros.
+     * @throws SQLException
+     */
+    private static void mostrarMenuPrincipal(Scanner teclado, LinkedList<Libro> biblioteca) throws SQLException {
         LOGGER.info("1. Mostrar libros");
         LOGGER.info("2. Agregar libro");
         LOGGER.info("3. Eliminar libro");
@@ -512,6 +599,8 @@ private static void realizarPrestamo(Scanner teclado, LinkedList<Libro> bibliote
         if (usuarioActual.esAdministrador()) {
             LOGGER.info("7. Realizar préstamo");
         }
+        LOGGER.info("8. Buscar libros");
+        LOGGER.info("9. Devolver Libro");
         LOGGER.info("Seleccione una opción:");
 
         int opcion = teclado.nextInt();
@@ -538,7 +627,6 @@ private static void realizarPrestamo(Scanner teclado, LinkedList<Libro> bibliote
             case 4:
                 try {
                     editarLibro(biblioteca, teclado);
-                    // editarLibroPorId(biblioteca, teclado);
                 } catch (Exception e) {
                     LOGGER.log(Level.SEVERE, "Error al editar libro", e);
                 }
@@ -561,20 +649,42 @@ private static void realizarPrestamo(Scanner teclado, LinkedList<Libro> bibliote
                     LOGGER.warning("Opción no válida. Por favor, intente de nuevo.");
                 }
                 break;
+            case 8:
+                LOGGER.info("Ingrese el título o ISBN del libro a buscar:");
+                String criterio = teclado.nextLine();
+                List<Libro> resultados = ConexionBD.buscarLibros(criterio);
+                if (resultados.isEmpty()) {
+                    LOGGER.info("No se encontraron libros que coincidan con el criterio de búsqueda.");
+                } else {
+                    for (Libro libro : resultados) {
+                        LOGGER.info(libro.getId() + " | " + libro.getTitulo() + " | " + libro.getIsbn()
+                                + " | Disponible: " + libro.isDisponible());
+                    }
+                }
+                break;
+            case 9:
+                devolverLibro(biblioteca, teclado);
+                break;
             default:
                 LOGGER.warning("Opción no válida. Por favor, intente de nuevo.");
         }
     }
 
- /**
- * El código Java anterior es un método principal que establece una conexión con una base de datos MySQL 
- * llamada "biblioteca" que se ejecuta en localhost. Crea un objeto `GestorUsuarios` para gestionar usuarios, 
- * carga una lista de libros en un `LinkedList`, y luego entra en un bucle donde muestra un menú de 
- * inicio de sesión/registro si no hay un usuario actualmente conectado, o un menú principal si un 
- * usuario está autenticado. Atrapa las `SQLExceptions` relacionadas con las operaciones de base de datos, 
- * registra los errores utilizando un `LOGGER`, y cierra la conexión con la base de datos en un bloque 
- * `finally` para garantizar la gestión adecuada de los recursos.
- */
+    /**
+     * El código Java anterior es un método principal que establece una conexión con
+     * una base de datos MySQL
+     * llamada "biblioteca" que se ejecuta en localhost. Crea un objeto
+     * `GestorUsuarios` para gestionar usuarios,
+     * carga una lista de libros en un `LinkedList`, y luego entra en un bucle donde
+     * muestra un menú de
+     * inicio de sesión/registro si no hay un usuario actualmente conectado, o un
+     * menú principal si un
+     * usuario está autenticado. toma las `SQLExceptions` relacionadas con las
+     * operaciones de base de datos,
+     * registra los errores utilizando un `LOGGER`, y cierra la conexión con la base
+     * de datos en un bloque
+     * `finally` para garantizar la gestión adecuada de los recursos.
+     */
     public static void main(String[] args) throws Exception {
 
         try {
