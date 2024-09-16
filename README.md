@@ -194,3 +194,5 @@ No hay errores con el guardado y cargado de libros actualmente
 - Se ha implementado el préstamo de libros
 - Nueva tabla `libros` en la base de datos
 - Se ha actualizado la documentación del código con javadoc
+
+---
