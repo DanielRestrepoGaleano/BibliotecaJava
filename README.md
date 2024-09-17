@@ -24,6 +24,7 @@
 5. [Errores Conocidos](#errores-conocidos)
 6. [Progreso Actual con los Errores](#progreso-actual-con-los-errores)
 7. [Cambios](#cambios)
+8. [Diagrama de clases](#diagrama-de-clases)
 
 ---
 
