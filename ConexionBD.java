@@ -411,6 +411,14 @@ public class ConexionBD {
             conn.setAutoCommit(false); // Iniciar transacción
             
             // Primero, eliminar las devoluciones asociadas
+            /*
+             * NOTA
+             * Hay una excepción causada por las forein keys en la base de datos
+             * Debido a esto se necesita eliminar de forma consecutiva en cada lugar donde se encuentre
+             * este problema será solucionado más adelante
+             * Por ahora se recomienta mantener estas lienas de código activas
+             *  
+             */
             String sqlDevoluciones = "DELETE FROM devoluciones WHERE id_prestamo = ?";
             stmtDevoluciones = conn.prepareStatement(sqlDevoluciones);
             stmtDevoluciones.setInt(1, idPrestamo);
