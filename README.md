@@ -217,3 +217,131 @@ El error con los archivos ha sido mitigado, pero persiste en menor grado. Se log
 - Añadido sistema de búsqueda de libros.
 
 ---
+
+# Diagrama de Clases
+
+```mermaid
+classDiagram
+    class Libro {
+        -int id
+        -String titulo
+        -String autor
+        -int fechaPublicacion
+        -int numPaginas
+        -boolean disponible
+        -String isbn
+        -String descripcion
+        +Libro(int id, String titulo, String autor, int fechaPublicacion, int numPaginas, boolean disponible, String isbn, String descripcion)
+        +getTitulo() String
+        +setTitulo(String titulo) void
+        +getAutor() String
+        +setAutor(String autor) void
+        +getfechaPublicacion() int
+        +setfechaPublicacion(int fechaPublicacion) void
+        +getNumPaginas() int
+        +setNumPaginas(int numPaginas) void
+        +isDisponible() boolean
+        +setDisponible(boolean disponible) void
+        +getIsbn() String
+        +setIsbn(String isbn) void
+        +getDescripcion() String
+        +setDescripcion(String descripcion) void
+        +getId() int
+        +setId(int id) void
+        +aTexto() String
+        +aLibro(String texto) Libro
+        +editarLibro(Scanner scanner) void
+        +cambiarDisponibilidad() void
+        +toString() String
+    }
+
+    class Biblioteca {
+        -LinkedList~Libro~ biblioteca
+        +mostrarLibros(LinkedList~Libro~ biblioteca) void
+        +posicionLibro(LinkedList~Libro~ biblioteca) void
+        +eliminarLibro(LinkedList~Libro~ biblioteca, Scanner teclado) void
+        +guardarLibros(LinkedList~Libro~ biblioteca) void
+        +cargarLibros(LinkedList~Libro~ biblioteca) void
+        +agregarLibro(LinkedList~Libro~ biblioteca, Scanner teclado) void
+        +editarLibroPorId(LinkedList~Libro~ biblioteca, Scanner teclado) void
+        +editarLibro(LinkedList~Libro~ biblioteca, Scanner teclado) void
+        +cambiarEstado(LinkedList~Libro~ biblioteca, Scanner teclado) void
+        +main(String[] args) void
+    }
+
+    class ConexionBD {
+        -String URL
+        -String USER
+        -String PASSWORD
+        -getConnection() Connection
+        +crearLibro(Libro libro) void
+        +leerLibro(int id) Libro
+        +actualizarLibro(int id, Libro libro) void
+        +eliminarLibro(int id) void
+        +obtenerSiguienteId() int
+    }
+
+    class Usuario {
+        -int id
+        -String nombreUsuario
+        -String contrasena
+        -String email
+        -boolean esAdministrador
+        +Usuario(int id, String nombreUsuario, String contrasena, String email, boolean esAdministrador)
+        +getId() int
+        +setId(int id) void
+        +getNombreUsuario() String
+        +setNombreUsuario(String nombreUsuario) void
+        +getContrasena() String
+        +setContrasena(String contrasena) void
+        +getEmail() String
+        +setEmail(String email) void
+        +esAdministrador() boolean
+        +setEsAdministrador(boolean esAdministrador) void
+        +toString() String
+    }
+
+    class GestorUsuarios {
+        -Connection conexion
+        +GestorUsuarios(Connection conexion)
+        +registrarUsuario(Usuario usuario) boolean
+        +autenticarUsuario(String nombreUsuario, String contrasena) Usuario
+    }
+
+    class Prestamo {
+        -int id
+        -String nombreUsuario
+        -String documento
+        -int idLibro
+        -String isbnLibro
+        -String tituloLibro
+        -String autorLibro
+        -Date fechaPrestamo
+        +Prestamo(int id, String nombreUsuario, String documento, int idLibro, String isbnLibro, String tituloLibro, String autorLibro, Date fechaPrestamo)
+        +getId() int
+        +setId(int id) void
+        +getNombreUsuario() String
+        +setNombreUsuario(String nombreUsuario) void
+        +getDocumento() String
+        +setDocumento(String documento) void
+        +getIdLibro() int
+        +setIdLibro(int idLibro) void
+        +getIsbnLibro() String
+        +setIsbnLibro(String isbnLibro) void
+        +getTituloLibro() String
+        +setTituloLibro(String tituloLibro) void
+        +getAutorLibro() String
+        +setAutorLibro(String autorLibro) void
+        +getFechaPrestamo() Date
+        +setFechaPrestamo(Date fechaPrestamo) void
+        +toString() String
+    }
+
+    Biblioteca -- Libro : manages
+    Biblioteca -- ConexionBD : uses
+    ConexionBD -- Libro : manages
+    GestorUsuarios -- Usuario : manages
+    GestorUsuarios -- ConexionBD : uses
+    Prestamo -- Libro : references
+    Prestamo -- Usuario : references
+```
