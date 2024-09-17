@@ -243,56 +243,56 @@ public class ConexionBD {
         }
     }
 
-
-
- /**
- * Busca un usuario en la base de datos por su número de documento y devuelve la información del usuario si se encuentra.
- * 
- * @param documento El número de documento del usuario a buscar.
- * @return Un objeto Usuario si se encuentra un usuario con el número de documento especificado, null en caso contrario.
- */
+    /**
+     * Busca un usuario en la base de datos por su número de documento y devuelve la
+     * información del usuario si se encuentra.
+     * 
+     * @param documento El número de documento del usuario a buscar.
+     * @return Un objeto Usuario si se encuentra un usuario con el número de
+     *         documento especificado, null en caso contrario.
+     */
     public static Usuario buscarUsuarioPorDocumento(String documento) throws SQLException {
         String query = "SELECT * FROM usuarios WHERE documento = ?";
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, documento);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nombre_usuario"),
-                        rs.getString("contrasena"),
-                        rs.getString("email"),
-                        rs.getString("documento"),
-                        rs.getBoolean("es_administrador")
-                    );
+                            rs.getInt("id"),
+                            rs.getString("nombre_usuario"),
+                            rs.getString("contrasena"),
+                            rs.getString("email"),
+                            rs.getString("documento"),
+                            rs.getBoolean("es_administrador"));
                 }
             }
         }
         return null;
     }
-    
-/**
- * Crea un nuevo usuario en la base de datos y devuelve true si se realiza con éxito.
- * 
- * @param usuario El objeto Usuario que se va a crear.
- * @return true si se crea el usuario con éxito, false en caso contrario.
- */
+
+    /**
+     * Crea un nuevo usuario en la base de datos y devuelve true si se realiza con
+     * éxito.
+     * 
+     * @param usuario El objeto Usuario que se va a crear.
+     * @return true si se crea el usuario con éxito, false en caso contrario.
+     */
     public static boolean crearUsuario(Usuario usuario) throws SQLException {
         String query = "INSERT INTO usuarios (nombre_usuario, contrasena, email, documento, es_administrador) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, usuario.getNombreUsuario());
             pstmt.setString(2, usuario.getContrasena());
             pstmt.setString(3, usuario.getEmail());
             pstmt.setString(4, usuario.getDocumento());
             pstmt.setBoolean(5, usuario.esAdministrador());
             int affectedRows = pstmt.executeUpdate();
-    
+
             if (affectedRows == 0) {
                 return false;
             }
-    
+
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     usuario.setId(generatedKeys.getInt(1));
@@ -301,88 +301,145 @@ public class ConexionBD {
             return true;
         }
     }
-    
-/**
- * Busca libros en la base de datos según un criterio de búsqueda (título o ISBN) y devuelve una lista de libros que coinciden.
- * 
- * @param criterio El criterio de búsqueda para encontrar libros.
- * @return Una lista de objetos Libro que coinciden con el criterio de búsqueda.
- */
+
+    /**
+     * Busca libros en la base de datos según un criterio de búsqueda (título o
+     * ISBN) y devuelve una lista de libros que coinciden.
+     * 
+     * @param criterio El criterio de búsqueda para encontrar libros.
+     * @return Una lista de objetos Libro que coinciden con el criterio de búsqueda.
+     */
     public static List<Libro> buscarLibros(String criterio) throws SQLException {
-    String query = "SELECT id, titulo, isbn, disponible FROM libros WHERE titulo LIKE ? OR isbn LIKE ?";
-    List<Libro> resultados = new ArrayList<>();
-    
-    try (Connection conn = getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
-        pstmt.setString(1, "%" + criterio + "%");
-        pstmt.setString(2, "%" + criterio + "%");
+        String query = "SELECT id, titulo, isbn, disponible FROM libros WHERE titulo LIKE ? OR isbn LIKE ?";
+        List<Libro> resultados = new ArrayList<>();
+
+        try (Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, "%" + criterio + "%");
+            pstmt.setString(2, "%" + criterio + "%");
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Libro libro = new Libro(
+                            rs.getInt("id"),
+                            rs.getString("titulo"),
+                            "", // autor no incluido en esta búsqueda
+                            0, // fechaPublicacion no incluida
+                            0, // numPaginas no incluido
+                            rs.getBoolean("disponible"),
+                            rs.getString("isbn"),
+                            "" // descripcion no incluida
+                    );
+                    resultados.add(libro);
+                }
+            }
+        }
+
+        return resultados;
+    }
+
+    /**
+     * Busca un préstamo activo en la base de datos según el nombre de usuario,
+     * documento y ID de libro, excluyendo préstamos devueltos.
+     * 
+     * @param nombreUsuario El nombre de usuario del préstamo a buscar.
+     * @param documento     El número de documento del usuario del préstamo a
+     *                      buscar.
+     * @param idLibro       El ID del libro del préstamo a buscar.
+     * @return Un objeto Prestamo si se encuentra un préstamo activo que coincide
+     *         con los parámetros, null en caso contrario.
+     */
+    public static Prestamo buscarPrestamoActivo(String nombreUsuario, String documento, int idLibro)
+            throws SQLException {
+        String query = "SELECT * FROM prestamos WHERE nombre_usuario = ? AND documento = ? AND id_libro = ? AND id NOT IN (SELECT id_prestamo FROM devoluciones)";
+        try (Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, nombreUsuario);
+            pstmt.setString(2, documento);
+            pstmt.setInt(3, idLibro);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Prestamo(
+                            rs.getInt("id"),
+                            rs.getString("nombre_usuario"),
+                            rs.getString("documento"),
+                            rs.getInt("id_libro"),
+                            rs.getString("isbn_libro"),
+                            rs.getString("titulo_libro"),
+                            rs.getString("autor_libro"),
+                            rs.getDate("fecha_prestamo"));
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Registra una devolución en la base de datos con el ID del préstamo y la fecha
+     * actual como fecha de devolución.
+     * 
+     * @param idPrestamo El ID del préstamo que se va a registrar como devuelto.
+     */
+    public static boolean registrarDevolucion(int idPrestamo) throws SQLException {
+        String query = "INSERT INTO devoluciones (id_prestamo, fecha_devolucion) VALUES (?, ?)";
+        try (Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, idPrestamo);
+            pstmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+            int filasAfectadas = pstmt.executeUpdate();
+            
+            if (filasAfectadas > 0) {
+                System.out.println("Devolución registrada exitosamente en la tabla 'devoluciones'.");
+                return true;
+            } else {
+                System.out.println("No se pudo registrar la devolución en la tabla 'devoluciones'.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al registrar la devolución: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static void eliminarPrestamo(int idPrestamo) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmtDevoluciones = null;
+        PreparedStatement stmtPrestamo = null;
         
-        try (ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                Libro libro = new Libro(
-                    rs.getInt("id"),
-                    rs.getString("titulo"),
-                    "", // autor no incluido en esta búsqueda
-                    0,  // fechaPublicacion no incluida
-                    0,  // numPaginas no incluido
-                    rs.getBoolean("disponible"),
-                    rs.getString("isbn"),
-                    ""  // descripcion no incluida
-                );
-                resultados.add(libro);
+        try {
+            conn = getConnection(); // Método para obtener la conexión
+            conn.setAutoCommit(false); // Iniciar transacción
+            
+            // Primero, eliminar las devoluciones asociadas
+            String sqlDevoluciones = "DELETE FROM devoluciones WHERE id_prestamo = ?";
+            stmtDevoluciones = conn.prepareStatement(sqlDevoluciones);
+            stmtDevoluciones.setInt(1, idPrestamo);
+            stmtDevoluciones.executeUpdate();
+            
+            // Luego, eliminar el préstamo
+            String sqlPrestamo = "DELETE FROM prestamos WHERE id = ?";
+            stmtPrestamo = conn.prepareStatement(sqlPrestamo);
+            stmtPrestamo.setInt(1, idPrestamo);
+            stmtPrestamo.executeUpdate();
+            
+            conn.commit(); // Confirmar la transacción
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback(); // Revertir la transacción en caso de error
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            throw e;
+        } finally {
+            if (stmtDevoluciones != null) stmtDevoluciones.close();
+            if (stmtPrestamo != null) stmtPrestamo.close();
+            if (conn != null) {
+                conn.setAutoCommit(true); // Restablecer autocommit
+                conn.close();
             }
         }
     }
-    
-    return resultados;
-}
-
-/**
- * Busca un préstamo activo en la base de datos según el nombre de usuario, documento y ID de libro, excluyendo préstamos devueltos.
- * 
- * @param nombreUsuario El nombre de usuario del préstamo a buscar.
- * @param documento El número de documento del usuario del préstamo a buscar.
- * @param idLibro El ID del libro del préstamo a buscar.
- * @return Un objeto Prestamo si se encuentra un préstamo activo que coincide con los parámetros, null en caso contrario.
- */
-public static Prestamo buscarPrestamoActivo(String nombreUsuario, String documento, int idLibro) throws SQLException {
-    String query = "SELECT * FROM prestamos WHERE nombre_usuario = ? AND documento = ? AND id_libro = ? AND id NOT IN (SELECT id_prestamo FROM devoluciones)";
-    try (Connection conn = getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
-        pstmt.setString(1, nombreUsuario);
-        pstmt.setString(2, documento);
-        pstmt.setInt(3, idLibro);
-        try (ResultSet rs = pstmt.executeQuery()) {
-            if (rs.next()) {
-                return new Prestamo(
-                    rs.getInt("id"),
-                    rs.getString("nombre_usuario"),
-                    rs.getString("documento"),
-                    rs.getInt("id_libro"),
-                    rs.getString("isbn_libro"),
-                    rs.getString("titulo_libro"),
-                    rs.getString("autor_libro"),
-                    rs.getDate("fecha_prestamo")
-                );
-            }
-        }
-    }
-    return null;
-}
-
-/**
- * Registra una devolución en la base de datos con el ID del préstamo y la fecha actual como fecha de devolución.
- * 
- * @param idPrestamo El ID del préstamo que se va a registrar como devuelto.
- */
-public static void registrarDevolucion(int idPrestamo) throws SQLException {
-    String query = "INSERT INTO devoluciones (id_prestamo, fecha_devolucion) VALUES (?, ?)";
-    try (Connection conn = getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
-        pstmt.setInt(1, idPrestamo);
-        pstmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
-        pstmt.executeUpdate();
-    }
-}
 
 }
