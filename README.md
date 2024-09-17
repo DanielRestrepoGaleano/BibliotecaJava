@@ -140,7 +140,8 @@ Crea y edita objetos de tipo libro.
 
 # **ERRORES CONOCIDOS**
 
-- Hasta el momento, no se han identificado más errores.
+- Se ha identificado un error (no fatal) en una consulta SQL. La tabla *devoluciones* no se está actualizando debido a cambios en el código, se está borrando en forma de cascada para borrar el registro en la tabla *prestamos* ya que de lo contrario causa un error en las forein keys.
+Se solucionará en la siguiente actualización añadiendo un campo lógico de borrado para evitar conflictos entre las forein keys
 
 ---
 
