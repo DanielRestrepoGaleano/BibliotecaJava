@@ -1,25 +1,37 @@
-
 # **PLANEACIÓN**
 
 - Conectar el proyecto a SpringBoot &cross;
 - Conectar el proyecto a una base de datos &check;
-- crear interfaz gráfica &cross;
+- Crear interfaz gráfica &cross;
 - Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;
 - Crear una clase para el préstamo de un libro a un usuario &check;
 
-# NOTA TEMPORAL IMPORTANTE
+---
 
-_**Este documento y el software asociado se encuentran actualmente en desarrollo. Se están realizando los ultimos arreglos en la lógica de los prestamos, el programa funciona bien y puede ser utilizado si lo desea. Si encuentras algún problema, por favor repórtalo en el siguiente enlace: [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues). Por tanto espere una actualización completa a más tardar el martes 17/09/2024**_
+# **Tabla de Contenido**
+
+1. [Descripción Actual](#descripción-actual)
+2. [Modo de Uso](#modo-de-uso)
+   - [Requisitos](#requisitos)
+   - [Clases Principales](#clases-principales)
+   - [Instalación](#instalación)
+   - [Funcionalidades del Programa](#funcionalidades-del-programa)
+   - [Limitaciones](#limitaciones)
+3. [Soporte](#soporte)
+4. [Errores Anteriores Solucionados](#errores-anteriores-solucionados)
+5. [Errores Conocidos](#errores-conocidos)
+6. [Progreso Actual con los Errores](#progreso-actual-con-los-errores)
+7. [Cambios](#cambios)
 
 ---
 
 # **DESCRIPCIÓN ACTUAL**
 
-Este repositorio contiene un software de gestión de biblioteca que se conecta a una base de datos MySQL a través de JDBC y gestiona las operaciones de CRUD (Crear, Leer, Actualizar, Eliminar) para los libros. También cuenta con una persistencia en archivos .txt como respaldo.
+Este repositorio contiene un software de gestión de biblioteca que se conecta a una base de datos MySQL a través de JDBC para gestionar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) de libros. También incluye persistencia en archivos `.txt` como respaldo.
 
-El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyAdmin**, y el conector JDBC para interactuar con la base de datos desde Java.
+El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyAdmin** y el conector JDBC para la interacción con la base de datos desde Java.
 
 ---
 
@@ -29,103 +41,114 @@ El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyA
 
 Para ejecutar este proyecto, es necesario:
 
-1. **Conector JDBC**:
+1. **Conector JDBC**:  
    Descargue e instale el conector JDBC desde la página oficial de MySQL:  
    [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/)
 
 2. **Base de datos MySQL**:
-   - Deberá crear una base de datos con el nombre `biblioteca`.
-   - Dentro de esta base de datos, cree una tabla `libros`.
+   - Crear una base de datos con el nombre `biblioteca`.
+   - Dentro de esta base de datos, cree las tablas necesarias como `libros`.
 
 3. **Entorno de desarrollo**:
    - Un IDE que soporte Java (Eclipse, IntelliJ IDEA, NetBeans, etc.).
-   - Asegúrese de tener el archivo JAR del conector JDBC incluido en su proyecto para que las conexiones a la base de datos funcionen correctamente.
+   - Incluir el archivo JAR del conector JDBC en su proyecto para la conexión a la base de datos.
 
-### Modo de uso
+## Clases Principales
 
 En su IDE, deberá crear las siguientes clases:
 
 - `Biblioteca.java`: Clase principal del proyecto que gestiona las operaciones de la biblioteca.
 - `ConexionDB.java`: Clase responsable de la conexión con la base de datos MySQL y la ejecución de las consultas.
 - `Libro.java`: Clase que representa los objetos de tipo libro en el sistema.
+- `GestorUsuarios.java`: Clase responsable de registrar usuarios.
+- `Prestamo.java`: Clase que representa los objetos de tipo préstamo de libros.
+- `Usuario.java`: Clase que representa a los usuarios.
 
-### ConexionDB.java
+### Detalles de Clases
 
-Esta clase maneja toda la lógica de conexión con la base de datos. Sus métodos son llamados desde `Biblioteca.java` para realizar las operaciones necesarias en la base de datos, como agregar, editar y eliminar libros.
+#### ConexionDB.java
 
-### Biblioteca.java
+Esta clase maneja toda la lógica de conexión con la base de datos. Sus métodos son llamados desde `Biblioteca.java` para realizar operaciones como agregar, editar y eliminar libros.
 
-Es el punto de entrada del programa y coordina las interacciones entre la interfaz de usuario y la base de datos. Utiliza los métodos de `ConexionDB.java` para realizar las distintas operaciones sobre la tabla `libros`.
+#### Biblioteca.java
+
+Es el punto de entrada del programa y coordina las interacciones entre la interfaz de usuario y la base de datos.
+
+#### GestorUsuarios.java
+
+Maneja la lógica para la creación de usuarios en la base de datos.
+
+#### Prestamo.java
+
+Gestiona los préstamos realizados por los usuarios, registrándolos en la base de datos.
+
+#### Usuario.java
+
+Crea objetos de tipo usuario.
+
+#### Libro.java
+
+Crea y edita objetos de tipo libro.
 
 ## Instalación
 
 1. **Instalar MySQL y XAMPP**:
-   - Si aún no lo tiene, instale XAMPP y asegúrese de activar **MySQL** y **Apache**.
+   - Instale XAMPP y active **MySQL** y **Apache**.
 
 2. **Configurar la base de datos**:
-   - Cree la base de datos con el nombre `biblioteca` y la tabla `libros` que contiene la información de los libros gestionados por el sistema.
+   - Cree la base de datos `biblioteca` y las tablas necesarias como `libros`, `devoluciones`, `prestamos`, `usuarios`.
 
 3. **Configuración del proyecto**:
    - Asegúrese de que el conector JDBC esté correctamente configurado en su IDE.
-   - La clase `ConexionDB.java` será la encargada de manejar la conexión a la base de datos.
+   - `ConexionDB.java` manejará la conexión a la base de datos.
 
 ## Funcionalidades del programa
 
 - **Gestión de libros**: Agregar, editar y eliminar libros en la base de datos.
-- **Persistencia**: Aunque el proyecto ya no utiliza PHP ni archivos externos para el manejo de libros, el programa sigue generando un archivo `.txt` con los libros registrados.
-- **Conexión a base de datos**: Se realiza mediante el uso de JDBC, reemplazando la versión anterior que utilizaba un API en PHP.
+- **Persistencia**: Genera un archivo `.txt` con los libros registrados.
+- **Conexión a base de datos**: Mediante JDBC.
+- **Creación de usuarios**: Permite crear usuarios y administradores.
 
 ## Limitaciones
 
-- El programa aún presenta algunas limitaciones en cuanto a la funcionalidad completa del sistema.
-- Se pueden agregar más funcionalidades en futuras versiones.
+- Limitaciones en la lógica de ingreso de usuarios y manejo de la base de datos.
+- Más funcionalidades pueden ser añadidas en futuras versiones.
 
 ## Soporte
 
-- Ante cualquier duda o problema, puede ponerse en contacto por cualquier medio disponible.
-- [REPORTAR_ERROR](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues)
+- Para dudas o problemas, puede ponerse en contacto por cualquier medio disponible.
+- [Reportar Error](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues)
 - [PQRS](https://docs.google.com/forms/d/1OxRtiVPGTAUtvkKE_opcWedZ7b5dZMVU5F3T7YdZRw0)
-- En la carpeta "GUIA DE IMAGENES" se incluyen imágenes que pueden servir de ayuda para la instalación y configuración del sistema.
-
-Si necesita imágenes adicionales o pasos más detallados, no dude en hacer llegar una notificación y se actualizará la documentación con más información.
-
-### NOTAS
-
-- TODO LO QUE CONTENGA :warning: se le dará prioridad y será implementado cuanto antes.
-- web utilizado para el diagrama de clases [mermaid](https://mermaid.live/)
-- No se usa (por el momento) SRP  [Single Responsibility Principle](https://www.baeldung.com/java-single-responsibility-principle) [Principio de responsabilidad unica](https://trbl-services.eu/blog-solid-single-responsability/#:~:text=Este%20principio%20establece%20que%20cada,la%20finalidad%20de%20la%20clase.)
+- La carpeta "GUIA DE IMAGENES" incluye imágenes de ayuda para la instalación y configuración.
 
 ---
 
 # **ERRORES ANTERIORES SOLUCIONADOS**
 
-- Error con el `Scanner` `(NoSuchElementException)` &check;
-- Error con arrays `(InputMismatchException)` &check;
+- Error con el `Scanner` (`NoSuchElementException`) &check;
+- Error con arrays (`InputMismatchException`) &check;
 - Error en el guardado de libros &check;
 - Error cuando se muestra un libro en la terminal &check;
-- Error con la carga de los archivos .txt  &check;
-- Los libros editados se pueden observar en la terminal, pero no se realiza el cambio en el archivo .txt &check;
-- Los libros suelen cargar mal generando una excepción, se debe elimar el archivo .txt generado para que el prgrama se ejecute con normalidad. &check;
-- Error identificado: cuando se edita la fecha de publicación de un libro, se cierra el programa y seguidamente se vuelve a ejecutar como la fecha se cambia en la terminal pero no el txt, generando el siguiente error `NumberFormatException.forInputString(NumberFormatException)` &check;
-- El método de guardado no funciona correctamente, ya que una vez se cierra el programa
-  intenta cargar libros que no existen en la terminal &check;
+- Error con la carga de los archivos `.txt` &check;
+- Los libros editados no se reflejaban en el archivo `.txt` &check;
+- Error al cargar los libros generando excepciones &check;
+- Error al editar la fecha de publicación de un libro (`NumberFormatException`) &check;
+- Problema con el guardado persistente de libros &check;
 
 ---
 
 # **ERRORES CONOCIDOS**
 
-- Hasta el momento no se han identificado más errores
+- Hasta el momento, no se han identificado más errores.
 
 ---
 
-**PROGRESO ACUTAL CON LOS ERRORES**
-Actualmente el error con los archivos persiste aunque ya es menos grave.
-Se logró que el programa actualice los archivos en el .txt, pero surgió otro error
-los libros no se estan cargando de forma correcta lo que provoca una perdida de datos y un inicio en las posiciones de los libros que no es correcta.
-(27/08/2024)
-Se logró mitigar el error al cargar los libros.
-(4/09/2024)
-No hay errores con el guardado y cargado de libros actualmente
+# **PROGRESO ACTUAL CON LOS ERRORES**
+
+El error con los archivos ha sido mitigado, pero persiste en menor grado. Se logró que el programa actualice los archivos `.txt`, aunque los libros no se cargan correctamente, lo que provoca una pérdida de datos.
+
+(27/08/2024) - Mitigado el error al cargar los libros.  
+(04/09/2024) - No hay errores con el guardado y cargado de libros actualmente.
 
 ---
 
@@ -133,78 +156,62 @@ No hay errores con el guardado y cargado de libros actualmente
 
 ---
 
-08/08/2024----3:00pm
+**08/08/2024 - 3:00 PM**  
 
-- Se realizaron cambios en la estructura de las funciones
-- Se les dio nombres más claros y fueron enviadas a las clases correspondienes para cada función
+- Se realizaron cambios en la estructura de las funciones.
+- Se asignaron nombres más claros y fueron enviadas a las clases correspondientes.
 
----
-08/08/2024--10:50pm
+**08/08/2024 - 10:50 PM**  
 
-- se realizará el guardado de libros a un archivo .txt a modo de BD temporal.
+- Guardado de libros en un archivo `.txt` como base de datos temporal.
 
----
+**09/08/2024 - 6:00 PM** 
 
-09/08/2024 --- 6:00pm
+- Cambios importantes en la estructura de las funciones.
+- Añadido el guardado de libros mediante archivos `.txt`.
 
-- Se realizaron cambios importantes en la estructura de las funciones
-- Se añadio el guardado de libros por medio de archivos .txt
+**27/08/2024 - 1:33 PM**  
 
----
+- Cambios en las funciones `cargarLibros`, `guardarLibros` y `aTexto` (de la clase `Libro`).
+- Cambio de arrays a listas.
 
-27/08/2024 ----> 1:33pm
+**04/09/2024 - 5:30 PM**  
 
-- Se realizaron cambios importantes en la estructura de las funciones (`cargarLibros`, `guardarLibros` y `aTexto`(de la clase `Libro`))
-- Cambio de arrays a listas  para evitar tener límites de libros
+- Cambio de `System.out` por `LOGGERS` para mayor organización del código.
 
----
+**07/09/2024 - 10:30 PM**  
 
-4/09/2024 ----> 5:30pm
+- Añadida una nueva clase y una API en PHP para la conexión a la base de datos local en `phpMyAdmin`.
+- Funciona el método de agregar en la base de datos.
 
-- se realizó un cambio en todos los `System.out`, fueron cambiados por `LOGGERS` para manter una mayor organización del código
+**10/09/2024 - 10:37 AM**  
 
----
+- Implementados métodos básicos del CRUD en la base de datos.
+- Eliminado PHP debido a dificultades con su conexión.
+- `ConexionDB.java` ahora realiza toda la conexión.
+- Instaladas dependencias de MySQL Connector/J.
 
-7/09/2024 ----> 10:30pm
+**11/09/2024 - 10:45 AM**  
 
-- se han añadido 1 clase nueva y una API en php para la conexión a la base de datos local en phpMyAdmin, con los nombres `ConectarPHP` y `Libros`
-- Actualmente solo funciona el metodo de agregar en la base de datos
+- Arreglado el método para editar libros en la base de datos.  
+**05:47 PM**  
+- Añadido el login de usuarios con su respectiva conexión a la base de datos.
 
----
+**14/09/2024 - 11:03 PM**  
+- Implementado el préstamo de libros.
 
-10/09/2024 ---> 10:37am
-
-- Se han implementado los métodos básicos del CRUD a la base de datos
-- Se ha eliminado `PHP` debido a dificultades con su conexión a la base de datos
-- La clase `ConexionDB.java` ahora realiza toda la conexión
-- se han instalado dependencias `Referenced Libraries` de *<https://dev.mysql.com/downloads/connector/j/>
-
----
-
-11/09/2024 --> 10:45am
-
-- Se ha arreglado el método para editar los libros en la BD
-
----> 5:47pm
-
-- Se ha añadido el loggin de usuarios junto con su respectiva conexion a la BD
-
----
-
-14/09/2024 --> 11:03pm
-
-- Se ha implementado el préstamo de libros.
 - Nueva tabla `libros` en la base de datos.
-- Se ha actualizado la documentación del código con javadoc.
+- Actualizada la documentación con Javadoc.
 
-14/09/2024 --> 5:34pm
+**14/09/2024 - 5:34 PM**  
 
-- Se ha actualizado la documentación.
-- Se ha mejorado la guia de las imagenes.
+- Actualizada la documentación.
+- Mejorada la guía de imágenes.
 
-15/09/2024 --> 9:21pm
+**15/09/2024 - 9:21 PM**  
 
-- Se ha implementado un sistema de prestamos beta
-- Se ha actualizado toda la documetación
-- Se ha mejorado el loggin de los usarios
-- Se ha agregado un sistema de busqueda de libros
+- Implementado sistema de préstamos (beta).
+- Actualizada toda la documentación.
+- Mejorado el login de usuarios.
+- Añadido sistema de búsqueda de libros.
+
