@@ -384,52 +384,53 @@ public class ConexionBD {
             conn.setAutoCommit(false);
 
             // Verificar si el préstamo existe y no ha sido devuelto
-            String checkPrestamo = "SELECT id_libro FROM prestamos WHERE id = ? AND devuelto = false";
-            int idLibro;
-            try (PreparedStatement pstmt = conn.prepareStatement(checkPrestamo)) {
-                pstmt.setInt(1, idPrestamo);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (rs.next()) {
-                        idLibro = rs.getInt("id_libro");
-                    } else {
-                        throw new SQLException("No se encontró un préstamo activo con el ID proporcionado.");
-                    }
+            String checkPrestamo = "SELECT id_libro FROM prestamos WHERE id = ?";
+        int idLibro;
+        try (PreparedStatement pstmt = conn.prepareStatement(checkPrestamo)) {
+            pstmt.setInt(1, idPrestamo);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    idLibro = rs.getInt("id_libro");
+                } else {
+                    System.err.println("No se encontró un préstamo activo con el ID proporcionado.");
+                    return false;
                 }
-            }
-
-            // Marcar el préstamo como devuelto
-            String updatePrestamo = "UPDATE prestamos SET devuelto = true WHERE id = ?";
-            try (PreparedStatement pstmt = conn.prepareStatement(updatePrestamo)) {
-                pstmt.setInt(1, idPrestamo);
-                int filasAfectadas = pstmt.executeUpdate();
-                if (filasAfectadas == 0) {
-                    throw new SQLException("No se pudo actualizar el préstamo, posiblemente no existe.");
-                }
-            }
-
-            // Actualizar la disponibilidad del libro
-            actualizarDisponibilidadLibro(idLibro, true);
-
-            conn.commit();
-            System.out.println("Devolución registrada exitosamente.");
-            return true;
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            System.err.println("Error al registrar la devolución: " + e.getMessage());
-            throw e;
-        } finally {
-            if (conn != null) {
-                conn.setAutoCommit(true);
-                conn.close();
             }
         }
+
+        // Marcar el préstamo como devuelto
+        String updatePrestamo = "UPDATE prestamos SET devuelto = true WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(updatePrestamo)) {
+            pstmt.setInt(1, idPrestamo);
+            int filasAfectadas = pstmt.executeUpdate();
+            if (filasAfectadas == 0) {
+                System.err.println("No se pudo actualizar el préstamo, posiblemente no existe.");
+                return false;
+            }
+        }
+
+        // Actualizar la disponibilidad del libro
+        actualizarDisponibilidadLibro(idLibro, true);
+
+        conn.commit();
+        System.out.println("Devolución registrada exitosamente.");
+        return true;
+    } catch (SQLException e) {
+        if (conn != null) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        System.err.println("Error al registrar la devolución: " + e.getMessage());
+    } finally {
+        if (conn != null) {
+            conn.setAutoCommit(true);
+            conn.close();
+        }
     }
+    return false;
 
 
     /* 
@@ -475,4 +476,4 @@ public class ConexionBD {
     }
 }
 */
-}
+}}
