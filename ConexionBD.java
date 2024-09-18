@@ -218,13 +218,12 @@ public class ConexionBD {
     public static void actualizarDisponibilidadLibro(int idLibro, boolean disponible) throws SQLException {
         String query = "UPDATE libros SET disponible = ? WHERE id = ?";
         try (Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setBoolean(1, disponible);
             pstmt.setInt(2, idLibro);
             pstmt.executeUpdate();
         }
     }
-
     /**
      * Verifica si el documento existe en la base de datos
      * 
@@ -349,11 +348,10 @@ public class ConexionBD {
      * @return Un objeto Prestamo si se encuentra un préstamo activo que coincide
      *         con los parámetros, null en caso contrario.
      */
-    public static Prestamo buscarPrestamoActivo(String nombreUsuario, String documento, int idLibro)
-            throws SQLException {
-        String query = "SELECT * FROM prestamos WHERE nombre_usuario = ? AND documento = ? AND id_libro = ? AND id NOT IN (SELECT id_prestamo FROM devoluciones)";
+    public static Prestamo buscarPrestamoActivo(String nombreUsuario, String documento, int idLibro) throws SQLException {
+        String query = "SELECT * FROM prestamos WHERE nombre_usuario = ? AND documento = ? AND id_libro = ? AND devuelto = false";
         try (Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, nombreUsuario);
             pstmt.setString(2, documento);
             pstmt.setInt(3, idLibro);
@@ -367,13 +365,12 @@ public class ConexionBD {
                             rs.getString("isbn_libro"),
                             rs.getString("titulo_libro"),
                             rs.getString("autor_libro"),
-                            rs.getDate("fecha_prestamo"));
+                            rs.getDate("fecha_prestamo"), false);
                 }
             }
         }
         return null;
     }
-
     /**
      * Registra una devolución en la base de datos con el ID del préstamo y la fecha
      * actual como fecha de devolución.
@@ -381,65 +378,101 @@ public class ConexionBD {
      * @param idPrestamo El ID del préstamo que se va a registrar como devuelto.
      */
     public static boolean registrarDevolucion(int idPrestamo) throws SQLException {
-        String query = "INSERT INTO devoluciones (id_prestamo, fecha_devolucion) VALUES (?, ?)";
-        try (Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, idPrestamo);
-            pstmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
-            int filasAfectadas = pstmt.executeUpdate();
-            
-            if (filasAfectadas > 0) {
-                System.out.println("Devolución registrada exitosamente en la tabla 'devoluciones'.");
-                return true;
-            } else {
-                System.out.println("No se pudo registrar la devolución en la tabla 'devoluciones'.");
-                return false;
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al registrar la devolución: " + e.getMessage());
-            throw e;
-        }
-    }
-
-    public static void eliminarPrestamo(int idPrestamo) throws SQLException {
         Connection conn = null;
-        PreparedStatement stmtDevoluciones = null;
-        PreparedStatement stmtPrestamo = null;
-        
         try {
-            conn = getConnection(); // Método para obtener la conexión
-            conn.setAutoCommit(false); // Iniciar transacción
-            
-            // Primero, eliminar las devoluciones asociadas
-            String sqlDevoluciones = "DELETE FROM devoluciones WHERE id_prestamo = ?";
-            stmtDevoluciones = conn.prepareStatement(sqlDevoluciones);
-            stmtDevoluciones.setInt(1, idPrestamo);
-            stmtDevoluciones.executeUpdate();
-            
-            // Luego, eliminar el préstamo
-            String sqlPrestamo = "DELETE FROM prestamos WHERE id = ?";
-            stmtPrestamo = conn.prepareStatement(sqlPrestamo);
-            stmtPrestamo.setInt(1, idPrestamo);
-            stmtPrestamo.executeUpdate();
-            
-            conn.commit(); // Confirmar la transacción
+            conn = getConnection();
+            conn.setAutoCommit(false);
+
+            // Verificar si el préstamo existe y no ha sido devuelto
+            String checkPrestamo = "SELECT id_libro FROM prestamos WHERE id = ? AND devuelto = false";
+            int idLibro;
+            try (PreparedStatement pstmt = conn.prepareStatement(checkPrestamo)) {
+                pstmt.setInt(1, idPrestamo);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        idLibro = rs.getInt("id_libro");
+                    } else {
+                        throw new SQLException("No se encontró un préstamo activo con el ID proporcionado.");
+                    }
+                }
+            }
+
+            // Marcar el préstamo como devuelto
+            String updatePrestamo = "UPDATE prestamos SET devuelto = true WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(updatePrestamo)) {
+                pstmt.setInt(1, idPrestamo);
+                int filasAfectadas = pstmt.executeUpdate();
+                if (filasAfectadas == 0) {
+                    throw new SQLException("No se pudo actualizar el préstamo, posiblemente no existe.");
+                }
+            }
+
+            // Actualizar la disponibilidad del libro
+            actualizarDisponibilidadLibro(idLibro, true);
+
+            conn.commit();
+            System.out.println("Devolución registrada exitosamente.");
+            return true;
         } catch (SQLException e) {
             if (conn != null) {
                 try {
-                    conn.rollback(); // Revertir la transacción en caso de error
+                    conn.rollback();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
+            System.err.println("Error al registrar la devolución: " + e.getMessage());
             throw e;
         } finally {
-            if (stmtDevoluciones != null) stmtDevoluciones.close();
-            if (stmtPrestamo != null) stmtPrestamo.close();
             if (conn != null) {
-                conn.setAutoCommit(true); // Restablecer autocommit
+                conn.setAutoCommit(true);
                 conn.close();
             }
         }
     }
 
+
+    /* 
+    public static void eliminarPrestamo(int idPrestamo) throws SQLException {
+    Connection conn = null;
+    PreparedStatement stmtDevolucion = null;
+    PreparedStatement stmtPrestamo = null;
+    
+    try {
+        conn = getConnection(); // Método para obtener la conexión
+        conn.setAutoCommit(false); // Iniciar transacción
+        
+        // Registrar la devolución
+        String sqlDevolucion = "INSERT INTO devoluciones (id_prestamo, fecha_devolucion) VALUES (?, ?)";
+        stmtDevolucion = conn.prepareStatement(sqlDevolucion);
+        stmtDevolucion.setInt(1, idPrestamo);
+        stmtDevolucion.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+        stmtDevolucion.executeUpdate();
+        
+        // Eliminar el préstamo
+        String sqlPrestamo = "DELETE FROM prestamos WHERE id = ?";
+        stmtPrestamo = conn.prepareStatement(sqlPrestamo);
+        stmtPrestamo.setInt(1, idPrestamo);
+        stmtPrestamo.executeUpdate();
+        
+        conn.commit(); // Confirmar la transacción
+    } catch (SQLException e) {
+        if (conn != null) {
+            try {
+                conn.rollback(); // Revertir la transacción en caso de error
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        throw e;
+    } finally {
+        if (stmtDevolucion != null) stmtDevolucion.close();
+        if (stmtPrestamo != null) stmtPrestamo.close();
+        if (conn != null) {
+            conn.setAutoCommit(true); // Restablecer autocommit
+            conn.close();
+        }
+    }
+}
+*/
 }

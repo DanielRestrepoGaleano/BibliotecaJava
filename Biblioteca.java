@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * prestamos
  * 
  * @autor Daniel Restrepo Galeano
- * @version 1.0A
+ * @version 1.0B
  */
 public class Biblioteca {
     // Logger para la clase
@@ -503,7 +503,7 @@ public class Biblioteca {
                 libro.getTitulo(),
                 libro.getAutor(),
                 new Date(System.currentTimeMillis()) // Fecha actual
-        );
+                , false);
 
         ConexionBD.crearPrestamo(prestamo);
         ConexionBD.actualizarDisponibilidadLibro(libro.getId(), false);
@@ -540,29 +540,29 @@ public class Biblioteca {
         try {
             LOGGER.info("Ingrese el nombre del usuario:");
             String nombreUsuario = teclado.nextLine();
-    
+
             LOGGER.info("Ingrese el documento del usuario:");
             String documento = teclado.nextLine();
-    
+
             LOGGER.info("Ingrese el ID del libro a devolver:");
             int idLibro = teclado.nextInt();
             teclado.nextLine(); // Consumir el salto de línea
-    
+
             // Buscar el préstamo correspondiente
             Prestamo prestamo = ConexionBD.buscarPrestamoActivo(nombreUsuario, documento, idLibro);
-    
+
             if (prestamo != null) {
                 // Registrar la devolución
                 ConexionBD.registrarDevolucion(prestamo.getId());
                 boolean devolucionRegistrada = ConexionBD.registrarDevolucion(prestamo.getId());
-                
+
                 if (devolucionRegistrada) {
                     // Actualizar la disponibilidad del libro
                     ConexionBD.actualizarDisponibilidadLibro(idLibro, true);
-    
+
                     // Eliminar el registro de préstamo
-                    ConexionBD.eliminarPrestamo(prestamo.getId());
-    
+                    ConexionBD.registrarDevolucion(idLibro);
+
                     // Actualizar la disponibilidad del libro en la lista local
                     for (Libro libro : biblioteca) {
                         if (libro.getId() == idLibro) {
@@ -570,9 +570,10 @@ public class Biblioteca {
                             break;
                         }
                     }
-    
+
                     guardarLibros(biblioteca);
-                    LOGGER.info("Libro devuelto exitosamente. Se ha actualizado su disponibilidad y registrado la devolución.");
+                    LOGGER.info(
+                            "Libro devuelto exitosamente. Se ha actualizado su disponibilidad y registrado la devolución.");
                 } else {
                     LOGGER.warning("No se pudo registrar la devolución en la base de datos.");
                 }

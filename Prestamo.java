@@ -15,14 +15,16 @@ public class Prestamo {
     private String tituloLibro;
     private String autorLibro;
     private Date fechaPrestamo;
+    private boolean devuelto;
 
  /**
      * El constructor `public Prestamo(int id, String nombreUsuario, String documento, int idLibro,
      * String isbnLibro, String tituloLibro, String autorLibro, Date fechaPrestamo)` en la clase `Prestamo`
      * inicializa una nueva instancia del objeto `Prestamo` con los valores proporcionados para sus atributos.
      */
-    public Prestamo(int id, String nombreUsuario, String documento, int idLibro, String isbnLibro, String tituloLibro,
-            String autorLibro, Date fechaPrestamo) {
+    public Prestamo(int id, String nombreUsuario, String documento, int idLibro, 
+    String isbnLibro, String tituloLibro, String autorLibro, 
+    Date fechaPrestamo, boolean devuelto) {
         this.id = id;
         this.nombreUsuario = nombreUsuario;
         this.documento = documento;
@@ -31,9 +33,17 @@ public class Prestamo {
         this.tituloLibro = tituloLibro;
         this.autorLibro = autorLibro;
         this.fechaPrestamo = fechaPrestamo;
+        this.devuelto = devuelto;
     }
 
     // Getters y setters
+    public boolean isDevuelto() {
+        return devuelto;
+    }
+
+    public void setDevuelto(boolean devuelto) {
+        this.devuelto = devuelto;
+    }
     public int getId() {
         return id;
     }
