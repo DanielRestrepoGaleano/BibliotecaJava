@@ -2,7 +2,9 @@ package ORIENTADOAOBJETOS;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * La clase `ConexionBD` proporciona métodos para interactuar con una base de
@@ -199,7 +201,7 @@ public class ConexionBD {
             pstmt.setString(4, prestamo.getIsbnLibro());
             pstmt.setString(5, prestamo.getTituloLibro());
             pstmt.setString(6, prestamo.getAutorLibro());
-            pstmt.setDate(7, prestamo.getFechaPrestamo());
+            pstmt.setTimestamp(7, new Timestamp(prestamo.getFechaPrestamo().getTime()));
             pstmt.executeUpdate();
 
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -349,28 +351,30 @@ public class ConexionBD {
      *         con los parámetros, null en caso contrario.
      */
     public static Prestamo buscarPrestamoActivo(String nombreUsuario, String documento, int idLibro) throws SQLException {
-        String query = "SELECT * FROM prestamos WHERE nombre_usuario = ? AND documento = ? AND id_libro = ? AND devuelto = false";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, nombreUsuario);
-            pstmt.setString(2, documento);
-            pstmt.setInt(3, idLibro);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return new Prestamo(
-                            rs.getInt("id"),
-                            rs.getString("nombre_usuario"),
-                            rs.getString("documento"),
-                            rs.getInt("id_libro"),
-                            rs.getString("isbn_libro"),
-                            rs.getString("titulo_libro"),
-                            rs.getString("autor_libro"),
-                            rs.getDate("fecha_prestamo"), false);
-                }
+    String query = "SELECT * FROM prestamos WHERE nombre_usuario = ? AND documento = ? AND id_libro = ? AND fecha_devolucion IS NULL";
+    try (Connection conn = getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setString(1, nombreUsuario);
+        pstmt.setString(2, documento);
+        pstmt.setInt(3, idLibro);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return new Prestamo(
+                    rs.getInt("id"),
+                    rs.getString("nombre_usuario"),
+                    rs.getString("documento"),
+                    rs.getInt("id_libro"),
+                    rs.getString("isbn_libro"),
+                    rs.getString("titulo_libro"),
+                    rs.getString("autor_libro"),
+                    rs.getTimestamp("fecha_prestamo"), // <--- Cambia a getTimestamp
+                    false
+                );
             }
         }
-        return null;
     }
+    return null;
+}
     /**
      * Registra una devolución en la base de datos con el ID del préstamo y la fecha
      * actual como fecha de devolución.
@@ -382,98 +386,84 @@ public class ConexionBD {
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
-
+    
             // Verificar si el préstamo existe y no ha sido devuelto
-            String checkPrestamo = "SELECT id_libro FROM prestamos WHERE id = ?";
-        int idLibro;
-        try (PreparedStatement pstmt = conn.prepareStatement(checkPrestamo)) {
-            pstmt.setInt(1, idPrestamo);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    idLibro = rs.getInt("id_libro");
-                } else {
-                    System.err.println("No se encontró un préstamo activo con el ID proporcionado.");
+            String checkPrestamo = "SELECT id_libro FROM prestamos WHERE id = ? AND devuelto = false";
+            int idLibro;
+            try (PreparedStatement pstmt = conn.prepareStatement(checkPrestamo)) {
+                pstmt.setInt(1, idPrestamo);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        idLibro = rs.getInt("id_libro");
+                    } else {
+                        System.err.println("No se encontró un préstamo activo con el ID proporcionado.");
+                        return false;
+                    }
+                }
+            }
+    
+            // Marcar el préstamo como devuelto y establecer la fecha de devolución
+            String updatePrestamo = "UPDATE prestamos SET devuelto = true, fecha_devolucion = ? WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(updatePrestamo)) {
+                pstmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+                pstmt.setInt(2, idPrestamo);
+                int filasAfectadas = pstmt.executeUpdate();
+                if (filasAfectadas == 0) {
+                    System.err.println("No se pudo actualizar el préstamo, posiblemente no existe.");
                     return false;
                 }
             }
-        }
-
-        // Marcar el préstamo como devuelto
-        String updatePrestamo = "UPDATE prestamos SET devuelto = true WHERE id = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(updatePrestamo)) {
-            pstmt.setInt(1, idPrestamo);
-            int filasAfectadas = pstmt.executeUpdate();
-            if (filasAfectadas == 0) {
-                System.err.println("No se pudo actualizar el préstamo, posiblemente no existe.");
-                return false;
-            }
-        }
-
-        // Actualizar la disponibilidad del libro
-        actualizarDisponibilidadLibro(idLibro, true);
-
-        conn.commit();
-        System.out.println("Devolución registrada exitosamente.");
-        return true;
-    } catch (SQLException e) {
-        if (conn != null) {
-            try {
-                conn.rollback();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        System.err.println("Error al registrar la devolución: " + e.getMessage());
-    } finally {
-        if (conn != null) {
-            conn.setAutoCommit(true);
-            conn.close();
-        }
-    }
-    return false;
-
-
-    /* 
-    public static void eliminarPrestamo(int idPrestamo) throws SQLException {
-    Connection conn = null;
-    PreparedStatement stmtDevolucion = null;
-    PreparedStatement stmtPrestamo = null;
     
-    try {
-        conn = getConnection(); // Método para obtener la conexión
-        conn.setAutoCommit(false); // Iniciar transacción
-        
-        // Registrar la devolución
-        String sqlDevolucion = "INSERT INTO devoluciones (id_prestamo, fecha_devolucion) VALUES (?, ?)";
-        stmtDevolucion = conn.prepareStatement(sqlDevolucion);
-        stmtDevolucion.setInt(1, idPrestamo);
-        stmtDevolucion.setDate(2, new java.sql.Date(System.currentTimeMillis()));
-        stmtDevolucion.executeUpdate();
-        
-        // Eliminar el préstamo
-        String sqlPrestamo = "DELETE FROM prestamos WHERE id = ?";
-        stmtPrestamo = conn.prepareStatement(sqlPrestamo);
-        stmtPrestamo.setInt(1, idPrestamo);
-        stmtPrestamo.executeUpdate();
-        
-        conn.commit(); // Confirmar la transacción
-    } catch (SQLException e) {
-        if (conn != null) {
-            try {
-                conn.rollback(); // Revertir la transacción en caso de error
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            // Actualizar la disponibilidad del libro
+            actualizarDisponibilidadLibro(idLibro, true);
+    
+            conn.commit();
+            System.out.println("Devolución registrada exitosamente.");
+            return true;
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            System.err.println("Error al registrar la devolución: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                conn.setAutoCommit(true);
+                conn.close();
             }
         }
-        throw e;
-    } finally {
-        if (stmtDevolucion != null) stmtDevolucion.close();
-        if (stmtPrestamo != null) stmtPrestamo.close();
-        if (conn != null) {
-            conn.setAutoCommit(true); // Restablecer autocommit
-            conn.close();
+        return false;
+    }
+    
+
+public static List<Map<String, Object>> buscarUsuarioYLibrosPrestados(String nombreUsuario, String documento) throws SQLException {
+    List<Map<String, Object>> resultados = new ArrayList<>();
+    String query = "SELECT p.id_libro, l.titulo, l.isbn " +
+                   "FROM prestamos p " +
+                   "JOIN libros l ON p.id_libro = l.id " +
+                   "WHERE p.nombre_usuario = ? AND p.documento = ? AND p.devuelto = false";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setString(1, nombreUsuario);
+        pstmt.setString(2, documento);
+        
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Map<String, Object> libro = new HashMap<>();
+                libro.put("id_libro", rs.getInt("id_libro"));
+                libro.put("titulo", rs.getString("titulo"));
+                libro.put("isbn", rs.getString("isbn"));
+                resultados.add(libro);
+            }
         }
     }
+    return resultados;
 }
-*/
-}}
+    
+
+
+}
