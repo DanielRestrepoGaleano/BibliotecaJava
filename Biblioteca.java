@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  * prestamos
  * 
  * @autor Daniel Restrepo Galeano
- * @version 1.0B
+ * @version 1.0C
  */
 public class Biblioteca {
     // Logger para la clase
