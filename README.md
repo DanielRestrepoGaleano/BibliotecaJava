@@ -1,12 +1,13 @@
-# NOTA IMPORTANTE TEMPORAL
-
-La documentación está actualizada hasta la version 1.0A, en los próximos días se estará actualizando la documentación completa a la versión 1.0C
+# NOTA IMPORTANTE
+- El proyecto se da por finalizado, seguirá recibiendo actualizaciones.
+- El proyecto se encuentra en una versión estable, por lo que no se realizarán cambios significativos
+- El proyecto con interfaz gráfica se iniciará en otro repositorio, tendrá las mismas funcionalidades y se conectará de la misma forma a phpMyAdmin
 
 # **PLANEACIÓN**
 
 - Conectar el proyecto a SpringBoot &cross;
 - Conectar el proyecto a una base de datos &check;
-- Crear interfaz gráfica &cross;
+- Crear interfaz gráfica :warning:
 - Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;
@@ -73,11 +74,11 @@ En su IDE, deberá crear las siguientes clases:
 
 #### ConexionDB.java
 
-Esta clase maneja toda la lógica de conexión con la base de datos. Sus métodos son llamados desde `Biblioteca.java` para realizar operaciones como agregar, editar y eliminar libros.
+Clase responsable de la conexión con la base de datos MySQL y la ejecución de las consultas. Incluye métodos para manejar registros de libros y préstamos
 
 #### Biblioteca.java
 
-Es el punto de entrada del programa y coordina las interacciones entre la interfaz de usuario y la base de datos.
+ Clase principal del proyecto que gestiona las operaciones de la biblioteca.
 
 #### GestorUsuarios.java
 
@@ -85,15 +86,20 @@ Maneja la lógica para la creación de usuarios en la base de datos.
 
 #### Prestamo.java
 
-Gestiona los préstamos realizados por los usuarios, registrándolos en la base de datos.
+Clase que representa los objetos de tipo préstamo de libros. Ahora incluye seguimiento de fechas de devolución y estado del préstamo.
+La clase `Prestamo` ha sido ampliada para incluir:
+
+- Atributo `fechaDevolucion` para registrar cuándo se devuelve un libro.
+- Atributo `devuelto` para indicar si el libro ha sido devuelto.
+- Métodos adicionales para gestionar estos nuevos atributos (`getFechaDevolucion`, `setFechaDevolucion`, `isDevuelto`).
 
 #### Usuario.java
 
-Crea objetos de tipo usuario.
+Clase responsable de registrar usuarios.
 
 #### Libro.java
 
-Crea y edita objetos de tipo libro.
+Clase que representa los objetos de tipo libro en el sistema.
 
 ## Instalación
 
@@ -101,7 +107,7 @@ Crea y edita objetos de tipo libro.
    - Instale XAMPP y active **MySQL** y **Apache**.
 
 2. **Configurar la base de datos**:
-   - Cree la base de datos `biblioteca` y las tablas necesarias como `libros`, `devoluciones`, `prestamos`, `usuarios`.
+   - Cree la base de datos `biblioteca` y las tablas necesarias como `libros`, `prestamos`, `usuarios`.
 
 3. **Configuración del proyecto**:
    - Asegúrese de que el conector JDBC esté correctamente configurado en su IDE.
@@ -113,8 +119,8 @@ Crea y edita objetos de tipo libro.
 - **Persistencia**: Genera un archivo `.txt` con los libros registrados.
 - **Conexión a base de datos**: Mediante JDBC.
 - **Creación de usuarios**: Permite crear usuarios y administradores.
-- **Prestamos**: Permite realizar préstamos de libros a usuarios registrados.
-- **Devoluciones**: Permite registrar devoluciones de libros.
+- **Gestión de préstamos y devoluciones**:
+  Ahora, los préstamos incluyen seguimiento de las fechas de devolución y estado de los préstamos.
 
 ## Limitaciones
 
@@ -220,6 +226,12 @@ Crea y edita objetos de tipo libro.
 - Implementado sistema de préstamos (beta 2).
 - eliminada tabla "devoluciones"
 - Implementado sistema de busqueda para usuarios con libros prestados
+
+**19/09/2024**
+
+- Documentación al día
+-**Prestamo.java:** Añadidos atributos para la gestión de fechas de devolución y estado de préstamos. Mejorado el seguimiento y la gestión de los préstamos de libros.
+-**ConexionBD.java:** Mejorada la conexión y gestión de la base de datos para incluir métodos adicionales relacionados con préstamos y devoluciones.
 
 ---
 
