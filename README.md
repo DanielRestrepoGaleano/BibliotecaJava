@@ -231,6 +231,7 @@ Clase que representa los objetos de tipo libro en el sistema.
 
 - Documentación al día
 -**Prestamo.java:** Añadidos atributos para la gestión de fechas de devolución y estado de préstamos. Mejorado el seguimiento y la gestión de los préstamos de libros.
+
 -**ConexionBD.java:** Mejorada la conexión y gestión de la base de datos para incluir métodos adicionales relacionados con préstamos y devoluciones.
 
 ---
