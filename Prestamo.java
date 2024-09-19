@@ -1,6 +1,7 @@
 package ORIENTADOAOBJETOS;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * La clase `Prestamo` representa un préstamo con atributos como nombre de usuario, documento, detalles del libro
@@ -14,15 +15,16 @@ public class Prestamo {
     private String isbnLibro;
     private String tituloLibro;
     private String autorLibro;
-    private Date fechaPrestamo;
+    private Timestamp fechaPrestamo;
+    private Timestamp fechaDevolucion;
+    private boolean devuelto;
 
  /**
      * El constructor `public Prestamo(int id, String nombreUsuario, String documento, int idLibro,
      * String isbnLibro, String tituloLibro, String autorLibro, Date fechaPrestamo)` en la clase `Prestamo`
      * inicializa una nueva instancia del objeto `Prestamo` con los valores proporcionados para sus atributos.
      */
-    public Prestamo(int id, String nombreUsuario, String documento, int idLibro, String isbnLibro, String tituloLibro,
-            String autorLibro, Date fechaPrestamo) {
+    public Prestamo(int id, String nombreUsuario, String documento, int idLibro, String isbnLibro, String tituloLibro, String autorLibro, Timestamp fechaPrestamo, boolean devuelto) {
         this.id = id;
         this.nombreUsuario = nombreUsuario;
         this.documento = documento;
@@ -31,9 +33,35 @@ public class Prestamo {
         this.tituloLibro = tituloLibro;
         this.autorLibro = autorLibro;
         this.fechaPrestamo = fechaPrestamo;
+        this.fechaDevolucion = null;
+        this.devuelto = devuelto;
     }
 
     // Getters y setters
+    public Timestamp getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(Timestamp fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
+    }
+
+    // Actualizar getter y setter para fechaPrestamo
+    public Timestamp getFechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    public void setFechaPrestamo(Timestamp fechaPrestamo) {
+        this.fechaPrestamo = fechaPrestamo;
+    }
+
+    public boolean isDevuelto() {
+        return devuelto;
+    }
+
+    public void setDevuelto(boolean devuelto) {
+        this.devuelto = devuelto;
+    }
     public int getId() {
         return id;
     }
@@ -90,13 +118,7 @@ public class Prestamo {
         this.autorLibro = autorLibro;
     }
 
-    public Date getFechaPrestamo() {
-        return fechaPrestamo;
-    }
-
-    public void setFechaPrestamo(Date fechaPrestamo) {
-        this.fechaPrestamo = fechaPrestamo;
-    }
+   
 
 /**
      * El método `toString` en Java sobrescribe la implementación predeterminada para devolver una representación de cadena

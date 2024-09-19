@@ -4,11 +4,13 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.*;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 /**
  * Clase principal de la biblioteca que permite la gestión de los libros,
@@ -16,7 +18,7 @@ import java.sql.SQLException;
  * prestamos
  * 
  * @autor Daniel Restrepo Galeano
- * @version 1.0A
+ * @version 1.0B
  */
 public class Biblioteca {
     // Logger para la clase
@@ -495,15 +497,15 @@ public class Biblioteca {
         }
 
         Prestamo prestamo = new Prestamo(
-                0, // El ID se generará automáticamente en la base de datos
-                usuario.getNombreUsuario(),
-                usuario.getDocumento(),
-                libro.getId(),
-                libro.getIsbn(),
-                libro.getTitulo(),
-                libro.getAutor(),
-                new Date(System.currentTimeMillis()) // Fecha actual
-        );
+            0, 
+            usuario.getNombreUsuario(),
+            usuario.getDocumento(),
+            libro.getId(),
+            libro.getIsbn(),
+            libro.getTitulo(),
+            libro.getAutor(),
+            new Timestamp(System.currentTimeMillis()), // Change Date to Timestamp
+            false);
 
         ConexionBD.crearPrestamo(prestamo);
         ConexionBD.actualizarDisponibilidadLibro(libro.getId(), false);
@@ -540,29 +542,29 @@ public class Biblioteca {
         try {
             LOGGER.info("Ingrese el nombre del usuario:");
             String nombreUsuario = teclado.nextLine();
-    
+
             LOGGER.info("Ingrese el documento del usuario:");
             String documento = teclado.nextLine();
-    
+
             LOGGER.info("Ingrese el ID del libro a devolver:");
             int idLibro = teclado.nextInt();
             teclado.nextLine(); // Consumir el salto de línea
-    
+
             // Buscar el préstamo correspondiente
             Prestamo prestamo = ConexionBD.buscarPrestamoActivo(nombreUsuario, documento, idLibro);
-    
+
             if (prestamo != null) {
                 // Registrar la devolución
                 ConexionBD.registrarDevolucion(prestamo.getId());
                 boolean devolucionRegistrada = ConexionBD.registrarDevolucion(prestamo.getId());
-                
+
                 if (devolucionRegistrada) {
                     // Actualizar la disponibilidad del libro
                     ConexionBD.actualizarDisponibilidadLibro(idLibro, true);
-    
+
                     // Eliminar el registro de préstamo
-                    ConexionBD.eliminarPrestamo(prestamo.getId());
-    
+                    ConexionBD.registrarDevolucion(idLibro);
+
                     // Actualizar la disponibilidad del libro en la lista local
                     for (Libro libro : biblioteca) {
                         if (libro.getId() == idLibro) {
@@ -570,9 +572,10 @@ public class Biblioteca {
                             break;
                         }
                     }
-    
+
                     guardarLibros(biblioteca);
-                    LOGGER.info("Libro devuelto exitosamente. Se ha actualizado su disponibilidad y registrado la devolución.");
+                    LOGGER.info(
+                            "Libro devuelto exitosamente. Se ha actualizado su disponibilidad y registrado la devolución.");
                 } else {
                     LOGGER.warning("No se pudo registrar la devolución en la base de datos.");
                 }
@@ -618,6 +621,7 @@ public class Biblioteca {
         }
         LOGGER.info("8. Buscar libros");
         LOGGER.info("9. Devolver Libro");
+        LOGGER.info("10. para buscar usuario y libros prestados");
         LOGGER.info("Seleccione una opción:");
 
         int opcion = teclado.nextInt();
@@ -682,10 +686,33 @@ public class Biblioteca {
             case 9:
                 devolverLibro(biblioteca, teclado);
                 break;
+            case 10:
+            buscarUsuarioYLibrosPrestados(teclado);
+            break;
             default:
                 LOGGER.warning("Opción no válida. Por favor, intente de nuevo.");
         }
     }
+
+    private static void buscarUsuarioYLibrosPrestados(Scanner teclado) throws SQLException {
+    LOGGER.info("Ingrese el nombre de usuario:");
+    String nombreUsuario = teclado.nextLine();
+    LOGGER.info("Ingrese el documento del usuario:");
+    String documento = teclado.nextLine();
+
+    List<Map<String, Object>> resultados = ConexionBD.buscarUsuarioYLibrosPrestados(nombreUsuario, documento);
+
+    if (resultados.isEmpty()) {
+        LOGGER.info("No se encontraron libros prestados para este usuario.");
+    } else {
+        LOGGER.info("Libros prestados por " + nombreUsuario + " (" + documento + "):");
+        for (Map<String, Object> libro : resultados) {
+            LOGGER.info("ID: " + libro.get("id_libro") + 
+                        ", Título: " + libro.get("titulo") + 
+                        ", ISBN: " + libro.get("isbn"));
+        }
+    }
+}
 
     /**
      * El código Java anterior es un método principal que establece una conexión con
