@@ -1,3 +1,7 @@
+# NOTA IMPORTANTE TEMPORAL
+
+La documentación está actualizada hasta la version 1.0A, en los próximos días se estará actualizando la documentación completa a la versión 1.0C
+
 # **PLANEACIÓN**
 
 - Conectar el proyecto a SpringBoot &cross;
@@ -109,6 +113,8 @@ Crea y edita objetos de tipo libro.
 - **Persistencia**: Genera un archivo `.txt` con los libros registrados.
 - **Conexión a base de datos**: Mediante JDBC.
 - **Creación de usuarios**: Permite crear usuarios y administradores.
+- **Prestamos**: Permite realizar préstamos de libros a usuarios registrados.
+- **Devoluciones**: Permite registrar devoluciones de libros.
 
 ## Limitaciones
 
@@ -135,22 +141,13 @@ Crea y edita objetos de tipo libro.
 - Error al cargar los libros generando excepciones &check;
 - Error al editar la fecha de publicación de un libro (`NumberFormatException`) &check;
 - Problema con el guardado persistente de libros &check;
+- Solucionado error en las consultas de la tabla "devoluciones" &check;
 
 ---
 
 # **ERRORES CONOCIDOS**
 
-- Se ha identificado un error (no fatal) en una consulta SQL. La tabla *devoluciones* no se está actualizando debido a cambios en el código, se está borrando en forma de cascada para borrar el registro en la tabla *prestamos* ya que de lo contrario causa un error en las forein keys.
-Se solucionará en la siguiente actualización añadiendo un campo lógico de borrado para evitar conflictos entre las forein keys
-
----
-
-# **PROGRESO ACTUAL CON LOS ERRORES**
-
-El error con los archivos ha sido mitigado, pero persiste en menor grado. Se logró que el programa actualice los archivos `.txt`, aunque los libros no se cargan correctamente, lo que provoca una pérdida de datos.
-
-(27/08/2024) - Mitigado el error al cargar los libros.  
-(04/09/2024) - No hay errores con el guardado y cargado de libros actualmente.
+- Se ha identificado un error (no fatal) donde se muestra un mensaje de que los registros no fueron actualizados en la base de datos, cuando en realidad si se actualizaron, se ha identificado como error lógico y será solucionado en la siguiente actualización
 
 ---
 
@@ -217,6 +214,12 @@ El error con los archivos ha sido mitigado, pero persiste en menor grado. Se log
 - Actualizada toda la documentación.
 - Mejorado el login de usuarios.
 - Añadido sistema de búsqueda de libros.
+
+**18/09/2024 - 7:51 PM**
+
+- Implementado sistema de préstamos (beta 2).
+- eliminada tabla "devoluciones"
+- Implementado sistema de busqueda para usuarios con libros prestados
 
 ---
 
