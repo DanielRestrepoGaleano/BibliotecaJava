@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  * prestamos
  * 
  * @autor Daniel Restrepo Galeano
- * @version 1.0C
+ * @version 1.4.3
  */
 public class Biblioteca {
     // Logger para la clase
@@ -693,6 +693,14 @@ public class Biblioteca {
                 LOGGER.warning("Opción no válida. Por favor, intente de nuevo.");
         }
     }
+    /**
+    * La función buscarUsuarioYLibrosPrestados recibe la entrada del usuario para un nombre de usuario y documento,
+    * busca los libros prestados por ese usuario en una base de datos y muestra los resultados.
+    * 
+    * @param teclado El parámetro teclado en el método buscarUsuarioYLibrosPrestados es de tipo Scanner.
+    * Se utiliza para leer la entrada del usuario a través de la consola. En este método, se utiliza
+    * para leer el nombre del usuario y el documento del usuario.
+    */
 
     private static void buscarUsuarioYLibrosPrestados(Scanner teclado) throws SQLException {
     LOGGER.info("Ingrese el nombre de usuario:");
