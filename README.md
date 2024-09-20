@@ -4,7 +4,7 @@
 - El proyecto con interfaz gráfica se iniciará en otro repositorio, tendrá las mismas funcionalidades y se conectará de la misma forma a phpMyAdmin [VER_PROYECTO](https://github.com/DanielRestrepoGaleano/LibraryManagementUX)
 - **COMO ULTIMO CAMBIO SE DEJÓ UNA COPIA DE LOS ARCHIVOS BACKUP Y DATA DE MYSQL, EN CASO DE PROBLEMAS GENERANDO LA BASE DE DATOS:**
 1. **VA A DECOMPRIMIR EL ARCHIVO MYSQL.7Z**
-2. **VA A **
+2. **VA A TOMAR AMBOS ARCHIVOS Y LOS VA A REEMPLAZAR EN LA RUTA C:\xampp\mysql**
 # **PLANEACIÓN**
 
 - Conectar el proyecto a SpringBoot &cross;
