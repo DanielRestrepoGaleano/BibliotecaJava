@@ -1,8 +1,10 @@
 # NOTA IMPORTANTE
 - El proyecto se da por finalizado, seguirá recibiendo actualizaciones.
 - El proyecto se encuentra en una versión estable, por lo que no se realizarán cambios significativos
-- El proyecto con interfaz gráfica se iniciará en otro repositorio, tendrá las mismas funcionalidades y se conectará de la misma forma a phpMyAdmin
-
+- El proyecto con interfaz gráfica se iniciará en otro repositorio, tendrá las mismas funcionalidades y se conectará de la misma forma a phpMyAdmin [VER_PROYECTO](https://github.com/DanielRestrepoGaleano/LibraryManagementUX)
+- **COMO ULTIMO CAMBIO SE DEJÓ UNA COPIA DE LOS ARCHIVOS BACKUP Y DATA DE MYSQL, EN CASO DE PROBLEMAS GENERANDO LA BASE DE DATOS:**
+1. **VA A DECOMPRIMIR EL ARCHIVO MYSQL.7Z**
+2. **VA A **
 # **PLANEACIÓN**
 
 - Conectar el proyecto a SpringBoot &cross;
@@ -232,7 +234,7 @@ Clase que representa los objetos de tipo libro en el sistema.
 - Documentación al día
 -**Prestamo.java:** Añadidos atributos para la gestión de fechas de devolución y estado de préstamos. Mejorado el seguimiento y la gestión de los préstamos de libros.
 
--**ConexionBD.java:** Mejorada la conexión y gestión de la base de datos para incluir métodos adicionales relacionados con préstamos y devoluciones.
+- **ConexionBD.java:** Mejorada la conexión y gestión de la base de datos para incluir métodos adicionales relacionados con préstamos y devoluciones.
 
 ---
 
