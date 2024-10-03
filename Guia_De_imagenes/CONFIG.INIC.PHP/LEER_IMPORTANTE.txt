@@ -1,0 +1,2 @@
+En caso de ser necesario, si cambió la contraseña y no puede acceder a phpMyAdmin, desde este apartado puede configurar la contraseña y el usuario nuevamente.
+(UNICAMENTE TOCAR ESTE CÓDIGO SI SABE LO QUE ESTÁ HACIENDO, PODRIA PERDER ACCESO A LA BASE DE DATOS)
