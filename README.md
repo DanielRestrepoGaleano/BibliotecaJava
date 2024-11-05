@@ -1,5 +1,5 @@
 # NOTA IMPORTANTE
----> Para clonar el repositorio puede usar el siguiente comando git clone `https://github.com/DanielRestrepoGaleano/BibliotecaJava.git`
+---> Para clonar el repositorio puede usar el siguiente comando `git clone https://github.com/DanielRestrepoGaleano/BibliotecaJava.git`
 - El proyecto se da por finalizado, seguirá recibiendo actualizaciones.
 - El proyecto se encuentra en una versión estable, por lo que no se realizarán cambios significativos
 - El proyecto con interfaz gráfica se iniciará en otro repositorio, tendrá las mismas funcionalidades y se conectará de la misma forma a phpMyAdmin [VER_PROYECTO](https://github.com/DanielRestrepoGaleano/LibraryManagementUX)
