@@ -363,5 +363,5 @@ classDiagram
     GestorUsuarios -- Usuario : manages
     GestorUsuarios -- ConexionBD : uses
     Prestamo -- Libro : references
-    Prestamo -- Usuario : references
+    Prestamo -- Usuario :  references
 ```
