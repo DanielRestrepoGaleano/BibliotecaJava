@@ -1,11 +1,15 @@
 # NOTA IMPORTANTE
+---> Para clonar el repositorio puede usar el siguiente comando git clone `https://github.com/DanielRestrepoGaleano/BibliotecaJava.git`
 - El proyecto se da por finalizado, seguirá recibiendo actualizaciones.
 - El proyecto se encuentra en una versión estable, por lo que no se realizarán cambios significativos
 - El proyecto con interfaz gráfica se iniciará en otro repositorio, tendrá las mismas funcionalidades y se conectará de la misma forma a phpMyAdmin [VER_PROYECTO](https://github.com/DanielRestrepoGaleano/LibraryManagementUX)
 - **COMO ULTIMO CAMBIO SE DEJÓ UNA COPIA DE LOS ARCHIVOS BACKUP Y DATA DE MYSQL, EN CASO DE PROBLEMAS GENERANDO LA BASE DE DATOS:**
+
 1. **VA A DECOMPRIMIR EL ARCHIVO MYSQL.7Z**
+
 2. **VA A TOMAR AMBOS ARCHIVOS Y LOS VA A REEMPLAZAR EN LA RUTA C:\xampp\mysql**
-# **PLANEACIÓN**
+
+## **PLANEACIÓN**
 
 - Conectar el proyecto a SpringBoot &cross;
 - Conectar el proyecto a una base de datos &check;
@@ -17,7 +21,7 @@
 
 ---
 
-# **Tabla de Contenido**
+## **Tabla de Contenido**
 
 1. [Descripción Actual](#descripción-actual)
 2. [Modo de Uso](#modo-de-uso)
@@ -35,7 +39,7 @@
 
 ---
 
-# **DESCRIPCIÓN ACTUAL**
+## **DESCRIPCIÓN ACTUAL**
 
 Este repositorio contiene un software de gestión de biblioteca que se conecta a una base de datos MySQL a través de JDBC para gestionar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) de libros. También incluye persistencia en archivos `.txt` como respaldo.
 
@@ -43,7 +47,7 @@ El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyA
 
 ---
 
-# **MODO DE USO**
+## **MODO DE USO**
 
 ## Requisitos
 
@@ -138,7 +142,7 @@ Clase que representa los objetos de tipo libro en el sistema.
 
 ---
 
-# **ERRORES ANTERIORES SOLUCIONADOS**
+## **ERRORES ANTERIORES SOLUCIONADOS**
 
 - Error con el `Scanner` (`NoSuchElementException`) &check;
 - Error con arrays (`InputMismatchException`) &check;
@@ -153,16 +157,15 @@ Clase que representa los objetos de tipo libro en el sistema.
 
 ---
 
-# **ERRORES CONOCIDOS**
+## **ERRORES CONOCIDOS**
 
 - Se ha identificado un error (no fatal) donde se muestra un mensaje de que los registros no fueron actualizados en la base de datos, cuando en realidad si se actualizaron, se ha identificado como error lógico y será solucionado en la siguiente actualización
 
 ---
 
-# **CAMBIOS**
+## **CAMBIOS**
 
 ---
-
 
 **08/08/2024 - 3:00 PM**  
 
@@ -173,7 +176,7 @@ Clase que representa los objetos de tipo libro en el sistema.
 
 - Guardado de libros en un archivo `.txt` como base de datos temporal.
 
-**09/08/2024 - 6:00 PM** 
+**09/08/2024 - 6:00 PM**
 
 - Cambios importantes en la estructura de las funciones.
 - Añadido el guardado de libros mediante archivos `.txt`.
@@ -206,6 +209,7 @@ Clase que representa los objetos de tipo libro en el sistema.
 - Añadido el login de usuarios con su respectiva conexión a la base de datos.
 
 **14/09/2024 - 11:03 PM**  
+
 - Implementado el préstamo de libros.
 
 - Nueva tabla `libros` en la base de datos.
@@ -238,7 +242,7 @@ Clase que representa los objetos de tipo libro en el sistema.
 
 ---
 
-# Diagrama de Clases
+## Diagrama de Clases
 
 ```mermaid
 classDiagram

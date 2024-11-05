@@ -272,7 +272,7 @@ public class Biblioteca {
     }
 
     /**
-     * La función `editarLibro` permite editar un libro actualizando su
+     * La función `editarLibro` permgiite editar un libro actualizando su
      * información en la base de datos despues de seleccionar la posición.
      * 
      * @param biblioteca biblioteca es una LinkedList que contiene objetos de tipo
