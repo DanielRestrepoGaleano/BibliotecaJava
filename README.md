@@ -45,6 +45,7 @@ Este repositorio contiene un software de gestión de biblioteca que se conecta a
 
 El proyecto utiliza **XAMPP** para gestionar la base de datos MySQL con **phpMyAdmin** y el conector JDBC para la interacción con la base de datos desde Java.
 
+[Volver a la tabla de contenidos](#tabla-de-contenido)
 ---
 
 ## **MODO DE USO**
@@ -65,6 +66,8 @@ Para ejecutar este proyecto, es necesario:
    - Un IDE que soporte Java (Eclipse, IntelliJ IDEA, NetBeans, etc.).
    - Incluir el archivo JAR del conector JDBC en su proyecto para la conexión a la base de datos.
 
+[Volver a la tabla de contenidos](#tabla-de-contenido)
+
 ## Clases Principales
 
 En su IDE, deberá crear las siguientes clases:
@@ -75,6 +78,8 @@ En su IDE, deberá crear las siguientes clases:
 - `GestorUsuarios.java`: Clase responsable de registrar usuarios.
 - `Prestamo.java`: Clase que representa los objetos de tipo préstamo de libros.
 - `Usuario.java`: Clase que representa a los usuarios.
+
+[Volver a la tabla de contenidos](#tabla-de-contenido)
 
 ### Detalles de Clases
 
@@ -107,6 +112,8 @@ Clase responsable de registrar usuarios.
 
 Clase que representa los objetos de tipo libro en el sistema.
 
+[Volver a la tabla de contenidos](#tabla-de-contenido)
+
 ## Instalación
 
 1. **Instalar MySQL y XAMPP**:
@@ -119,6 +126,8 @@ Clase que representa los objetos de tipo libro en el sistema.
    - Asegúrese de que el conector JDBC esté correctamente configurado en su IDE.
    - `ConexionDB.java` manejará la conexión a la base de datos.
 
+[Volver a la tabla de contenidos](#tabla-de-contenido)
+
 ## Funcionalidades del programa
 
 - **Gestión de libros**: Agregar, editar y eliminar libros en la base de datos.
@@ -127,6 +136,8 @@ Clase que representa los objetos de tipo libro en el sistema.
 - **Creación de usuarios**: Permite crear usuarios y administradores.
 - **Gestión de préstamos y devoluciones**:
   Ahora, los préstamos incluyen seguimiento de las fechas de devolución y estado de los préstamos.
+
+[Volver a la tabla de contenidos](#tabla-de-contenido)
 
 ## Limitaciones
 
@@ -139,6 +150,8 @@ Clase que representa los objetos de tipo libro en el sistema.
 - [Reportar Error](https://github.com/DanielRestrepoGaleano/BibliotecaJava/issues)
 - [PQRS](https://docs.google.com/forms/d/1OxRtiVPGTAUtvkKE_opcWedZ7b5dZMVU5F3T7YdZRw0)
 - La carpeta "GUIA DE IMAGENES" incluye imágenes de ayuda para la instalación y configuración.
+
+[Volver a la tabla de contenidos](#tabla-de-contenido)
 
 ---
 
@@ -155,6 +168,8 @@ Clase que representa los objetos de tipo libro en el sistema.
 - Problema con el guardado persistente de libros &check;
 - Solucionado error en las consultas de la tabla "devoluciones" &check;
 
+[Volver a la tabla de contenidos](#tabla-de-contenido)
+
 ---
 
 ## **ERRORES CONOCIDOS**
@@ -164,6 +179,8 @@ Clase que representa los objetos de tipo libro en el sistema.
 ---
 
 ## **CAMBIOS**
+
+[Volver a la tabla de contenidos](#tabla-de-contenido)
 
 ---
 
@@ -241,6 +258,8 @@ Clase que representa los objetos de tipo libro en el sistema.
 - **ConexionBD.java:** Mejorada la conexión y gestión de la base de datos para incluir métodos adicionales relacionados con préstamos y devoluciones.
 
 ---
+
+[Volver a la tabla de contenidos](#tabla-de-contenido)
 
 ## Diagrama de Clases
 
@@ -369,3 +388,5 @@ classDiagram
     Prestamo -- Libro : references
     Prestamo -- Usuario :  references
 ```
+
+[Volver a la tabla de contenidos](#tabla-de-contenido)
