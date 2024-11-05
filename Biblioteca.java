@@ -741,7 +741,7 @@ public class Biblioteca {
 
         try {
             // Establecer conexión con la base de datos
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca2", "root", "");
             gestorUsuarios = new GestorUsuarios(conexion);
 
             Scanner teclado = new Scanner(System.in);
