@@ -1,0 +1,6 @@
+Una vez ingrese en la página para descargar ConnectorJ deberá seleccionar su plataforma.
+En caso de ser windows seleccione "plataforma Independiente" (Platform Independet).
+Va a descargar el archivo comprimido en zip.
+Una vez descomprimido va a buscar el archivo .jar y lo va a agregar en su espacio de trabajo donde esté replicando la biblioteca.
+Verá 2 imagenes de "referencedLibraries"
+Irá a JAVA PROJECTS --> Buscará el apartado Referenced Libraries, allí le dará click al botón "+", abrirá el explorador de archivos y va a seleccionar el archivo .jar que es el mysql-connector-j
