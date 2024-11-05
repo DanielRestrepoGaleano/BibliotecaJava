@@ -9,7 +9,7 @@
 
 - Conectar el proyecto a SpringBoot &cross;
 - Conectar el proyecto a una base de datos &check;
-- Crear interfaz gráfica :warning:
+- Crear interfaz gráfica &check;
 - Crear un diagrama de clases &check;
 - Cambiar los arrays por listas &check;
 - Crear base de datos simulada con archivo .txt &check;

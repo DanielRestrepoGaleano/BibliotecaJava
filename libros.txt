@@ -1,0 +1,14 @@
+hola mundo prueba sin UX,carlos,2006,120,true,KINITA,hola
+hola mundo prueba sin UX,carlos,2006,120,true,KINITA,hola
+pruebas,pruebas,1990,1000,true,170,hola
+pruebas,pruebas,1990,1000,true,170,hola
+pruebas,pruebas,1990,1000,true,170,hola
+pruebas,pruebas,1990,1000,true,170,hola
+pruebas,pruebas,1990,1000,true,170,hola
+pruebas,pruebas,1990,1000,false,170,hola
+pruebaDevolver,carlos,2005,360,false,155,en mal estado
+hola mundo,carlos,2007,350,true,k1,alkd
+hola mundo,carlos,2007,350,false,k1,alkd
+hola mundo,carlos,2007,350,false,k1,alkd
+hola mundo,carlos,2007,350,true,k1,alkd
+hola mundo,carlos,2007,350,true,k1,alkd

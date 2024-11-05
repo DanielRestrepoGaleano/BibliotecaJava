@@ -1,0 +1,2 @@
+Deberá activiar apache y mySQL
+dar click en admin (APARTADO MYSQL) abrirá phpMyAdmin para crear la BD
