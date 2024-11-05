@@ -497,15 +497,15 @@ public class Biblioteca {
         }
 
         Prestamo prestamo = new Prestamo(
-            0, 
-            usuario.getNombreUsuario(),
-            usuario.getDocumento(),
-            libro.getId(),
-            libro.getIsbn(),
-            libro.getTitulo(),
-            libro.getAutor(),
-            new Timestamp(System.currentTimeMillis()), // Change Date to Timestamp
-            false);
+                0,
+                usuario.getNombreUsuario(),
+                usuario.getDocumento(),
+                libro.getId(),
+                libro.getIsbn(),
+                libro.getTitulo(),
+                libro.getAutor(),
+                new Timestamp(System.currentTimeMillis()),
+                false);
 
         ConexionBD.crearPrestamo(prestamo);
         ConexionBD.actualizarDisponibilidadLibro(libro.getId(), false);
@@ -687,40 +687,48 @@ public class Biblioteca {
                 devolverLibro(biblioteca, teclado);
                 break;
             case 10:
-            buscarUsuarioYLibrosPrestados(teclado);
-            break;
+                buscarUsuarioYLibrosPrestados(teclado);
+                break;
             default:
                 LOGGER.warning("Opción no válida. Por favor, intente de nuevo.");
         }
     }
+
     /**
-    * La función buscarUsuarioYLibrosPrestados recibe la entrada del usuario para un nombre de usuario y documento,
-    * busca los libros prestados por ese usuario en una base de datos y muestra los resultados.
-    * 
-    * @param teclado El parámetro teclado en el método buscarUsuarioYLibrosPrestados es de tipo Scanner.
-    * Se utiliza para leer la entrada del usuario a través de la consola. En este método, se utiliza
-    * para leer el nombre del usuario y el documento del usuario.
-    */
+     * La función buscarUsuarioYLibrosPrestados recibe la entrada del usuario para
+     * un nombre de usuario y documento,
+     * busca los libros prestados por ese usuario en una base de datos y muestra los
+     * resultados.
+     * 
+     * @param teclado El parámetro teclado en el método
+     *                buscarUsuarioYLibrosPrestados es de tipo Scanner.
+     *                Se utiliza para leer la entrada del usuario a través de la
+     *                consola. En este método, se utiliza
+     *                para leer el nombre del usuario y el documento del usuario.
+     */
 
     private static void buscarUsuarioYLibrosPrestados(Scanner teclado) throws SQLException {
-    LOGGER.info("Ingrese el nombre de usuario:");
-    String nombreUsuario = teclado.nextLine();
-    LOGGER.info("Ingrese el documento del usuario:");
-    String documento = teclado.nextLine();
+        LOGGER.info("Ingrese el nombre de usuario:");
+        String nombreUsuario = teclado.nextLine();
+        LOGGER.info("Ingrese el documento del usuario:");
+        String documento = teclado.nextLine();
+        // Se realiza la busqueda del usuario y sus libros prestados, se asigna a la
+        // variable `resultados` que es
+        // una lista de objetos de tipo Libro, donde se le asignan los valores de la
+        // busqueda "ID", "titulo" e "ISBN"
+        List<Map<String, Object>> resultados = ConexionBD.buscarUsuarioYLibrosPrestados(nombreUsuario, documento);
 
-    List<Map<String, Object>> resultados = ConexionBD.buscarUsuarioYLibrosPrestados(nombreUsuario, documento);
-
-    if (resultados.isEmpty()) {
-        LOGGER.info("No se encontraron libros prestados para este usuario.");
-    } else {
-        LOGGER.info("Libros prestados por " + nombreUsuario + " (" + documento + "):");
-        for (Map<String, Object> libro : resultados) {
-            LOGGER.info("ID: " + libro.get("id_libro") + 
-                        ", Título: " + libro.get("titulo") + 
+        if (resultados.isEmpty()) {
+            LOGGER.info("No se encontraron libros prestados para este usuario.");
+        } else {
+            LOGGER.info("Libros prestados por " + nombreUsuario + " (" + documento + "):");
+            for (Map<String, Object> libro : resultados) {
+                LOGGER.info("ID: " + libro.get("id_libro") +
+                        ", Título: " + libro.get("titulo") +
                         ", ISBN: " + libro.get("isbn"));
+            }
         }
     }
-}
 
     /**
      * El código Java anterior es un método principal que establece una conexión con
